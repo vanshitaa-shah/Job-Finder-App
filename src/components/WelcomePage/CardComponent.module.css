@@ -19,7 +19,10 @@
   height: 100px !important;
   width: 100px !important;
 }
-
+a {
+  text-decoration: none;
+  width: 100%;
+}
 button {
   margin: 0 auto !important;
 }

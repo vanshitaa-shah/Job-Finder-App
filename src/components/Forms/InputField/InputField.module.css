@@ -1,0 +1,21 @@
+.formControl {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+label {
+  margin-bottom: 0.5rem;
+}
+button {
+  margin-right: 20px !important;
+}
+
+.formControl p {
+  color: red;
+  font-size: 0.9rem;
+  position: absolute;
+  bottom: -20px;
+  right: 10px;
+}

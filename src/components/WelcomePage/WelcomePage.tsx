@@ -9,7 +9,7 @@ const WelcomePage = () => {
       <Navbar />
       <div className={Styles.mainContainer}>
         <div className={Styles.cardContainer}>
-          <Typography variant="h5">Choose your role</Typography>
+          <Typography variant="h5">Choose Your Role</Typography>
           <CardComponent />
         </div>
       </div>

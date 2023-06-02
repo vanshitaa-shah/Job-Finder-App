@@ -1,11 +1,11 @@
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Avatar } from "@mui/material";
 import Styles from "./CardComponent.module.css";
+import { Link } from "react-router-dom";
 
 const CardComponent = () => {
   return (
@@ -21,9 +21,11 @@ const CardComponent = () => {
               </Typography>
             </CardContent>
             <CardActions>
-              <Button variant="contained" size="small">
-                Job Provider
-              </Button>
+              <Link to="provider/signup">
+                <Button variant="contained" size="small">
+                  Job Provider
+                </Button>
+              </Link>
             </CardActions>
           </Card>
         </div>
@@ -37,9 +39,11 @@ const CardComponent = () => {
               </Typography>
             </CardContent>
             <CardActions>
-              <Button variant="contained" size="small">
-                Job Seeker
-              </Button>
+              <Link to="seeker/signup">
+                <Button variant="contained" size="small">
+                  Job Seeker
+                </Button>
+              </Link>
             </CardActions>
           </Card>
         </div>

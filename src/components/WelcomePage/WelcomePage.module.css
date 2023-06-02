@@ -12,7 +12,7 @@
   background-color: white;
   border: 1px solid #fffcff;
   padding: 1rem;
-  box-shadow: 0px 1px 6px 0 rgb(0 0 0 / 30%);
+  box-shadow: 0px 1px 6px 0 #c7c7c7;
 }
 .cardContainer h5 {
   text-align: center;
