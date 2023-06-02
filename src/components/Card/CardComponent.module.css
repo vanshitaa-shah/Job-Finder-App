@@ -1,0 +1,45 @@
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.card {
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  text-align: center !important;
+  width: 300px;
+}
+
+.leftCard .card {
+  margin-right: 10px;
+  border-right: 1px solid rgb(202, 202, 202);
+}
+
+.avatar {
+  margin: 0 auto;
+  height: 100px !important;
+  width: 100px !important;
+}
+.card a {
+  text-decoration: none;
+  width: 100%;
+}
+.card button {
+  margin: 0 auto !important;
+}
+
+@media screen and (max-width: 768px) {
+  .card {
+    width: 190px;
+  }
+}
+@media screen and (max-width: 425px) {
+  .card {
+    width: 250px;
+  }
+  .leftCard .card {
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border: none;
+    border-bottom: 1px solid rgb(202, 202, 202);
+  }
+}

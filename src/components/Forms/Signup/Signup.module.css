@@ -1,0 +1,19 @@
+.profile {
+  display: flex;
+  flex-direction: column;
+  margin: 2rem 0rem;
+  position: relative;
+}
+.profile label {
+  margin-left: 130px;
+  cursor: pointer;
+}
+#preview {
+  position: absolute;
+  top: -85%;
+  left: 15%;
+  border-radius: 50%;
+  object-fit: contain;
+}
+
+
