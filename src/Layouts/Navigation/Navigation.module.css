@@ -1,0 +1,16 @@
+.avatar {
+  margin: 20px auto;
+  height: 60px !important;
+  width: 60px !important;
+}
+
+.slider a {
+  text-decoration: none;
+  color: rgb(63, 63, 63);
+  padding: 10px 0;
+  text-align: center;
+}
+
+.slider a:hover {
+  background-color: rgb(204, 201, 201);
+}
