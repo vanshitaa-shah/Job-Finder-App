@@ -17,6 +17,10 @@ import { Link } from "react-router-dom";
 
 const drawerWidth = 240;
 
+type NavigationProps = {
+  component: JSX.Element;
+};
+
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
   open?: boolean;
 }>(({ theme, open }) => ({
@@ -66,7 +70,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-end",
 }));
 
-export default function Navigation() {
+export default function Navigation({ component }: NavigationProps) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
 
@@ -122,13 +126,14 @@ export default function Navigation() {
         </DrawerHeader>
         <Divider />
         <Avatar className={Styles.avatar} />
-        <Link to="/allJobs">All Jobs</Link>
-        <Link to="/addJob">Add Job</Link>
+        <Link to="/all-jobs">All Jobs</Link>
+        <Link to="/add-job">Add Job</Link>
         <Link to="/applicants">Applicants</Link>
         <Link to="/">Logout</Link>
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
+        {component}
       </Main>
     </Box>
   );

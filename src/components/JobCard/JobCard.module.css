@@ -1,0 +1,20 @@
+.card {
+  box-shadow: 0px 1px 6px 0 rgb(0 0 0 / 30%) !important;
+  border-radius: 10px !important;
+  width: 80% !important;
+}
+.cardHeader {
+  display: flex;
+  align-items: center;
+  background-color: rgb(230 239 255);
+}
+.cardHeader .avatar {
+  width: 70px !important;
+  height: 70px !important;
+  margin: 10px 30px !important;
+}
+h5 {
+  color: #1976d2;
+  font-size: 1.3rem !important;
+  font-weight: bold !important;
+}

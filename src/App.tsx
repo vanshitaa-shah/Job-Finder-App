@@ -3,9 +3,9 @@ import "./App.css";
 import { Route, Routes } from "react-router";
 import Signup from "./components/Forms/Signup/Signup";
 import Login from "./components/Forms/Login/Login";
-import AddJob from "./components/AddJob/AddJob";
 import Applicants from "./components/Applicants/Applicants";
-import Navigation from "./Layouts/Navigation/Navigation";
+import AllJobs from "./Pages/AllJobs/AllJobs";
+import AddJob from "./Pages/AddJob/AddJob";
 
 const App = () => {
   return (
@@ -14,8 +14,8 @@ const App = () => {
         <Route path="/" element={<WelcomePage />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/allJobs" element={<Navigation />} />
-        <Route path="/addJob" element={<AddJob />} />
+        <Route path="/all-jobs" element={<AllJobs />} />
+        <Route path="/add-job" element={<AddJob />} />
         <Route path="/applicants" element={<Applicants />} />
       </Routes>
     </>
