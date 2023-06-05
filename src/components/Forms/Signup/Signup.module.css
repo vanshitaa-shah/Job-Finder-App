@@ -7,32 +7,29 @@
 }
 
 .container {
-  display: flex;
   padding: 20px;
   border: 1px solid #fff4ff;
   position: relative;
   box-shadow: 0px 1px 6px 0 rgb(0 0 0 / 30%);
   width: 500px;
 }
-/* .container::before {
-  content: "";
-  background: url("../../../assets/signup.png");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  bottom: 0px;
-  left: 0px;
-  opacity: 0.35;
-} */
-.imgContainer {
-  display: none;
-}
 
-.formContainer {
-  width: 100%;
+.profile {
+  display: flex;
+  flex-direction: column;
+  margin: 2rem 0rem;
+  position: relative;
+}
+.profile label {
+  margin-left: 130px;
+  cursor: pointer;
+}
+#preview {
+  position: absolute;
+  top: -85%;
+  left: 15%;
+  border-radius: 50%;
+  object-fit: contain;
 }
 
 @media screen and (max-width: 425px) {

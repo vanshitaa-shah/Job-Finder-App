@@ -4,9 +4,12 @@ import Navbar from "../../Navbar/Navbar";
 import { loginValidateSchema, loginValues } from "../formvalidation";
 import InputField from "../InputField/InputField";
 import Styles from "./Login.module.css";
+import { useNavigate } from "react-router";
 const Login = () => {
+  const navigate=useNavigate();
+
   const onSubmit = () => {
-    console.log("done");
+  navigate("/allJobs")    
   };
   return (
     <>
