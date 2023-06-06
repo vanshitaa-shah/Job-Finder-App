@@ -12,11 +12,29 @@
   border: 1px solid #fff4ff;
   position: relative;
   box-shadow: 0px 1px 6px 0 rgb(0 0 0 / 30%);
-  width: 500px;
+  width: 400px;
 }
 
 .formContainer {
   width: 100%;
+}
+
+.formContainer h5 {
+  text-align: center;
+  font-weight: bold;
+  color: #1976d2;
+  margin: 20px 0px;
+}
+.formContainer p {
+  padding: 30px 5px;
+}
+
+.formContainer a {
+  text-decoration: none;
+}
+
+.formContainer a:hover {
+  text-decoration: underline;
 }
 
 @media screen and (max-width: 425px) {

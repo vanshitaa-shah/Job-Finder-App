@@ -45,3 +45,36 @@ export const signupValidateSchema = Yup.object({
       "Password and Confirm password does not match!"
     ),
 });
+
+// Job Listing Form Validation
+
+export const jobListingValues = {
+  jobTitle: "",
+  jobType: "",
+  jobDescription: "",
+  requirements: [""],
+  address: {
+    street: "",
+    city: "",
+    state: "",
+  },
+  salary: "",
+};
+
+export const jobListingValidateSchema = Yup.object({
+  jobTitle: Yup.string()
+    .max(20, "jobTitle too long!")
+    .required("jobTitle Required!"),
+  jobType: Yup.string().required("jobType Required!"),
+  jobDescription: Yup.string().required("jobDescription Required!"),
+  requirements: Yup.array().of(
+    Yup.string().required("requirement must be added")
+  ),
+
+  address: Yup.object().shape({
+    street: Yup.string().required("Street required!"),
+    city: Yup.string().required("City required!"),
+    state: Yup.string().required("State required!"),
+  }),
+  salary: Yup.string().required("salary Required!"),
+});

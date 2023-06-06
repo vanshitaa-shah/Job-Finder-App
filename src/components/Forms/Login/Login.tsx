@@ -1,15 +1,16 @@
-import { Button, TextField } from "@mui/material";
+import { Button, TextField, Typography } from "@mui/material";
 import { Form, Formik } from "formik";
 import Navbar from "../../Navbar/Navbar";
 import { loginValidateSchema, loginValues } from "../formvalidation";
 import InputField from "../InputField/InputField";
 import Styles from "./Login.module.css";
 import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 const Login = () => {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
   const onSubmit = () => {
-  navigate("/allJobs")    
+    navigate("/all-jobs");
   };
   return (
     <>
@@ -17,6 +18,7 @@ const Login = () => {
       <div className={Styles.mainContainer}>
         <div className={Styles.container}>
           <div className={Styles.formContainer}>
+            <Typography variant="h5">Login</Typography>
             <Formik
               initialValues={loginValues}
               validationSchema={loginValidateSchema}
@@ -47,6 +49,9 @@ const Login = () => {
                 </Button>
               </Form>
             </Formik>
+            <p>
+              Not Registered? <Link to="/signup">Signup</Link>
+            </p>
           </div>
         </div>
       </div>

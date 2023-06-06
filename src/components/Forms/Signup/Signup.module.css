@@ -32,6 +32,24 @@
   object-fit: contain;
 }
 
+.container h5 {
+  text-align: center;
+  font-weight: bold;
+  color: #1976d2;
+  margin: 20px 0px;
+}
+
+.container p {
+  padding: 20px 5px;
+}
+.container a {
+  text-decoration: none;
+}
+
+.container a:hover {
+  text-decoration: underline;
+}
+
 @media screen and (max-width: 425px) {
   .container {
     width: 85%;
