@@ -3,7 +3,7 @@ import "./App.css";
 import { Route, Routes } from "react-router";
 import Signup from "./components/Forms/Signup/Signup";
 import Login from "./components/Forms/Login/Login";
-import Applicants from "./components/Applicants/Applicants";
+import Applicants from "./Pages/Applicants/Applicants";
 import AllJobs from "./Pages/AllJobs/AllJobs";
 import AddJob from "./Pages/AddJob/AddJob";
 

@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   width: 90%;
-  height: calc(100vh - 100px);
+  height: calc(100vh - 115px);
   margin: 0 auto;
   box-shadow: 0px 1px 6px 0 rgb(0 0 0 / 30%) !important;
 }
@@ -30,4 +30,11 @@
 .descriptionContainer {
   overflow: auto;
   width: 40%;
+}
+
+@media screen and (max-width: 1440px) {
+  .mainContainer {
+    position: absolute;
+    left: 5%;
+  }
 }

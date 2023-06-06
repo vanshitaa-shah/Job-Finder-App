@@ -24,8 +24,8 @@ const AllJobsComponent = () => {
             <JobCard showDescription={setShowDescription} />
             <JobCard showDescription={setShowDescription} />
             <JobCard showDescription={setShowDescription} />
-            {/* <JobCard showDescription={setShowDescription} /> */}
-            {/* <JobCard showDescription={setShowDescription} /> */}
+            <JobCard showDescription={setShowDescription} />
+            <JobCard showDescription={setShowDescription} />
           </div>
           {showDescription && (
             <div className={Styles.descriptionContainer}>
