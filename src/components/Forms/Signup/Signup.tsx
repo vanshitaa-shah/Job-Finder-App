@@ -8,6 +8,7 @@ import InputField from "../InputField/InputField";
 import Styles from "./Signup.module.css";
 import { ChangeEvent, useState } from "react";
 import { Link } from "react-router-dom";
+import FormLayout from "../../../Layouts/Form/FormLayout";
 
 const Signup = () => {
   const [preview, setPreview] = useState(previewImg);
@@ -33,8 +34,8 @@ const Signup = () => {
   return (
     <>
       <Navbar />
-      <div className={Styles.mainContainer}>
-        <div className={Styles.container}>
+    <FormLayout>
+
           <Typography variant="h5">Signup</Typography>
           <Formik
             initialValues={signupValues}
@@ -66,12 +67,16 @@ const Signup = () => {
                   />
                   <ErrorMessage name="profile" component="p" />
                 </div>
-                <InputField name="name" type="name" />
-                <InputField name="email" type="email" />
-                <InputField name="phone" type="phone" />
+                <InputField lable="Name" name="name" type="name" />
+                <InputField lable="Email" name="email" type="email" />
+                <InputField lable="Phone" name="phone" type="phone" />
 
-                <InputField name="password" type="password" />
-                <InputField name="confirmPassword" type="password" />
+                <InputField lable="Password" name="password" type="password" />
+                <InputField
+                  lable="Confirm Password"
+                  name="confirmPassword"
+                  type="password"
+                />
 
                 <Button
                   variant="contained"
@@ -97,8 +102,8 @@ const Signup = () => {
           <p>
             Already Registered? <Link to="/login">Login</Link>
           </p>
-        </div>
-      </div>
+    </FormLayout>
+
     </>
   );
 };

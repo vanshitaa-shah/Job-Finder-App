@@ -11,6 +11,33 @@
   text-align: center;
 }
 
+.bottomNavigation {
+  display: none;
+  background-color: #1976d2;
+  height: 50px;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
+
 .slider a:hover {
   background-color: rgb(204, 201, 201);
+}
+
+@media screen and (max-width: 768px) {
+  header {
+    margin: 0 !important;
+    width: 100% !important;
+  }
+  .bottomNavigation {
+    display: block;
+  }
+  .toggleButton {
+    margin: 0 !important;
+    display: none !important;
+  }
+  .slider {
+    display: none !important;
+  }
 }

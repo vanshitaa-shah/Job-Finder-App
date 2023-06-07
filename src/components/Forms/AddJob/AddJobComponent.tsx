@@ -49,9 +49,9 @@ const AddJobComponent = () => {
                 lable="Requirements"
                 type="text"
               />
-              <InputField name="address.street" lable="Street" type="text" />
+              {/* <InputField name="address.street" lable="Street" type="text" />
               <InputField name="address.city" lable="City" type="text" />
-              <InputField name="address.state" lable="State" type="text" />
+              <InputField name="address.state" lable="State" type="text" /> */}
               <InputField name="salary" lable="Salary" type="number" />
 
               <Button

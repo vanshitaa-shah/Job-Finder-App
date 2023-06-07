@@ -83,58 +83,67 @@ export default function Navigation({ component }: NavigationProps) {
   };
 
   return (
-    <Box sx={{ display: "flex" }}>
-      <CssBaseline />
-      <AppBar position="fixed" open={open}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{ mr: 2, ...(open && { display: "none" }) }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Job Finder
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          "& .MuiDrawer-paper": {
+    <>
+      <Box sx={{ display: "flex" }}>
+        <CssBaseline />
+        <AppBar position="fixed" open={open} className={Styles.appBar}>
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              className={Styles.toggleButton}
+              sx={{ mr: 2, ...(open && { display: "none" }) }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" noWrap>
+              Job Finder
+            </Typography>
+          </Toolbar>
+        </AppBar>
+        <Drawer
+          sx={{
             width: drawerWidth,
-            boxSizing: "border-box",
-          },
-        }}
-        className={Styles.slider}
-        variant="persistent"
-        anchor="left"
-        open={open}
-      >
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "ltr" ? (
-              <ChevronLeftIcon />
-            ) : (
-              <ChevronRightIcon />
-            )}
-          </IconButton>
-        </DrawerHeader>
-        <Divider />
-        <Avatar className={Styles.avatar} />
+            flexShrink: 0,
+            "& .MuiDrawer-paper": {
+              width: drawerWidth,
+              boxSizing: "border-box",
+            },
+          }}
+          className={Styles.slider}
+          variant="persistent"
+          anchor="left"
+          open={open}
+        >
+          <DrawerHeader>
+            <IconButton onClick={handleDrawerClose}>
+              {theme.direction === "ltr" ? (
+                <ChevronLeftIcon />
+              ) : (
+                <ChevronRightIcon />
+              )}
+            </IconButton>
+          </DrawerHeader>
+          <Divider />
+          <Avatar className={Styles.avatar} />
+          <Link to="/all-jobs">All Jobs</Link>
+          <Link to="/add-job">Add Job</Link>
+          <Link to="/applicants">Applicants</Link>
+          <Link to="/">Logout</Link>
+        </Drawer>
+        <Main open={open}>
+          <DrawerHeader />
+          {component}
+        </Main>
+      </Box>
+      <div className={Styles.bottomNavigation}>
         <Link to="/all-jobs">All Jobs</Link>
         <Link to="/add-job">Add Job</Link>
         <Link to="/applicants">Applicants</Link>
-        <Link to="/">Logout</Link>
-      </Drawer>
-      <Main open={open}>
-        <DrawerHeader />
-        {component}
-      </Main>
-    </Box>
+        <Link to="/applicants">Profile</Link>
+      </div>
+    </>
   );
 }
