@@ -7,15 +7,16 @@ import { Avatar } from "@mui/material";
 import Styles from "./CardComponent.module.css";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import Img from "../../assets/favicon.ico";
 
 const CardComponent = () => {
-  const [role,setRole]=useState("");
+  const [role, setRole] = useState("");
   return (
     <>
       <div className={Styles.container}>
         <div className={Styles.leftCard}>
           <Card className={Styles.card}>
-            <Avatar className={Styles.avatar} />
+            <Avatar className={Styles.avatar} src={Img} />
             <CardContent>
               <Typography variant="body2" color="text.secondary">
                 Lizards are a widespread group of squamate reptiles, with over
@@ -24,7 +25,11 @@ const CardComponent = () => {
             </CardContent>
             <CardActions>
               <Link to="/signup">
-                <Button variant="contained" size="small" onClick={()=>setRole("provider")}>
+                <Button
+                  variant="contained"
+                  size="small"
+                  onClick={() => setRole("provider")}
+                >
                   Job Provider
                 </Button>
               </Link>
@@ -33,7 +38,7 @@ const CardComponent = () => {
         </div>
         <div className={Styles.rightCard}>
           <Card className={Styles.card}>
-            <Avatar className={Styles.avatar} />
+            <Avatar className={Styles.avatar} src={Img} />
             <CardContent>
               <Typography variant="body2" color="text.secondary">
                 Lizards are a widespread group of squamate reptiles, with over
@@ -42,7 +47,11 @@ const CardComponent = () => {
             </CardContent>
             <CardActions>
               <Link to="/signup">
-                <Button variant="contained" size="small" onClick={()=>setRole("provider")}>
+                <Button
+                  variant="contained"
+                  size="small"
+                  onClick={() => setRole("provider")}
+                >
                   Job Seeker
                 </Button>
               </Link>

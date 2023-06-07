@@ -21,8 +21,9 @@
   font-weight: bold !important;
 }
 
-@media screen and (max-width: 425px) {
+@media screen and (max-width: 768px) {
   .card {
     width: 100% !important;
+    height: 275px;
   }
 }

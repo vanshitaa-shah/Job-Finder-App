@@ -10,34 +10,52 @@
   padding: 10px 0;
   text-align: center;
 }
-
-.bottomNavigation {
+.sliderBackground {
   display: none;
-  background-color: #1976d2;
-  height: 50px;
-  width: 100%;
-  position: fixed;
-  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
   left: 0;
+  background: rgb(240 246 255);
+  z-index: 1000;
 }
 
 .slider a:hover {
   background-color: rgb(204, 201, 201);
 }
+.jobsContainer {
+  width: 100%;
+  overflow: auto;
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+
+.descriptionContainer {
+  overflow: auto;
+  width: 60%;
+  margin: 10px;
+}
+
+@media screen and (max-width: 1024px) {
+  .jobsContainer {
+    width: 100%;
+  }
+  .descriptionContainer {
+    width: 100%;
+    margin: 1%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: white;
+  }
+}
 
 @media screen and (max-width: 768px) {
-  header {
-    margin: 0 !important;
-    width: 100% !important;
-  }
-  .bottomNavigation {
+  .sliderBackground {
     display: block;
-  }
-  .toggleButton {
-    margin: 0 !important;
-    display: none !important;
-  }
-  .slider {
-    display: none !important;
   }
 }

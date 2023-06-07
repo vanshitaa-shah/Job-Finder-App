@@ -13,9 +13,11 @@ import Styles from "./JobCard.module.css";
 
 type JobCardProps = {
   showDescription: React.Dispatch<React.SetStateAction<boolean>>;
+  applied?: boolean;
 };
 
-const JobCard = ({ showDescription }: JobCardProps) => {
+const JobCard = ({ showDescription, applied }: JobCardProps) => {
+  const role: "provider" | "seeker" = "seeker";
   return (
     <>
       <Card className={Styles.card}>
@@ -39,20 +41,34 @@ const JobCard = ({ showDescription }: JobCardProps) => {
           >
             Read More
           </Button>
-          <IconButton
-            color="primary"
-            className={Styles.close}
-            onClick={() => console.log("edit")}
-          >
-            <Edit />
-          </IconButton>
-          <IconButton
-            color="primary"
-            className={Styles.close}
-            onClick={() => console.log("delete")}
-          >
-            <Delete />
-          </IconButton>
+          {/* {role === "provider" && (
+            <>
+              <IconButton
+                color="primary"
+                className={Styles.close}
+                onClick={() => console.log("edit")}
+              >
+                <Edit />
+              </IconButton>
+              <IconButton
+                color="primary"
+                className={Styles.close}
+                onClick={() => console.log("delete")}
+              >
+                <Delete />
+              </IconButton>
+            </>
+          )} */}
+          {role === "seeker" && !applied && (
+            <Button
+              variant="outlined"
+              size="small"
+              color="primary"
+              onClick={() => showDescription(true)}
+            >
+              Apply
+            </Button>
+          )}
         </CardActions>
       </Card>
     </>

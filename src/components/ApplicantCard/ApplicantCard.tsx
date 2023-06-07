@@ -5,12 +5,6 @@ import {
   Card,
   CardActions,
   CardContent,
-  Divider,
-  FormControl,
-  IconButton,
-  InputLabel,
-  MenuItem,
-  Select,
   Typography,
 } from "@mui/material";
 import Styles from "./ApplicantCard.module.css";

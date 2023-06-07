@@ -17,3 +17,10 @@
   height: 70px !important;
   margin: 10px 30px !important;
 }
+
+@media screen and (max-width: 768px) {
+  .card {
+    width: 250px !important;
+    height: 310px !important;
+  }
+}

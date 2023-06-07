@@ -6,6 +6,7 @@ import Login from "./components/Forms/Login/Login";
 import Applicants from "./Pages/Applicants/Applicants";
 import AllJobs from "./Pages/AllJobs/AllJobs";
 import AddJob from "./Pages/AddJob/AddJob";
+import Applications from "./Pages/Applications/Applications";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
         <Route path="/all-jobs" element={<AllJobs />} />
         <Route path="/add-job" element={<AddJob />} />
         <Route path="/applicants" element={<Applicants />} />
+        <Route path="/applications" element={<Applications />} />
       </Routes>
     </>
   );

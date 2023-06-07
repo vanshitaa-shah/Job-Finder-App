@@ -65,7 +65,6 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
   ...theme.mixins.toolbar,
   justifyContent: "flex-end",
 }));
@@ -73,6 +72,8 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 export default function Navigation({ component }: NavigationProps) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
+  let role: "provider" | "seeker";
+  role = "seeker";
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -128,22 +129,28 @@ export default function Navigation({ component }: NavigationProps) {
           </DrawerHeader>
           <Divider />
           <Avatar className={Styles.avatar} />
-          <Link to="/all-jobs">All Jobs</Link>
-          <Link to="/add-job">Add Job</Link>
-          <Link to="/applicants">Applicants</Link>
-          <Link to="/">Logout</Link>
+          {/* {role == "provider" && (
+            <>
+              <Link to="/all-jobs">All Jobs</Link>
+              <Link to="/add-job">Add Job</Link>
+              <Link to="/applicants">Applicants</Link>
+              <Link to="/">Logout</Link>
+            </>
+          )} */}
+          {role === "seeker" && (
+            <>
+              <Link to="/all-jobs">All Jobs</Link>
+              <Link to="/applications">Applications</Link>
+              <Link to="/">Logout</Link>
+            </>
+          )}
         </Drawer>
         <Main open={open}>
           <DrawerHeader />
           {component}
         </Main>
       </Box>
-      <div className={Styles.bottomNavigation}>
-        <Link to="/all-jobs">All Jobs</Link>
-        <Link to="/add-job">Add Job</Link>
-        <Link to="/applicants">Applicants</Link>
-        <Link to="/applicants">Profile</Link>
-      </div>
+      {open && <div className={Styles.sliderBackground}> a</div>}
     </>
   );
 }
