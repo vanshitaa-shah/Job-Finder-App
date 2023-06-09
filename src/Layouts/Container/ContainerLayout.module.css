@@ -1,0 +1,40 @@
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  height: calc(100vh - 115px);
+  margin: 0 auto;
+  /* box-shadow: 0px 1px 6px 0 rgb(0 0 0 / 30%) !important; */
+}
+.filterSection {
+  height: 100px;
+  padding: 20px;
+}
+.container {
+  display: flex;
+  height: 90%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+@media screen and (max-width: 1024px) {
+  .mainContainer {
+    width: 100%;
+    height: calc(100vh - 120px);
+  }
+  .container {
+    flex-direction: column;
+    position: relative;
+  }
+  .descriptionContainer {
+    overflow: auto;
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .mainContainer {
+    width: 100%;
+    overflow-y: hidden;
+  }
+}

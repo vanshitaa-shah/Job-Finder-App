@@ -1,0 +1,32 @@
+.mainContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 60px);
+  margin-top: 50px;
+}
+.cardContainer {
+  width: 650px;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border: 1px solid #fffcff;
+  padding: 1rem;
+  box-shadow: 0px 1px 6px 0 #c7c7c7;
+}
+.cardContainer h5 {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+@media screen and (max-width: 768px) {
+  .cardContainer {
+    width: 425px;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .cardContainer {
+    width: 300px;
+  }
+}
