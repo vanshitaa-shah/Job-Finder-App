@@ -3,15 +3,24 @@ import { Form, Formik } from "formik";
 import Navbar from "../../Navbar/Navbar";
 import { loginValidateSchema, loginValues } from "../formvalidation";
 import InputField from "../InputField/InputField";
-import Styles from "./Login.module.css";
+import Styles from "../../../Layouts/Form/FormLayout.module.css";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import FormLayout from "../../../Layouts/Form/FormLayout";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../../Firebase/firebase";
+import { LoginValues } from "../../../Types/type";
 const Login = () => {
   const navigate = useNavigate();
 
-  const onSubmit = () => {
-    navigate("/all-jobs");
+  const onSubmit = (values:LoginValues ) => {
+    signInWithEmailAndPassword(auth, values.email, values.password)
+      .then(async (res) => {
+        const user = res.user;
+        navigate("/all-jobs");
+        console.log(user);
+      })
+      .catch((err) => console.log(err.message));
   };
   return (
     <>

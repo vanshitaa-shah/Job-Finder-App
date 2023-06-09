@@ -17,6 +17,7 @@ export const loginValidateSchema = Yup.object({
 export const signupValues = {
   name: "",
   email: "",
+  profile: "",
   phone: "",
   password: "",
   confirmPassword: "",
@@ -31,6 +32,27 @@ export const signupValidateSchema = Yup.object({
       /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/,
       "Invaild Email Format!"
     ),
+
+  profile: Yup.mixed()
+    .test("fileSize", "Image size should be less than 2MB", (value: any) => {
+      if (!value) {
+        return true;
+      }
+      const maxSize = 2 * 1024 * 1024;
+      return value.size <= maxSize;
+    })
+    .test(
+      "fileType",
+      "Invalid File Format!(should be jpg or png)",
+      (value: any) => {
+        if (!value) {
+          return true;
+        }
+        const supportedTypes = ["image/jpeg", "image/png"];
+        return supportedTypes.includes(value.type);
+      }
+    )
+    .required("Profile photo Required!"),
 
   phone: Yup.string()
     .required("Phone Number Required!")
@@ -53,11 +75,6 @@ export const jobListingValues = {
   jobType: "",
   jobDescription: "",
   requirements: [""],
-  address: {
-    street: "",
-    city: "",
-    state: "",
-  },
   salary: "",
 };
 
@@ -70,11 +87,27 @@ export const jobListingValidateSchema = Yup.object({
   requirements: Yup.array().of(
     Yup.string().required("requirement must be added")
   ),
+  salary: Yup.string().required("salary Required!"),
+});
 
+// Complete Profile values
+
+export const completeProfileValues = {
+  address: {
+    street: "",
+    city: "",
+    state: "",
+  },
+};
+
+export const completeProfileValidateSchema = Yup.object({
   address: Yup.object().shape({
     street: Yup.string().required("Street required!"),
     city: Yup.string().required("City required!"),
     state: Yup.string().required("State required!"),
   }),
-  salary: Yup.string().required("salary Required!"),
+});
+
+export const resumeValidateSchema = Yup.object({
+  resume: Yup.mixed().required("Profile photo Required!"),
 });

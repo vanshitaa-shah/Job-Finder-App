@@ -1,11 +1,7 @@
 import { Avatar, IconButton, Typography } from "@mui/material";
-import React from "react";
 import { Close } from "@mui/icons-material";
 import Styles from "./JobDescription.module.css";
-
-type JobDescriptionProps = {
-  showDescription: React.Dispatch<React.SetStateAction<boolean>>;
-};
+import { JobDescriptionProps } from "../../Types/type";
 
 const JobDescription = ({ showDescription }: JobDescriptionProps) => {
   return (

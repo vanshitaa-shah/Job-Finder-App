@@ -6,9 +6,13 @@ import Navbar from "../../Navbar/Navbar";
 import { signupValidateSchema, signupValues } from "../formvalidation";
 import InputField from "../InputField/InputField";
 import Styles from "./Signup.module.css";
+import FormStyles from "../InputField/InputField.module.css";
 import { ChangeEvent, useState } from "react";
 import { Link } from "react-router-dom";
 import FormLayout from "../../../Layouts/Form/FormLayout";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { auth } from "../../../Firebase/firebase";
+import { SignupValues } from "../../../Types/type";
 
 const Signup = () => {
   const [preview, setPreview] = useState(previewImg);
@@ -26,84 +30,92 @@ const Signup = () => {
     }
   };
 
-  const onSubmit = () => {
-    console.log("done");
-    navigate("/login");
+  const onSubmit = (values: SignupValues) => {
+    console.log(values);
+    createUserWithEmailAndPassword(auth, values.email, values.password)
+      .then(async (res) => {
+        const user = res.user;
+        await updateProfile(user, {
+          displayName: values.name,
+        });
+        console.log(user);
+        navigate("/complete-profile");
+      })
+      .catch((err) => console.log(err.message));
   };
 
   return (
     <>
       <Navbar />
-    <FormLayout>
-
-          <Typography variant="h5">Signup</Typography>
-          <Formik
-            initialValues={signupValues}
-            validationSchema={signupValidateSchema}
-            onSubmit={onSubmit}
-          >
-            {({ values, setFieldValue }) => (
-              <Form>
-                <div className={`${Styles.profile}`}>
-                  <label htmlFor="profile">Photo +</label>
-                  <Field
-                    type="file"
-                    name="profile"
-                    id="profile"
-                    value={undefined}
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                      setFieldValue("profile", e.currentTarget.files?.[0]);
-                      handleProfilePreview(e);
-                    }}
-                    accept="Image/jpg,Image/png"
-                    hidden
-                  />
-                  <img
-                    id={Styles.preview}
-                    src={preview}
-                    width="50"
-                    height="50"
-                    alt=""
-                  />
-                  <ErrorMessage name="profile" component="p" />
-                </div>
-                <InputField lable="Name" name="name" type="name" />
-                <InputField lable="Email" name="email" type="email" />
-                <InputField lable="Phone" name="phone" type="phone" />
-
-                <InputField lable="Password" name="password" type="password" />
-                <InputField
-                  lable="Confirm Password"
-                  name="confirmPassword"
-                  type="password"
+      <FormLayout>
+        <Typography variant="h5">Signup</Typography>
+        <Formik
+          initialValues={signupValues}
+          validationSchema={signupValidateSchema}
+          onSubmit={onSubmit}
+        >
+          {({ values, setFieldValue, isSubmitting }) => (
+            <Form>
+              <div className={`${Styles.profile} ${FormStyles.formControl}`}>
+                <label htmlFor="profile">Photo +</label>
+                <Field
+                  type="file"
+                  name="profile"
+                  id="profile"
+                  value={undefined}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                    setFieldValue("profile", e.currentTarget.files?.[0]);
+                    handleProfilePreview(e);
+                  }}
+                  accept="Image/jpg,Image/png"
+                  hidden
                 />
+                <img
+                  id={Styles.preview}
+                  src={preview}
+                  width="50"
+                  height="50"
+                  alt=""
+                />
+                <ErrorMessage name="profile" component="p" />
+              </div>
+              <InputField lable="Name" name="name" type="name" />
+              <InputField lable="Email" name="email" type="email" />
+              <InputField lable="Phone" name="phone" type="phone" />
 
-                <Button
-                  variant="contained"
-                  type="submit"
-                  className={Styles.btn}
-                  id={Styles.submitBtn}
-                >
-                  Login
-                </Button>
+              <InputField lable="Password" name="password" type="password" />
+              <InputField
+                lable="Confirm Password"
+                name="confirmPassword"
+                type="password"
+              />
 
-                <Button
-                  variant="contained"
-                  color="error"
-                  type="reset"
-                  className={Styles.btn}
-                  id={Styles.resetBtn}
-                >
-                  Reset
-                </Button>
-              </Form>
-            )}
-          </Formik>
-          <p>
-            Already Registered? <Link to="/login">Login</Link>
-          </p>
-    </FormLayout>
+              <Button
+                variant="contained"
+                type="submit"
+                className={Styles.btn}
+                id={Styles.submitBtn}
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Wait..." : "Login"}
+              </Button>
 
+              <Button
+                variant="contained"
+                color="error"
+                type="reset"
+                className={Styles.btn}
+                id={Styles.resetBtn}
+              >
+                Reset
+              </Button>
+            </Form>
+          )}
+        </Formik>
+        <p>
+          Already Registered? <Link to="/login">Login</Link>
+        </p>
+      </FormLayout>
     </>
   );
 };

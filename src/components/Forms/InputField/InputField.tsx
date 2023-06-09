@@ -2,13 +2,9 @@ import { IconButton, TextField } from "@mui/material";
 import { Add, Remove } from "@mui/icons-material";
 import { ErrorMessage, Field, FieldArray } from "formik";
 import Styles from "./InputField.module.css";
+import { InputFieldProps } from "../../../Types/type";
 
-interface InputFieldProps {
-  name: string;
-  type: string;
-  lable: string;
-  as?: string;
-}
+
 // Reusable Component For all the Form Field
 const InputField = ({ name, type, lable, as }: InputFieldProps) => {
   return (

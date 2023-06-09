@@ -9,15 +9,15 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
+import { useNavigate } from "react-router";
 import Styles from "./JobCard.module.css";
+import { JobCardProps } from "../../Types/type";
 
-type JobCardProps = {
-  showDescription: React.Dispatch<React.SetStateAction<boolean>>;
-  applied?: boolean;
-};
+
 
 const JobCard = ({ showDescription, applied }: JobCardProps) => {
-  const role: "provider" | "seeker" = "seeker";
+  const navigate = useNavigate();
+  const role: "provider" | "seeker" = "provider";
   return (
     <>
       <Card className={Styles.card}>
@@ -41,12 +41,12 @@ const JobCard = ({ showDescription, applied }: JobCardProps) => {
           >
             Read More
           </Button>
-          {/* {role === "provider" && (
+          {role === "provider" && (
             <>
               <IconButton
                 color="primary"
                 className={Styles.close}
-                onClick={() => console.log("edit")}
+                onClick={() => navigate("/edit-job")}
               >
                 <Edit />
               </IconButton>
@@ -58,8 +58,8 @@ const JobCard = ({ showDescription, applied }: JobCardProps) => {
                 <Delete />
               </IconButton>
             </>
-          )} */}
-          {role === "seeker" && !applied && (
+          )}
+          {/* {role === "seeker" && !applied && (
             <Button
               variant="outlined"
               size="small"
@@ -68,7 +68,7 @@ const JobCard = ({ showDescription, applied }: JobCardProps) => {
             >
               Apply
             </Button>
-          )}
+          )} */}
         </CardActions>
       </Card>
     </>
