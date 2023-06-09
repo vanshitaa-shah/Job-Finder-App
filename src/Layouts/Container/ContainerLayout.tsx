@@ -1,10 +1,8 @@
-import { ReactNode } from 'react';
 import Styles from './ContainerLayout.module.css'
+import { LayoutProps } from '../../Types/type';
 
-type ContainerLayoutProps = {
-    children: ReactNode;
-  };
-const ContainerLayout = ({children}:ContainerLayoutProps) => {
+
+const ContainerLayout = ({children}:LayoutProps) => {
   return (
     <div className={Styles.mainContainer}>
         <div className={Styles.filterSection}>Filter</div>

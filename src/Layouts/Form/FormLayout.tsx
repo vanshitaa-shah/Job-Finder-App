@@ -1,10 +1,7 @@
-import { ReactNode } from "react"
 import Styles from "./FormLayout.module.css"
+import { LayoutProps } from "../../Types/type";
 
-type FormLayoutProps = {
-    children: ReactNode;
-  };
-const FormLayout = ({children}:FormLayoutProps) => {
+const FormLayout = ({children}:LayoutProps) => {
   return (
     <div className={Styles.mainContainer}>
     <div className={Styles.container}>

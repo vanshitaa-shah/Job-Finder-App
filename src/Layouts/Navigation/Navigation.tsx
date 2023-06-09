@@ -11,15 +11,12 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { Avatar } from "@mui/material";
+import { Avatar, Button } from "@mui/material";
 import Styles from "./Navigation.module.css";
 import { Link } from "react-router-dom";
+import { NavigationProps, Role } from "../../Types/type";
 
 const drawerWidth = 240;
-
-type NavigationProps = {
-  component: JSX.Element;
-};
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
   open?: boolean;
@@ -71,9 +68,8 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 
 export default function Navigation({ component }: NavigationProps) {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(true);
-  let role: "provider" | "seeker";
-  role = "seeker";
+  const [open, setOpen] = React.useState(false);
+  let role: Role = "provider";
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -129,21 +125,22 @@ export default function Navigation({ component }: NavigationProps) {
           </DrawerHeader>
           <Divider />
           <Avatar className={Styles.avatar} />
-          {/* {role == "provider" && (
+          {role == "provider" && (
             <>
               <Link to="/all-jobs">All Jobs</Link>
               <Link to="/add-job">Add Job</Link>
               <Link to="/applicants">Applicants</Link>
               <Link to="/">Logout</Link>
             </>
-          )} */}
-          {role === "seeker" && (
+          )}
+          {/* {role === "seeker" && (
             <>
               <Link to="/all-jobs">All Jobs</Link>
               <Link to="/applications">Applications</Link>
+              <Link to="/edit-profile">Edit Profile</Link>
               <Link to="/">Logout</Link>
             </>
-          )}
+          )} */}
         </Drawer>
         <Main open={open}>
           <DrawerHeader />
