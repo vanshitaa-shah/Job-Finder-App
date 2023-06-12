@@ -3,26 +3,53 @@ import { Form, Formik } from "formik";
 import { jobListingValidateSchema, jobListingValues } from "../formvalidation";
 import InputField from "../InputField/InputField";
 import Styles from "./AddJobComponent.module.css";
-import { JobListingProps } from "../../../Types/type";
+import { EditJobType, JobListingProps } from "../../../Types/type";
+import { useLocation, useNavigate } from "react-router";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store";
+import jobServices from "../../../Firebase/job.services";
+import { Job } from "../../../store/jobSlice";
 
 const AddJobComponent = ({ type }: { type?: string }) => {
-  const onsubmit = (values: JobListingProps) => {
-    if (type === "edit") {
-      console.log("type edit");
-    } else {
-      console.log("no type");
+  const navigate = useNavigate();
+  const location = useLocation();
+  let editValues: EditJobType | null = null;
+  const email = useSelector(
+    (state: RootState) => state.user.currentUser?.email
+  );
+  if (type) {
+    const jobData: Job = location.state.jobData;
+    editValues = {
+      jobTitle: jobData.jobTitle,
+      jobType: jobData.jobType,
+      jobDescription: jobData.jobDescription,
+      requirements: jobData.requirements,
+      salary: jobData.salary,
+    };
+  }
 
-      console.log(values);
+  const onsubmit = async (values: JobListingProps) => {
+    if (type === "edit") {
+      const jobData: Job = location.state.jobData;
+      const id = jobData.id;
+      if (editValues) {
+        await jobServices.updateJob(id, values);
+      }
+      navigate("/all-jobs");
+    } else {
+      const jobData = { ...values, providerEmail: email };
+      await jobServices.addjob(jobData);
+
+      navigate("/all-jobs");
     }
   };
 
-  const editValues = {
-    jobTitle: "a",
-    jobType: "Intern",
-    jobDescription: "a",
-    requirements: ["abc", "xyz"],
-    salary: "123",
+  const onCancel = () => {
+    if (type === "edit") {
+      navigate("/all-jobs");
+    }
   };
+
   return (
     <>
       <div className={Styles.container}>
@@ -31,7 +58,7 @@ const AddJobComponent = ({ type }: { type?: string }) => {
         </Typography>
         <div className={Styles.formContainer}>
           <Formik
-            initialValues={type === "edit" ? editValues : jobListingValues}
+            initialValues={type === "edit" ? editValues! : jobListingValues}
             validationSchema={jobListingValidateSchema}
             onSubmit={onsubmit}
             enableReinitialize={true}
@@ -74,6 +101,7 @@ const AddJobComponent = ({ type }: { type?: string }) => {
                 type="reset"
                 className={Styles.btn}
                 id={Styles.resetBtn}
+                onClick={onCancel}
               >
                 {type === "edit" ? "Cancel" : "Reset"}
               </Button>

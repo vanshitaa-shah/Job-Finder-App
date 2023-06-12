@@ -33,6 +33,10 @@
   justify-content: center;
   gap: 30px;
 }
+.slider .active {
+  background-color: rgb(204, 201, 201);
+  color: black;
+}
 
 .descriptionContainer {
   overflow: auto;
@@ -47,6 +51,7 @@
   .descriptionContainer {
     width: 100%;
     margin: 1%;
+    margin-top: 0;
     position: absolute;
     top: 0;
     left: 0;
