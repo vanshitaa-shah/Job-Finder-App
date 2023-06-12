@@ -23,6 +23,7 @@ export type SignupValues = {
   name: string;
   email: string;
   phone: string;
+  profile: string;
   password: string;
   confirmPassword: string;
 };
@@ -41,4 +42,47 @@ export type LayoutProps = {
   children: ReactNode;
 };
 
-export type Role = "provider" | "seeker";
+type providerCompleteProfileProps = {
+  address: {
+    street: string;
+    city: string;
+    state: string;
+  };
+};
+type seekerCompleteProfileProps = {
+  resume: string;
+};
+
+export type CompleteProfileProps =
+  | providerCompleteProfileProps
+  | seekerCompleteProfileProps;
+
+export type JobSeeker = {
+  name?: string;
+  email: string;
+  profile: string;
+  password: string;
+  phone: string;
+  resume?: string;
+};
+
+export type JobProvider = {
+  companyName?: string;
+  email: string;
+  profile: string;
+  password: string;
+  phone: string;
+  address?: {
+    street: string;
+    city: string;
+    state: string;
+  };
+};
+
+export type Role = {
+  role?: "provider" | "seeker";
+};
+
+export type User = {
+  currentUser: JobSeeker & JobProvider & Role;
+};
