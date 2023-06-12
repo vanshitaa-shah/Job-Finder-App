@@ -1,37 +1,52 @@
-import WelcomePage from "./Pages/WelcomePage/WelcomePage";
 import "./App.css";
-import { Route, Routes } from "react-router";
-import Signup from "./components/Forms/Signup/Signup";
-import Login from "./components/Forms/Login/Login";
-import Applicants from "./Pages/Applicants/Applicants";
-import AllJobs from "./Pages/AllJobs/AllJobs";
-import AddJob from "./Pages/AddJob/AddJob";
-import Applications from "./Pages/Applications/Applications";
-import { Suspense, useEffect } from "react";
+import { useEffect } from "react";
 import { auth } from "./Firebase/firebase";
-import Profile from "./Pages/CompleteProfile/Profile";
-import EditProfile from "./Pages/Editprofile/EditProfile";
+import { ToastContainer } from "react-toastify";
+import { findUserByEmail } from "./Firebase/user.services";
+import { useDispatch, useSelector } from "react-redux";
+import { authActions } from "./store/authSlice";
+import { RootState } from "./store";
+import AllRoutes from "./Routes/AllRoutes";
+import { fetchUser, fetchUsers } from "./store/userSlice";
+import Loader from "./components/Loader/Loader";
 
 const App = () => {
+  const dispatch = useDispatch();
+  const currentUser = useSelector((state: RootState) => state.user.currentUser);
+  const isLoading = useSelector((state: RootState) => state.loading.isLoading);
+
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
-      console.log(user?.email);
+      console.log(user);
+
+      if (user) {
+        findUserByEmail(user.email!)
+          .then((id) => {
+            dispatch(authActions.setId(id));
+            dispatch(fetchUser(id) as any);
+            dispatch(fetchUsers() as any);
+          })
+          .catch(() => {
+            return;
+          });
+      }
     });
   }, []);
+
   return (
     <>
-      <Routes>
-        <Route path="/" element={<WelcomePage />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/complete-profile" element={<Profile />} />
-        <Route path="/edit-profile" element={<EditProfile />} />
-        <Route path="/all-jobs" element={<AllJobs />} />
-        <Route path="/add-job" element={<AddJob />} />
-        <Route path="/edit-job" element={<AddJob type="edit" />} />
-        <Route path="/applicants" element={<Applicants />} />
-        <Route path="/applications" element={<Applications />} />
-      </Routes>
+
+  {isLoading && !currentUser&& <Loader/>}
+      <AllRoutes />
+
+      <ToastContainer
+        position="bottom-center"
+        autoClose={1000}
+        newestOnTop={false}
+        pauseOnHover={false}
+        closeOnClick
+        draggable
+      />
     </>
   );
 };

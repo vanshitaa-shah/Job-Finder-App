@@ -1,4 +1,5 @@
 import * as Yup from "yup";
+import { JobListingProps } from "../../Types/type";
 export const loginValues = {
   email: "",
   password: "",
@@ -70,12 +71,12 @@ export const signupValidateSchema = Yup.object({
 
 // Job Listing Form Validation
 
-export const jobListingValues = {
+export const jobListingValues: JobListingProps = {
   jobTitle: "",
   jobType: "",
   jobDescription: "",
   requirements: [""],
-  salary: "",
+  salary: undefined,
 };
 
 export const jobListingValidateSchema = Yup.object({
@@ -87,7 +88,7 @@ export const jobListingValidateSchema = Yup.object({
   requirements: Yup.array().of(
     Yup.string().required("requirement must be added")
   ),
-  salary: Yup.string().required("salary Required!"),
+  salary: Yup.number().required("salary Required!"),
 });
 
 // Complete Profile values
@@ -109,5 +110,44 @@ export const completeProfileValidateSchema = Yup.object({
 });
 
 export const resumeValidateSchema = Yup.object({
-  resume: Yup.mixed().required("Profile photo Required!"),
+  resume: Yup.mixed().required("Resume Required!"),
+});
+
+export const editProfileProviderValidateSchema = Yup.object({
+  name: Yup.string().max(20, "Name too long!").required("Name Required!"),
+
+  email: Yup.string()
+    .required("Email Required!")
+    .matches(
+      /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/,
+      "Invaild Email Format!"
+    ),
+
+  profile: Yup.mixed().required("Profile photo Required!"),
+
+  phone: Yup.string()
+    .required("Phone Number Required!")
+    .matches(/^(\+91|0)?[6789]\d{9}$/, "Invalid phone number!"),
+  address: Yup.object().shape({
+    street: Yup.string().required("Street required!"),
+    city: Yup.string().required("City required!"),
+    state: Yup.string().required("State required!"),
+  }),
+});
+export const editProfileSeekerValidateSchema = Yup.object({
+  name: Yup.string().max(20, "Name too long!").required("Name Required!"),
+
+  email: Yup.string()
+    .required("Email Required!")
+    .matches(
+      /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/,
+      "Invaild Email Format!"
+    ),
+
+  profile: Yup.mixed().required("Profile photo Required!"),
+
+  phone: Yup.string()
+    .required("Phone Number Required!")
+    .matches(/^(\+91|0)?[6789]\d{9}$/, "Invalid phone number!"),
+  resume: Yup.string().required("Resume required!"),
 });

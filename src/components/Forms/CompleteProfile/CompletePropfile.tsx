@@ -9,22 +9,65 @@ import {
   completeProfileValues,
   resumeValidateSchema,
 } from "../formvalidation";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
 import { useNavigate } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  CompleteProfileProps,
+  seekerCompleteProfileProps,
+} from "../../../Types/type";
+import { RootState } from "../../../store";
+import userServices, { findUserByEmail } from "../../../Firebase/user.services";
+import { auth, uploadResume } from "../../../Firebase/firebase";
+import { authActions } from "../../../store/authSlice";
+import { fetchUser } from "../../../store/userSlice";
+import { error, success } from "../../../utils/Toaster";
 
 const CompletePropfile = () => {
-  const [file, setFile] = useState<File>();
+  const [file, setFile] = useState<File | string>();
   const navigate = useNavigate();
-  const role: "seeker" | "provider" = "seeker";
+  const role = useSelector((state: RootState) => state.auth.role);
+  const id = useSelector((state: RootState) => state.auth.id);
+  const hasCompletedProfile = useSelector(
+    (state: RootState) => state.user.currentUser?.hasCompletedProfile
+  );
+  const dispatch = useDispatch();
 
-  const onsubmit = () => {
-    navigate("/all-jobs");
+  const handleResume = (e: ChangeEvent<HTMLInputElement>): void => {
+    const file: File | undefined = e.target.files?.[0];
+    const reader: FileReader = new FileReader();
+    if (file) {
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        setFile(reader.result as string);
+      };
+    }
+  };
+
+  const onsubmit = async (
+    values: CompleteProfileProps & { hasCompletedProfile?: boolean }
+  ) => {
+    try {
+      if (role === "seeker") {
+        const resumeUrl = await uploadResume(
+          (values as seekerCompleteProfileProps).resume
+        );
+        values = { ...values, resume: resumeUrl };
+      }
+      values = { ...values, hasCompletedProfile: true };
+      await userServices.updateUser(id, values);
+      dispatch(fetchUser(id) as any);
+      navigate("/all-jobs");
+      success("Profile Completion successful!");
+    } catch {
+      error("Something Went Wrong");
+    }
   };
 
   return (
     <>
-      {/* {role === "provider" && (
+      {role === "provider" && (
         <>
           <Typography variant="h5">
             Please enter your company's Adderess
@@ -39,13 +82,14 @@ const CompletePropfile = () => {
                 <InputField name="address.street" lable="Street" type="text" />
                 <InputField name="address.city" lable="City" type="text" />
                 <InputField name="address.state" lable="State" type="text" />
-                <Button variant="contained">View/Edit Profile</Button>
-                <Button variant="contained">Next</Button>
+                <Button variant="contained" type="submit">
+                  Next
+                </Button>
               </Form>
             </Formik>
           </div>
         </>
-      )} */}
+      )}
       {role === "seeker" && (
         <>
           <Typography variant="h5">Please Upload your Resume</Typography>
@@ -62,7 +106,6 @@ const CompletePropfile = () => {
                       <span className={ProfileStyles.fileUpload}>
                         <DriveFolderUploadIcon />
                         <Typography variant="h6">Add File</Typography>
-                        <span>{file?.name}</span>
                       </span>
                     </label>
 
@@ -73,6 +116,7 @@ const CompletePropfile = () => {
                       value={undefined}
                       onChange={(e: ChangeEvent<HTMLInputElement>) => {
                         setFieldValue("resume", e.currentTarget.files?.[0]);
+                        handleResume(e);
                         setFile(e.currentTarget.files?.[0]);
                       }}
                       accept=".pdf"
@@ -83,12 +127,11 @@ const CompletePropfile = () => {
                   <Button
                     variant="contained"
                     type="submit"
-                    sx={{ margin: "20px" }}
+                    sx={{ margin: "20px 130px" }}
                     disabled={isSubmitting}
                   >
                     Next
                   </Button>
-                  <Button variant="contained">View/Edit Profile</Button>
                 </Form>
               )}
             </Formik>
