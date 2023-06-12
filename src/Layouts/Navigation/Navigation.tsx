@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
@@ -15,6 +15,10 @@ import { Avatar, Button } from "@mui/material";
 import Styles from "./Navigation.module.css";
 import { Link } from "react-router-dom";
 import { NavigationProps, Role } from "../../Types/type";
+import { RootState } from "../../store";
+import { useSelector } from "react-redux";
+import { auth } from "../../Firebase/firebase";
+import { signOut } from "firebase/auth";
 
 const drawerWidth = 240;
 
@@ -65,12 +69,29 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   ...theme.mixins.toolbar,
   justifyContent: "flex-end",
 }));
-
+const sidebarHandler = () => {
+  if (window.innerWidth > 768) {
+    return true;
+  } else {
+    return false;
+  }
+};
 export default function Navigation({ component }: NavigationProps) {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
-  let role: Role = "provider";
+  const [open, setOpen] = React.useState(sidebarHandler);
+  const role = useSelector((state: RootState) => state.user.currentUser.role);
+  const profile = useSelector(
+    (state: RootState) => state.user.currentUser.profile
+  );
 
+  const logout=()=>{
+    signOut(auth).then(() => {
+      console.log("logout");
+      
+    }).catch((error) => {
+      // An error happened.
+    });
+  }
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -124,23 +145,22 @@ export default function Navigation({ component }: NavigationProps) {
             </IconButton>
           </DrawerHeader>
           <Divider />
-          <Avatar className={Styles.avatar} />
+          <Avatar className={Styles.avatar} src={profile} />
           {role == "provider" && (
             <>
               <Link to="/all-jobs">All Jobs</Link>
               <Link to="/add-job">Add Job</Link>
               <Link to="/applicants">Applicants</Link>
-              <Link to="/">Logout</Link>
             </>
           )}
-          {/* {role === "seeker" && (
+          {role === "seeker" && (
             <>
               <Link to="/all-jobs">All Jobs</Link>
               <Link to="/applications">Applications</Link>
               <Link to="/edit-profile">Edit Profile</Link>
-              <Link to="/">Logout</Link>
             </>
-          )} */}
+          )}
+          <Link to="/" onClick={logout}>Logout</Link>
         </Drawer>
         <Main open={open}>
           <DrawerHeader />
