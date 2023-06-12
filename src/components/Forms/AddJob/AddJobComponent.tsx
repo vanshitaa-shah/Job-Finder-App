@@ -4,15 +4,24 @@ import { jobListingValidateSchema, jobListingValues } from "../formvalidation";
 import InputField from "../InputField/InputField";
 import Styles from "./AddJobComponent.module.css";
 import { JobListingProps } from "../../../Types/type";
+import { useNavigate } from "react-router";
 
 const AddJobComponent = ({ type }: { type?: string }) => {
+  const navigate = useNavigate();
   const onsubmit = (values: JobListingProps) => {
     if (type === "edit") {
       console.log("type edit");
+      navigate("/all-jobs");
     } else {
       console.log("no type");
 
       console.log(values);
+    }
+  };
+
+  const onCancel = () => {
+    if (type === "edit") {
+      navigate("/all-jobs");
     }
   };
 
@@ -74,6 +83,7 @@ const AddJobComponent = ({ type }: { type?: string }) => {
                 type="reset"
                 className={Styles.btn}
                 id={Styles.resetBtn}
+                onClick={onCancel}
               >
                 {type === "edit" ? "Cancel" : "Reset"}
               </Button>

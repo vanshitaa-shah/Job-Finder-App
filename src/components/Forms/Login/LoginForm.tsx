@@ -1,16 +1,14 @@
 import { Button, TextField, Typography } from "@mui/material";
 import { Form, Formik } from "formik";
-import Navbar from "../../Navbar/Navbar";
 import { loginValidateSchema, loginValues } from "../formvalidation";
 import InputField from "../InputField/InputField";
 import Styles from "../../../Layouts/Form/FormLayout.module.css";
 import { useNavigate } from "react-router";
-import { Link } from "react-router-dom";
-import FormLayout from "../../../Layouts/Form/FormLayout";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../../Firebase/firebase";
 import { LoginValues } from "../../../Types/type";
-const Login = () => {
+
+const LoginForm = () => {
   const navigate = useNavigate();
 
   const onSubmit = (values:LoginValues ) => {
@@ -24,10 +22,7 @@ const Login = () => {
   };
   return (
     <>
-      <Navbar />
 
-      <FormLayout>
-        <Typography variant="h5">Login</Typography>
         <Formik
           initialValues={loginValues}
           validationSchema={loginValidateSchema}
@@ -58,12 +53,9 @@ const Login = () => {
             </Button>
           </Form>
         </Formik>
-        <p>
-          Not Registered? <Link to="/signup">Signup</Link>
-        </p>
-      </FormLayout>
+
     </>
   );
 };
 
-export default Login;
+export default LoginForm;

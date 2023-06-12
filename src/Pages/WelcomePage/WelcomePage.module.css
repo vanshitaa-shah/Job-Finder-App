@@ -19,6 +19,16 @@
   margin-bottom: 2rem;
 }
 
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.leftCard {
+  margin-right: 10px;
+  border-right: 1px solid rgb(202, 202, 202);
+}
+
 @media screen and (max-width: 768px) {
   .cardContainer {
     width: 425px;
@@ -28,5 +38,11 @@
 @media screen and (max-width: 425px) {
   .cardContainer {
     width: 300px;
+  }
+  .leftCard {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border: none;
+    border-bottom: 1px solid rgb(202, 202, 202);
   }
 }

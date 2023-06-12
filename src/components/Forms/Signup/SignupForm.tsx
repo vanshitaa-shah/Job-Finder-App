@@ -13,10 +13,13 @@ import FormLayout from "../../../Layouts/Form/FormLayout";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../../../Firebase/firebase";
 import { SignupValues } from "../../../Types/type";
+import { useDispatch } from "react-redux";
+import { userActions } from "../../../store/userSlice";
 
-const Signup = () => {
+const SignupForm = () => {
   const [preview, setPreview] = useState(previewImg);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleProfilePreview = (e: ChangeEvent<HTMLInputElement>): void => {
     const file: File | undefined = e.target.files?.[0];
@@ -39,6 +42,7 @@ const Signup = () => {
           displayName: values.name,
         });
         console.log(user);
+        dispatch(userActions.createNewUser({ ...values, profile: preview }));
         navigate("/complete-profile");
       })
       .catch((err) => console.log(err.message));
@@ -46,9 +50,7 @@ const Signup = () => {
 
   return (
     <>
-      <Navbar />
-      <FormLayout>
-        <Typography variant="h5">Signup</Typography>
+      
         <Formik
           initialValues={signupValues}
           validationSchema={signupValidateSchema}
@@ -97,7 +99,7 @@ const Signup = () => {
                 id={Styles.submitBtn}
                 disabled={isSubmitting}
               >
-                {isSubmitting ? "Wait..." : "Login"}
+                {isSubmitting ? "Wait..." : "Signup"}
               </Button>
 
               <Button
@@ -112,12 +114,9 @@ const Signup = () => {
             </Form>
           )}
         </Formik>
-        <p>
-          Already Registered? <Link to="/login">Login</Link>
-        </p>
-      </FormLayout>
+ 
     </>
   );
 };
 
-export default Signup;
+export default SignupForm;

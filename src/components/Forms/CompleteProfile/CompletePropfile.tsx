@@ -12,19 +12,26 @@ import {
 import { ChangeEvent, useState } from "react";
 import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
 import { useNavigate } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { userActions } from "../../../store/userSlice";
+import { CompleteProfileProps, User } from "../../../Types/type";
+import { RootState } from "../../../store";
 
 const CompletePropfile = () => {
   const [file, setFile] = useState<File>();
   const navigate = useNavigate();
-  const role: "seeker" | "provider" = "seeker";
+  const role = useSelector((state: RootState) => state.user.currentUser.role);
+  const dispatch = useDispatch();
 
-  const onsubmit = () => {
+  const onsubmit = (values: CompleteProfileProps) => {
+    console.log(values);
+    dispatch(userActions.completeProfile(values));
     navigate("/all-jobs");
   };
 
   return (
     <>
-      {/* {role === "provider" && (
+      {role === "provider" && (
         <>
           <Typography variant="h5">
             Please enter your company's Adderess
@@ -40,12 +47,14 @@ const CompletePropfile = () => {
                 <InputField name="address.city" lable="City" type="text" />
                 <InputField name="address.state" lable="State" type="text" />
                 <Button variant="contained">View/Edit Profile</Button>
-                <Button variant="contained">Next</Button>
+                <Button variant="contained" type="submit">
+                  Next
+                </Button>
               </Form>
             </Formik>
           </div>
         </>
-      )} */}
+      )}
       {role === "seeker" && (
         <>
           <Typography variant="h5">Please Upload your Resume</Typography>
