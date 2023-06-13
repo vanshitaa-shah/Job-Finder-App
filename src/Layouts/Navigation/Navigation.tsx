@@ -16,9 +16,10 @@ import Styles from "./Navigation.module.css";
 import { Link } from "react-router-dom";
 import { NavigationProps, Role } from "../../Types/type";
 import { RootState } from "../../store";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { auth } from "../../Firebase/firebase";
 import { signOut } from "firebase/auth";
+import { authActions } from "../../store/authSlice";
 
 const drawerWidth = 240;
 
@@ -83,15 +84,17 @@ export default function Navigation({ component }: NavigationProps) {
   const profile = useSelector(
     (state: RootState) => state.user.currentUser.profile
   );
+  const dispatch = useDispatch();
 
-  const logout=()=>{
-    signOut(auth).then(() => {
-      console.log("logout");
-      
-    }).catch((error) => {
-      // An error happened.
-    });
-  }
+  const logout = () => {
+    signOut(auth)
+      .then(() => {
+        dispatch(authActions.resetAuthInfo());
+      })
+      .catch((error) => {
+        // An error happened.
+      });
+  };
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -160,7 +163,9 @@ export default function Navigation({ component }: NavigationProps) {
               <Link to="/edit-profile">Edit Profile</Link>
             </>
           )}
-          <Link to="/" onClick={logout}>Logout</Link>
+          <Link to="/" onClick={logout}>
+            Logout
+          </Link>
         </Drawer>
         <Main open={open}>
           <DrawerHeader />

@@ -9,21 +9,13 @@ const initialState: User = {
     phone: "",
   },
 };
-type UserActionType = {
-  payload: JobSeeker | JobProvider;
-};
+
 const userSlice = createSlice({
-  name: "seeker",
+  name: "user",
   initialState,
   reducers: {
     addRole: (state, action) => {
       state.currentUser!.role = action.payload;
-    },
-    createNewUser: (state, action: UserActionType) => {
-      state.currentUser = { ...state.currentUser, ...action.payload };
-    },
-    completeProfile: (state, action) => {
-      state.currentUser = { ...state.currentUser, ...action.payload };
     },
   },
 });

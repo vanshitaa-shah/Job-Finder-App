@@ -12,17 +12,16 @@ import { useDispatch } from "react-redux";
 import { userActions } from "../../store/userSlice";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../../Firebase/firebase";
-import { success } from "../../utils/Toaster";
+import userServices from "../../Firebase/user.services.js";
 
 const CardComponent = ({ role }: { role: string }) => {
   const dispatch = useDispatch();
   const roleHandler = async (e: MouseEvent<HTMLButtonElement>) => {
-    if ((e.target as HTMLDivElement).innerText === "JOB PROVIDER") {
+    const userRole = (e.target as HTMLDivElement).innerText;
+    if (userRole === "JOB PROVIDER") {
       dispatch(userActions.addRole("provider"));
-      await setDoc(doc(db, "users"), { role: "provider" });
     } else {
       dispatch(userActions.addRole("seeker"));
-      await setDoc(doc(db, "users", "role"), { role: "seeker" });
     }
   };
 

@@ -1,16 +1,36 @@
-import { Typography } from "@mui/material";
-import React from "react";
+import { Button, Typography } from "@mui/material";
 import Styles from "./Navbar.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { signOut } from "firebase/auth";
+import { auth } from "../../Firebase/firebase";
+import { useDispatch, useSelector } from "react-redux";
+import { authActions } from "../../store/authSlice";
+import { RootState } from "../../store";
 
 const Navbar = () => {
+  const dispatch = useDispatch();
+  const isAuth = useSelector((state: RootState) => state.auth.isAuthenticated);
+  const navigate = useNavigate();
+
+  const logout = () => {
+    signOut(auth).then(() => {
+      dispatch(authActions.resetAuthInfo());
+      navigate("/");
+    });
+  };
   return (
     <div className={Styles.navbar}>
       <Link to="/">
-      <Typography variant="h5" color="white">
-        Job Finder
-      </Typography>
+        <Typography variant="h5" color="white">
+          Job Finder
+        </Typography>
       </Link>
+
+      {isAuth && (
+        <Button variant="contained" color="error" onClick={logout}>
+          Logout
+        </Button>
+      )}
     </div>
   );
 };

@@ -9,23 +9,35 @@ import {
   completeProfileValues,
   resumeValidateSchema,
 } from "../formvalidation";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
 import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { userActions } from "../../../store/userSlice";
 import { CompleteProfileProps, User } from "../../../Types/type";
 import { RootState } from "../../../store";
+import userServices, { findUserByEmail } from "../../../Firebase/user.services";
+import { auth } from "../../../Firebase/firebase";
+import { authActions } from "../../../store/authSlice";
 
 const CompletePropfile = () => {
   const [file, setFile] = useState<File>();
   const navigate = useNavigate();
   const role = useSelector((state: RootState) => state.user.currentUser.role);
+  const id = useSelector((state: RootState) => state.auth.id);
   const dispatch = useDispatch();
 
-  const onsubmit = (values: CompleteProfileProps) => {
-    console.log(values);
-    dispatch(userActions.completeProfile(values));
+  useEffect(() => {
+    auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        await findUserByEmail(user.email!).then((id) =>
+          dispatch(authActions.setId(id))
+        );
+      }
+    });
+  }, []);
+  const onsubmit = async (values: CompleteProfileProps) => {
+    await userServices.updateUser(id, values);
+    dispatch(authActions.profileCompletion());
     navigate("/all-jobs");
   };
 
