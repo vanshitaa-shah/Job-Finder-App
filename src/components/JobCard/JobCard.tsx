@@ -12,12 +12,12 @@ import React from "react";
 import { useNavigate } from "react-router";
 import Styles from "./JobCard.module.css";
 import { JobCardProps } from "../../Types/type";
-
-
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
 const JobCard = ({ showDescription, applied }: JobCardProps) => {
   const navigate = useNavigate();
-  const role: "provider" | "seeker" = "provider";
+  const role = useSelector((state: RootState) => state.user.currentUser.role);
   return (
     <>
       <Card className={Styles.card}>
@@ -59,7 +59,7 @@ const JobCard = ({ showDescription, applied }: JobCardProps) => {
               </IconButton>
             </>
           )}
-          {/* {role === "seeker" && !applied && (
+          {role === "seeker" && !applied && (
             <Button
               variant="outlined"
               size="small"
@@ -68,7 +68,7 @@ const JobCard = ({ showDescription, applied }: JobCardProps) => {
             >
               Apply
             </Button>
-          )} */}
+          )}
         </CardActions>
       </Card>
     </>

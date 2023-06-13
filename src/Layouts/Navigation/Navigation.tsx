@@ -160,9 +160,9 @@ export default function Navigation({ component }: NavigationProps) {
             <>
               <Link to="/all-jobs">All Jobs</Link>
               <Link to="/applications">Applications</Link>
-              <Link to="/edit-profile">Edit Profile</Link>
             </>
           )}
+          <Link to="/edit-profile">Edit Profile</Link>
           <Link to="/" onClick={logout}>
             Logout
           </Link>

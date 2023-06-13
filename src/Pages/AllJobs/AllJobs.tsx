@@ -5,17 +5,20 @@ import JobDescription from "../../components/JobDescription/JobDescription";
 import Navigation from "../../Layouts/Navigation/Navigation";
 import Styles from "../../Layouts/Navigation/Navigation.module.css";
 import ContainerLayout from "../../Layouts/Container/ContainerLayout";
-import { useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { onSnapshot } from "firebase/firestore";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUser } from "../../store/userSlice";
 
 const AllJobs = () => {
-  // const id=useSelector((state:RootState)=>state.auth.id);
-  // useEffect(()=>{
-  //   if(id){
-  //     const unsubscribe = onSnapshot(, (querySnapshot) =>
-  //   }
-  // },[id])
+  const id = useSelector((state: RootState) => state.auth.id);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchUser(id) as any);
+    }
+  });
+
   return (
     <>
       <Navigation component={<AllJobsComponent />} />

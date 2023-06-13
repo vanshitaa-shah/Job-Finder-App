@@ -28,6 +28,17 @@ export type SignupValues = {
   confirmPassword: string;
 };
 
+export type EditValues = {
+  name?: string;
+  companyName?: string;
+  email: string;
+  profile: string;
+  phone: string;
+  street?: string;
+  city?: string;
+  state?: string;
+};
+
 export type LoginValues = { email: string; password: string };
 
 export type JobListingProps = {

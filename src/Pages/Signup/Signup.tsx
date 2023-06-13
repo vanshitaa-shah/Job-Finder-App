@@ -1,22 +1,34 @@
-import FormLayout from '../../Layouts/Form/FormLayout'
-import SignupForm from '../../components/Forms/Signup/SignupForm'
-import Navbar from '../../components/Navbar/Navbar'
-import { Typography } from '@mui/material'
-import { Link } from 'react-router-dom'
+import FormLayout from "../../Layouts/Form/FormLayout";
+import SignupForm from "../../components/Forms/Signup/SignupForm";
+import Navbar from "../../components/Navbar/Navbar";
+import { Typography } from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { error } from "../../utils/Toaster";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
 const Signup = () => {
+  const navigate = useNavigate();
+  const role = useSelector((state: RootState) => state.user.currentUser.role)!;
+  useEffect(() => {
+    if (role === undefined) {
+      error("Choose your role!");
+      navigate("/");
+    }
+  }, []);
   return (
     <>
       <Navbar />
       <FormLayout>
         <Typography variant="h5">Signup</Typography>
-        <SignupForm/>
+        <SignupForm />
         <p>
           Already Registered? <Link to="/login">Login</Link>
         </p>
       </FormLayout>
     </>
-  )
-}
+  );
+};
 
-export default Signup
+export default Signup;

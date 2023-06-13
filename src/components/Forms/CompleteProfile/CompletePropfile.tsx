@@ -27,6 +27,8 @@ const CompletePropfile = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log(role);
+
     auth.onAuthStateChanged(async (user) => {
       if (user) {
         await findUserByEmail(user.email!).then((id) =>
@@ -58,7 +60,6 @@ const CompletePropfile = () => {
                 <InputField name="address.street" lable="Street" type="text" />
                 <InputField name="address.city" lable="City" type="text" />
                 <InputField name="address.state" lable="State" type="text" />
-                <Button variant="contained">View/Edit Profile</Button>
                 <Button variant="contained" type="submit">
                   Next
                 </Button>

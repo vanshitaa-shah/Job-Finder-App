@@ -12,13 +12,16 @@ import EditProfile from "./Pages/Editprofile/EditProfile";
 import { useEffect } from "react";
 import { auth } from "./Firebase/firebase";
 import { ToastContainer } from "react-toastify";
-import { findUserByEmail } from "./Firebase/user.services";
-import { useDispatch } from "react-redux";
+import userServices, { findUserByEmail } from "./Firebase/user.services";
+import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "./store/authSlice";
 import PrivateRoutes from "./Routes/PrivateRoutes";
+import { RootState } from "./store";
+import { userActions } from "./store/userSlice";
 
 const App = () => {
   const dispatch = useDispatch();
+  const id = useSelector((state: RootState) => state.auth.id);
 
   useEffect(() => {
     auth.onAuthStateChanged(async (user) => {
@@ -27,6 +30,7 @@ const App = () => {
 
         await findUserByEmail(user.email!)
           .then((id) => dispatch(authActions.setId(id)))
+          .then((data) => console.log(data))
           .catch(() => {
             return;
           });
@@ -40,9 +44,9 @@ const App = () => {
         <Route path="/" element={<WelcomePage />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/edit-profile" element={<EditProfile />} />
         <Route path="" element={<PrivateRoutes />}>
           <Route path="complete-profile" element={<Profile />} />
-          <Route path="edit-profile" element={<EditProfile />} />
           <Route path="all-jobs" element={<AllJobs />} />
           <Route path="add-job" element={<AddJob />} />
           <Route path="edit-job" element={<AddJob type="edit" />} />

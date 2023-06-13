@@ -23,6 +23,11 @@ class UserDataService {
     if (userDoc) return updateDoc(userDoc, updatedUser);
     else throw new Error("wrong");
   };
+
+  getUser = (id: string) => {
+    const userDoc = doc(db, "users", id);
+    return getDoc(userDoc);
+  };
 }
 
 export const findUserByEmail = async (email: string) => {

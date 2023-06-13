@@ -10,9 +10,6 @@ import { MouseEvent, useState } from "react";
 import Img from "../../assets/favicon.ico";
 import { useDispatch } from "react-redux";
 import { userActions } from "../../store/userSlice";
-import { doc, setDoc } from "firebase/firestore";
-import { db } from "../../Firebase/firebase";
-import userServices from "../../Firebase/user.services.js";
 
 const CardComponent = ({ role }: { role: string }) => {
   const dispatch = useDispatch();

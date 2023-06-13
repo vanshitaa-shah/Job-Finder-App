@@ -26,13 +26,6 @@ const SignupForm = () => {
   const role = useSelector((state: RootState) => state.user.currentUser.role)!;
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (role === undefined) {
-      error("Choose your role!");
-      navigate("/");
-    }
-  }, []);
-
   const handleProfilePreview = (e: ChangeEvent<HTMLInputElement>): void => {
     const file: File | undefined = e.target.files?.[0];
     const reader: FileReader = new FileReader();
