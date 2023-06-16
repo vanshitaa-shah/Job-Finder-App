@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { Job } from "../store/jobSlice";
 
 export type NavigationProps = {
   component: JSX.Element;
@@ -10,6 +11,7 @@ export type JobDescriptionProps = {
 
 export type JobCardProps = {
   showDescription: React.Dispatch<React.SetStateAction<boolean>>;
+  jobData: Job;
   applied?: boolean;
 };
 
@@ -53,14 +55,15 @@ export type LayoutProps = {
   children: ReactNode;
 };
 
-type providerCompleteProfileProps = {
+export type providerCompleteProfileProps = {
   address: {
     street: string;
     city: string;
     state: string;
   };
 };
-type seekerCompleteProfileProps = {
+
+export type seekerCompleteProfileProps = {
   resume: string;
 };
 
@@ -69,7 +72,7 @@ export type CompleteProfileProps =
   | seekerCompleteProfileProps;
 
 export type JobSeeker = {
-  name?: string;
+  name: string;
   email: string;
   profile: string;
   password: string;
@@ -78,7 +81,7 @@ export type JobSeeker = {
 };
 
 export type JobProvider = {
-  companyName?: string;
+  name: string;
   email: string;
   profile: string;
   password: string;
@@ -95,5 +98,7 @@ export type Role = {
 };
 
 export type User = {
-  currentUser: JobSeeker & JobProvider & Role;
+  currentUser: JobSeeker &
+    JobProvider &
+    Role & { hasCompletedProfile: boolean };
 };

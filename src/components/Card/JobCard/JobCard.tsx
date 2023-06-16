@@ -1,4 +1,4 @@
-import { Edit, Delete } from "@mui/icons-material";
+import { Edit, Delete, Email } from "@mui/icons-material";
 import {
   Avatar,
   Button,
@@ -8,29 +8,40 @@ import {
   IconButton,
   Typography,
 } from "@mui/material";
-import React from "react";
-import { useNavigate } from "react-router";
 import Styles from "./JobCard.module.css";
-import { JobCardProps } from "../../Types/type";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store";
+import { JobCardProps } from "../../../Types/type";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../store";
+import { useNavigate } from "react-router";
+import jobServices from "../../../Firebase/job.services";
+import { fetchJobs, fetchJobsByEmail } from "../../../store/jobSlice";
 
-const JobCard = ({ showDescription, applied }: JobCardProps) => {
+const JobCard = ({ showDescription, applied, jobData }: JobCardProps) => {
   const navigate = useNavigate();
-  const role = useSelector((state: RootState) => state.user.currentUser.role);
+  const dispatch = useDispatch();
+  const role = useSelector((state: RootState) => state.auth.role);
+  const email = useSelector((state: RootState) => state.user.currentUser.email);
+  const profilePhoto = useSelector(
+    (state: RootState) => state.user.currentUser.profile
+  );
+
+  const deleteJobHandler = async (id: string) => {
+    await jobServices.deleteJob(id);
+    dispatch(fetchJobsByEmail(email) as any);
+  };
   return (
     <>
       <Card className={Styles.card}>
         <div className={Styles.cardHeader}>
-          <Avatar className={Styles.avatar} />
+          <Avatar className={Styles.avatar} src={profilePhoto} />
           <Typography gutterBottom variant="h5">
             Simform Solutions
           </Typography>
         </div>
         <CardContent>
-          <Typography>Job Title : ReactJs Developer</Typography>
-          <Typography>Job Type : Intern</Typography>
-          <Typography>Salary : 10,000</Typography>
+          <Typography>Job Title : {jobData.jobTitle}</Typography>
+          <Typography>Job Type : {jobData.jobType}</Typography>
+          <Typography>Salary : {jobData.salary}</Typography>
         </CardContent>
         <CardActions>
           <Button
@@ -53,7 +64,7 @@ const JobCard = ({ showDescription, applied }: JobCardProps) => {
               <IconButton
                 color="primary"
                 className={Styles.close}
-                onClick={() => console.log("delete")}
+                onClick={() => deleteJobHandler(jobData.id)}
               >
                 <Delete />
               </IconButton>

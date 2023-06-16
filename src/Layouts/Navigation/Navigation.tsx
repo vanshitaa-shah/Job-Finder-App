@@ -13,13 +13,14 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Avatar, Button } from "@mui/material";
 import Styles from "./Navigation.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { NavigationProps, Role } from "../../Types/type";
 import { RootState } from "../../store";
 import { useDispatch, useSelector } from "react-redux";
 import { auth } from "../../Firebase/firebase";
 import { signOut } from "firebase/auth";
 import { authActions } from "../../store/authSlice";
+import { userActions } from "../../store/userSlice";
 
 const drawerWidth = 240;
 
@@ -80,16 +81,20 @@ const sidebarHandler = () => {
 export default function Navigation({ component }: NavigationProps) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(sidebarHandler);
-  const role = useSelector((state: RootState) => state.user.currentUser.role);
+  const role = useSelector((state: RootState) => state.auth.role);
   const profile = useSelector(
     (state: RootState) => state.user.currentUser.profile
   );
+
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const logout = () => {
     signOut(auth)
       .then(() => {
         dispatch(authActions.resetAuthInfo());
+        dispatch(userActions.resetData());
+        navigate("/");
       })
       .catch((error) => {
         // An error happened.

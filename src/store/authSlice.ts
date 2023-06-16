@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { fetchUser } from "./userSlice";
 
 const initialState = {
   id: "",
+  role: localStorage.getItem("role") || "",
   isAuthenticated: Boolean(localStorage.getItem("isAuthenticated")) || false,
-  hasCompletedProfile:
-    Boolean(localStorage.getItem("hasCompletedProfile")) || false,
 };
 
 const authSlice = createSlice({
@@ -14,18 +14,22 @@ const authSlice = createSlice({
     setId: (state, action) => {
       state.id = action.payload;
     },
+
+    addRole: (state, action) => {
+      console.log("here");
+
+      state.role = action.payload;
+      localStorage.setItem("role", action.payload);
+    },
     authentication: (state) => {
       state.isAuthenticated = true;
       localStorage.setItem("isAuthenticated", "true");
     },
-    profileCompletion: (state) => {
-      state.hasCompletedProfile = true;
-      localStorage.setItem("hasCompletedProfile", "true");
-    },
+
     resetAuthInfo: (state) => {
       state.id = "";
+      state.role = "";
       state.isAuthenticated = false;
-      state.hasCompletedProfile = false;
       localStorage.clear();
     },
   },

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import ApplicantCard from "../../components/ApplicantCard/ApplicantCard";
+import ApplicantCard from "../../components/Card/ApplicantCard/ApplicantCard";
 import ContainerLayout from "../../Layouts/Container/ContainerLayout";
 import Navigation from "../../Layouts/Navigation/Navigation";
 import { RootState } from "../../store";
@@ -11,11 +11,11 @@ const Applicants = () => {
   const id = useSelector((state: RootState) => state.auth.id);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (id) {
-      dispatch(fetchUser(id) as any);
-    }
-  });
+  // useEffect(() => {
+  //   if (id) {
+  //     dispatch(fetchUser(id) as any);
+  //   }
+  // });
   return (
     <>
       <Navigation component={<ApplicantsComponent />} />

@@ -10,21 +10,28 @@ import { LoginValues } from "../../../Types/type";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { authActions } from "../../../store/authSlice";
+import { fetchUser } from "../../../store/userSlice";
+import userServices, { findUserByEmail } from "../../../Firebase/user.services";
+import { error, success } from "../../../utils/Toaster";
 
 const LoginForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // const isAuth = useSelector((state: RootState) => state.auth.isAuthenticated);
-  // const hasCompletedProfile = useSelector(
-  //   (state: RootState) => state.auth.hasCompletedProfile
-  // );
+  const role = useSelector((state: RootState) => state.auth.role);
 
   const onSubmit = (values: LoginValues) => {
     signInWithEmailAndPassword(auth, values.email, values.password)
       .then(async (res) => {
         const user = res.user;
-        dispatch(authActions.authentication());
-        navigate("/all-jobs");
+        const id = await findUserByEmail(user.email!);
+        const data = (await userServices.getUser(id!)).data();
+        if (role && data?.role && data.role === role) {
+          dispatch(authActions.authentication());
+          success("User loggedIn successfully!");
+          navigate("/all-jobs");
+        } else {
+          error("Invaild Access");
+        }
       })
       .catch((err) => console.log(err.message));
   };

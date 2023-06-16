@@ -9,11 +9,11 @@ const AddJob = ({ type }: { type?: string }) => {
   const id = useSelector((state: RootState) => state.auth.id);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (id) {
-      dispatch(fetchUser(id) as any);
-    }
-  });
+  // useEffect(() => {
+  //   if (id) {
+  //     dispatch(fetchUser(id) as any);
+  //   }
+  // });
   return (
     <>
       <Navigation component={<AddJobComponent type={type} />} />

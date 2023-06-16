@@ -5,17 +5,24 @@ import InputField from "../InputField/InputField";
 import Styles from "./AddJobComponent.module.css";
 import { JobListingProps } from "../../../Types/type";
 import { useNavigate } from "react-router";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store";
+import jobServices from "../../../Firebase/job.services";
 
 const AddJobComponent = ({ type }: { type?: string }) => {
   const navigate = useNavigate();
-  const onsubmit = (values: JobListingProps) => {
+  const email = useSelector((state: RootState) => state.user.currentUser.email);
+  const onsubmit = async (values: JobListingProps) => {
     if (type === "edit") {
       console.log("type edit");
       navigate("/all-jobs");
     } else {
-      console.log("no type");
+      const jobData = { ...values, providerEmail: email };
+      await jobServices.addjob(jobData);
+      // const jobs = await jobServices.getJobs();
+      // console.log(jobs.docs.filter((doc) => console.log(doc.data())));
 
-      console.log(values);
+      navigate("/all-jobs");
     }
   };
 

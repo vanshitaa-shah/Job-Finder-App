@@ -1,13 +1,15 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import userServices from "../Firebase/user.services";
-import { JobProvider, JobSeeker, User } from "../Types/type";
+import { User } from "../Types/type";
 
 const initialState: User = {
   currentUser: {
+    name: "",
     email: "",
     profile: "",
     password: "",
     phone: "",
+    hasCompletedProfile: false,
   },
 };
 
@@ -15,11 +17,14 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    addRole: (state, action) => {
-      state.currentUser!.role = action.payload;
+    resetData: (state) => {
+      state.currentUser.hasCompletedProfile = false;
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(fetchUser.pending, (state, action) => {
+      console.log("loading ....");
+    });
     builder.addCase(fetchUser.fulfilled, (state, action) => {
       state.currentUser = action.payload as any;
     });
@@ -28,9 +33,11 @@ const userSlice = createSlice({
 
 export const fetchUser = createAsyncThunk(
   "user/fetchUser",
-  async (userId: string) => {
-    const userData = await userServices.getUser(userId);
-    return userData.data();
+  async (userId: string | null) => {
+    if (userId) {
+      const userData = await userServices.getUser(userId);
+      return userData.data();
+    }
   }
 );
 

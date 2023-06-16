@@ -6,6 +6,7 @@ import { auth } from "../../Firebase/firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../../store/authSlice";
 import { RootState } from "../../store";
+import { userActions } from "../../store/userSlice";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -15,6 +16,7 @@ const Navbar = () => {
   const logout = () => {
     signOut(auth).then(() => {
       dispatch(authActions.resetAuthInfo());
+      dispatch(userActions.resetData());
       navigate("/");
     });
   };

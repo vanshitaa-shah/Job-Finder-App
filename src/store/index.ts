@@ -7,7 +7,7 @@ const store = configureStore({
   reducer: {
     auth: authReducer,
     user: userReducer,
-    // job: jobReducer,
+    job: jobReducer,
   },
 });
 export type RootState = ReturnType<typeof store.getState>;

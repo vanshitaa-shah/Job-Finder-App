@@ -109,7 +109,7 @@ export const completeProfileValidateSchema = Yup.object({
 });
 
 export const resumeValidateSchema = Yup.object({
-  resume: Yup.mixed().required("Profile photo Required!"),
+  resume: Yup.mixed().required("Resume Required!"),
 });
 
 export const editProfileValidateSchema = Yup.object({
@@ -122,26 +122,7 @@ export const editProfileValidateSchema = Yup.object({
       "Invaild Email Format!"
     ),
 
-  profile: Yup.mixed()
-    .test("fileSize", "Image size should be less than 2MB", (value: any) => {
-      if (!value) {
-        return true;
-      }
-      const maxSize = 2 * 1024 * 1024;
-      return value.size <= maxSize;
-    })
-    .test(
-      "fileType",
-      "Invalid File Format!(should be jpg or png)",
-      (value: any) => {
-        if (!value) {
-          return true;
-        }
-        const supportedTypes = ["image/jpeg", "image/png"];
-        return supportedTypes.includes(value.type);
-      }
-    )
-    .required("Profile photo Required!"),
+  profile: Yup.mixed().required("Profile photo Required!"),
 
   phone: Yup.string()
     .required("Phone Number Required!")

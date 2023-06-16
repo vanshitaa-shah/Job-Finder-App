@@ -11,7 +11,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import FormLayout from "../../../Layouts/Form/FormLayout";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { auth } from "../../../Firebase/firebase";
+import { auth, uploadPhoto } from "../../../Firebase/firebase";
 import { SignupValues } from "../../../Types/type";
 import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "../../../store/userSlice";
@@ -23,7 +23,7 @@ import { authActions } from "../../../store/authSlice";
 const SignupForm = () => {
   const [preview, setPreview] = useState(previewImg);
   const navigate = useNavigate();
-  const role = useSelector((state: RootState) => state.user.currentUser.role)!;
+  const role = useSelector((state: RootState) => state.auth.role);
   const dispatch = useDispatch();
 
   const handleProfilePreview = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -39,23 +39,27 @@ const SignupForm = () => {
   };
 
   const onSubmit = async (values: SignupValues) => {
+    const imgUrl = await uploadPhoto(values.profile);
+    console.log(imgUrl);
+
     const userData = {
       name: values.name,
       email: values.email,
       phone: values.phone,
-      profile: preview,
+      profile: imgUrl,
       role: role,
+      hasCompletedProfile: false,
     };
 
-    await createUserWithEmailAndPassword(
-      auth,
-      values.email,
-      values.password
-    ).then(async (res) => {
-      await userServices.addUser(userData).then((data) => console.log(data));
-    });
-    navigate("/complete-profile");
-    dispatch(authActions.authentication());
+    try {
+      await createUserWithEmailAndPassword(auth, values.email, values.password);
+      await userServices.addUser(userData);
+      success("User Added Successfully");
+      navigate("/complete-profile");
+      dispatch(authActions.authentication());
+    } catch {
+      error("something went wrong!");
+    }
   };
 
   return (

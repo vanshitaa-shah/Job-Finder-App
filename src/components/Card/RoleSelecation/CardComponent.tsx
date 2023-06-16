@@ -7,18 +7,18 @@ import { Avatar } from "@mui/material";
 import Styles from "./CardComponent.module.css";
 import { Link } from "react-router-dom";
 import { MouseEvent, useState } from "react";
-import Img from "../../assets/favicon.ico";
+import Img from "../../../assets/favicon.ico";
 import { useDispatch } from "react-redux";
-import { userActions } from "../../store/userSlice";
+import { authActions } from "../../../store/authSlice";
 
 const CardComponent = ({ role }: { role: string }) => {
   const dispatch = useDispatch();
   const roleHandler = async (e: MouseEvent<HTMLButtonElement>) => {
     const userRole = (e.target as HTMLDivElement).innerText;
     if (userRole === "JOB PROVIDER") {
-      dispatch(userActions.addRole("provider"));
+      dispatch(authActions.addRole("provider"));
     } else {
-      dispatch(userActions.addRole("seeker"));
+      dispatch(authActions.addRole("seeker"));
     }
   };
 

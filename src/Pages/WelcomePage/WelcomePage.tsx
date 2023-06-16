@@ -1,10 +1,22 @@
 import { Typography } from "@mui/material";
 import Navbar from "../../components/Navbar/Navbar";
-import CardComponent from "../../components/Card/CardComponent";
+import CardComponent from "../../components/Card/RoleSelecation/CardComponent";
 import Styles from "./WelcomePage.module.css";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
+import { useNavigate } from "react-router";
 
 
 const WelcomePage = () => {
+  const isAuthenticated=useSelector((state:RootState)=>state.auth.isAuthenticated);
+  const navigate=useNavigate();
+
+  useEffect(()=>{
+    if(isAuthenticated){
+      navigate("/")
+    }
+  })
   return (
     <>
       <Navbar />
