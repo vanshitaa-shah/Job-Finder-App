@@ -1,7 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { collection, getFirestore } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyA0h0I2ydD0zmPStCjZWdlwmtJzXgnc1Zo",
@@ -13,29 +14,20 @@ const firebaseConfig = {
   measurementId: "G-E0E9KNTJJK",
 };
 
-// Initialize Firebase
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth();
 export const db = getFirestore(app);
 
-// export { app, auth };
-
-// Import the functions you need from the SDKs you need
-// import { initializeApp } from "firebase/app";
-// import { getAuth } from "firebase/auth";
-// import { getFirestore } from "firebase/firestore"
-
-// const firebaseConfig = {
-//   apiKey: "AIzaSyCRIZlGgQ6sdfLgmdseGZQn0CsVfkvFNfk",
-//   authDomain: "job-portal-cf65b.firebaseapp.com",
-//   projectId: "job-portal-cf65b",
-//   storageBucket: "job-portal-cf65b.appspot.com",
-//   messagingSenderId: "118133720157",
-//   appId: "1:118133720157:web:86de24c3ee65989900f9b4",
-//   measurementId: "G-ZQSWERZYK4"
-// };
-
-// // Initialize Firebase
-// export const app = initializeApp(firebaseConfig);
-// export const db=getFirestore(app)
-// export const auth = getAuth();
+const storage = getStorage();
+export const uploadPhoto = async (uploadImg: any) => {
+  const imageRef = ref(storage, `profilePhotos/ ${uploadImg.name}`);
+  await uploadBytes(imageRef, uploadImg);
+  const downloadURL = await getDownloadURL(imageRef);
+  return downloadURL;
+};
+export const uploadResume = async (uploadResume: any) => {
+  const resumeRef = ref(storage, `resumes/ ${uploadResume.name}`);
+  await uploadBytes(resumeRef, uploadResume);
+  const downloadURL = await getDownloadURL(resumeRef);
+  return downloadURL;
+};
