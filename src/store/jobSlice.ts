@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import jobServices from "../Firebase/job.services";
+import { setLoading } from "./loadingSlice";
 
 export interface Job {
   id: string;
@@ -31,7 +32,8 @@ const jobSlice = createSlice({
 
 export const fetchJobsByEmail = createAsyncThunk(
   "job/fetchJobs",
-  async (email: string | null) => {
+  async (email: string | null, { dispatch }) => {
+    dispatch(setLoading(true));
     const jobs = (await jobServices.getJobs()).docs;
     const userJobs: Job[] = [];
     jobs.filter((job) => {
@@ -48,26 +50,32 @@ export const fetchJobsByEmail = createAsyncThunk(
         userJobs.push(jobData);
       }
     });
+    dispatch(setLoading(false));
     return userJobs;
   }
 );
-export const fetchJobs = createAsyncThunk("job/fetchJobs", async () => {
-  const jobs = (await jobServices.getJobs()).docs;
-  const userJobs: Job[] = [];
-  jobs.filter((job) => {
-    const jobData: Job = {
-      id: job.id,
-      providerEmail: job.data().providerEmail,
-      jobTitle: job.data().jobTitle,
-      jobType: job.data().jobType,
-      jobDescription: job.data().jobDescription,
-      requirements: job.data().requirements,
-      salary: job.data().salary,
-    };
-    userJobs.push(jobData);
-  });
-  return userJobs;
-});
+export const fetchJobs = createAsyncThunk(
+  "job/fetchJobs",
+  async (_, { dispatch }) => {
+    dispatch(setLoading(true));
+    const jobs = (await jobServices.getJobs()).docs;
+    const userJobs: Job[] = [];
+    jobs.filter((job) => {
+      const jobData: Job = {
+        id: job.id,
+        providerEmail: job.data().providerEmail,
+        jobTitle: job.data().jobTitle,
+        jobType: job.data().jobType,
+        jobDescription: job.data().jobDescription,
+        requirements: job.data().requirements,
+        salary: job.data().salary,
+      };
+      userJobs.push(jobData);
+    });
+    dispatch(setLoading(false));
+    return userJobs;
+  }
+);
 
 export const jobReducer = jobSlice.reducer;
 export const jobActions = jobSlice.actions;

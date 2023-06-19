@@ -1,16 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import userServices from "../Firebase/user.services";
-import { User } from "../Types/type";
+import { User, UserSliceType } from "../Types/type";
+import { setLoading } from "./loadingSlice";
 
-const initialState: User = {
-  currentUser: {
-    name: "",
-    email: "",
-    profile: "",
-    password: "",
-    phone: "",
-    hasCompletedProfile: false,
-  },
+const initialState: UserSliceType = {
+  users:[],
+  currentUser: null,
 };
 
 const userSlice = createSlice({
@@ -18,7 +13,11 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     resetData: (state) => {
+      if(state.currentUser)
       state.currentUser.hasCompletedProfile = false;
+    },
+    updateData: (state, action) => {
+      state.currentUser = { ...state.currentUser, ...action.payload };
     },
   },
   extraReducers: (builder) => {
@@ -28,17 +27,33 @@ const userSlice = createSlice({
     builder.addCase(fetchUser.fulfilled, (state, action) => {
       state.currentUser = action.payload as any;
     });
+    builder.addCase(fetchUsers.fulfilled, (state, action) => {
+      state.users = action.payload;     
+    });
   },
 });
 
 export const fetchUser = createAsyncThunk(
   "user/fetchUser",
-  async (userId: string | null) => {
+  async (userId: string | null,{dispatch}) => {
     if (userId) {
+      dispatch(setLoading(true));
       const userData = await userServices.getUser(userId);
+      dispatch(setLoading(false))
       return userData.data();
     }
   }
+);
+export const fetchUsers = createAsyncThunk(
+  "user/fetchUsers",
+  async (_,{dispatch}) => {
+      dispatch(setLoading(true));
+      const users:User[]=[]
+      const userDocs = (await userServices.getUsers()).docs;
+      userDocs.map((user)=>users.push(user.data() as User))
+      dispatch(setLoading(false))
+      return users;
+    }
 );
 
 export const userReducer = userSlice.reducer;

@@ -83,7 +83,7 @@ export default function Navigation({ component }: NavigationProps) {
   const [open, setOpen] = React.useState(sidebarHandler);
   const role = useSelector((state: RootState) => state.auth.role);
   const profile = useSelector(
-    (state: RootState) => state.user.currentUser.profile
+    (state: RootState) => state.user.currentUser?.profile
   );
 
   const dispatch = useDispatch();
