@@ -7,12 +7,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "./store/authSlice";
 import { RootState } from "./store";
 import AllRoutes from "./Routes/AllRoutes";
-import { fetchUser } from "./store/userSlice";
-import { DocumentData } from "firebase/firestore";
+import { fetchUser, fetchUsers } from "./store/userSlice";
+import Loader from "./components/Loader/Loader";
 
 const App = () => {
   const dispatch = useDispatch();
-  const id = useSelector((state: RootState) => state.auth.id);
+  const currentUser = useSelector((state: RootState) => state.user.currentUser);
+  const isLoading = useSelector((state: RootState) => state.loading.isLoading);
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
@@ -23,6 +24,7 @@ const App = () => {
           .then((id) => {
             dispatch(authActions.setId(id));
             dispatch(fetchUser(id) as any);
+            dispatch(fetchUsers() as any);
           })
           .catch(() => {
             return;
@@ -33,6 +35,8 @@ const App = () => {
 
   return (
     <>
+
+  {isLoading && !currentUser&& <Loader/>}
       <AllRoutes />
 
       <ToastContainer

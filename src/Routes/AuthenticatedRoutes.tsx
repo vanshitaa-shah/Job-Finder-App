@@ -7,7 +7,7 @@ import { RootState } from "../store";
 const AuthenticatedRoutes = () => {
   const isAuth = useSelector((state: RootState) => state.auth.isAuthenticated);
   const hasCompletedProfile = useSelector(
-    (state: RootState) => state.user.currentUser.hasCompletedProfile
+    (state: RootState) => state.user.currentUser?.hasCompletedProfile
   );
   console.log(hasCompletedProfile);
 
@@ -17,7 +17,7 @@ const AuthenticatedRoutes = () => {
     if (!isAuth) {
       navigate("/signup");
     }
-  }, [isAuth, hasCompletedProfile]);
+  }, [isAuth]);
 
   return <>{isAuth && <Outlet />}</>;
 };

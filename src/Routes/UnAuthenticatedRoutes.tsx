@@ -1,24 +1,24 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
-import { Outlet, Route, Routes, useNavigate } from "react-router";
-import WelcomePage from "../Pages/WelcomePage/WelcomePage";
-import Signup from "../Pages/Signup/Signup";
-import Login from "../Pages/Login/Login";
+import { Outlet, useNavigate } from "react-router";
 
 const UnAuthenticatedRoutes = () => {
   const isAuth = useSelector((state: RootState) => state.auth.isAuthenticated);
+  const role = useSelector((state: RootState) => state.auth.role);
   const hasCompletedProfile = useSelector(
-    (state: RootState) => state.user.currentUser.hasCompletedProfile
+    (state: RootState) => state.user.currentUser?.hasCompletedProfile
   );
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isAuth) {
-      if (hasCompletedProfile) navigate("/all-jobs");
-      else navigate("/complete-profile");
+    if (isAuth && hasCompletedProfile) {
+      navigate("/all-jobs")
     }
-  }, [isAuth]);
+    if(isAuth && !hasCompletedProfile){
+      navigate("/complete-profile")
+    }
+  });
   return (
     <>
       {!isAuth && (

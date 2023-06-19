@@ -14,12 +14,15 @@ import WelcomePage from "../Pages/WelcomePage/WelcomePage";
 import { RootState } from "../store";
 import AuthenticatedRoutes from "./AuthenticatedRoutes";
 import UnAuthenticatedRoutes from "./UnAuthenticatedRoutes";
+import ProviderRoutes from "./ProviderRoutes";
+import SeekerRoutes from "./SeekerRoutes";
 
 const AllRoutes = () => {
   const role = useSelector((state: RootState) => state.auth.role);
   const hasCompletedProfile = useSelector(
-    (state: RootState) => state.user.currentUser.hasCompletedProfile
+    (state: RootState) => state.user.currentUser?.hasCompletedProfile
   );
+  console.log(role);
 
   return (
     <>
@@ -31,23 +34,20 @@ const AllRoutes = () => {
         </Route>
         <Route path="" element={<AuthenticatedRoutes />}>
           <Route path="complete-profile" element={<Profile />} />
-          <Route path="edit-profile" element={<EditProfile />} />
-
-          {role === "provider" && hasCompletedProfile && (
-            <>
-              <Route path="all-jobs" element={<AllJobs />} />
-              <Route path="add-job" element={<AddJob />} />
-              <Route path="edit-job" element={<AddJob type="edit" />} />
-              <Route path="applicants" element={<Applicants />} />
-            </>
-          )}
-          {role === "seeker" && hasCompletedProfile && (
-            <>
-              <Route path="all-jobs" element={<AllJobs />} />
-              <Route path="applications" element={<Applications />} />
-            </>
-          )}
+          <Route path="" element={<ProviderRoutes />}>
+            <Route path="all-jobs" element={<AllJobs />} />
+            <Route path="add-job" element={<AddJob />} />
+            <Route path="edit-job" element={<AddJob type="edit" />} />
+            <Route path="applicants" element={<Applicants />} />
+            <Route path="edit-profile" element={<EditProfile />} />
+          </Route>
+          <Route path="" element={<SeekerRoutes />}>
+            <Route path="all-jobs" element={<AllJobs />} />
+            <Route path="applications" element={<Applications />} />
+            <Route path="edit-profile" element={<EditProfile />} />
+          </Route>
         </Route>
+
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </>
