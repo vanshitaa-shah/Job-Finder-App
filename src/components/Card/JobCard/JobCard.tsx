@@ -9,33 +9,68 @@ import {
   Typography,
 } from "@mui/material";
 import Styles from "./JobCard.module.css";
-import { JobCardProps } from "../../../Types/type";
+import { DescriptionType, JobCardProps } from "../../../Types/type";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { useNavigate } from "react-router";
 import jobServices from "../../../Firebase/job.services";
 import { fetchJobs, fetchJobsByEmail } from "../../../store/jobSlice";
 
-const JobCard = ({ showDescription, applied, jobData }: JobCardProps) => {
+const JobCard = ({
+  setDescription,
+  showDescription,
+  applied,
+  jobData,
+}: JobCardProps) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const role = useSelector((state: RootState) => state.auth.role);
-  const email = useSelector((state: RootState) => state.user.currentUser.email);
-  const profilePhoto = useSelector(
-    (state: RootState) => state.user.currentUser.profile
+  const email = useSelector(
+    (state: RootState) => state.user.currentUser?.email
   );
+  const users = useSelector((state: RootState) => state.user.users);
+
+  const providerUserData = users.find(
+    (user) => user.email === jobData.providerEmail
+  );
+
+  const descriptionHandler = () => {
+    showDescription(true);
+    if (providerUserData) {
+      const descriptionData: DescriptionType = {
+        profile: providerUserData.profile,
+        name: providerUserData.name,
+        email: providerUserData.email,
+        phone: providerUserData.phone,
+        street: providerUserData.address!.street,
+        state: providerUserData.address!.state,
+        city: providerUserData.address!.city,
+        jobTitle: jobData.jobTitle,
+        jobType: jobData.jobType,
+        salary: jobData.salary,
+        description: jobData.jobDescription,
+        requirements: jobData.requirements,
+      };
+      setDescription(descriptionData);
+    }
+  };
+
+  const editJobHandler = () => {
+    navigate("/edit-job", { state: { jobData } });
+  };
 
   const deleteJobHandler = async (id: string) => {
     await jobServices.deleteJob(id);
-    dispatch(fetchJobsByEmail(email) as any);
+    if (email) dispatch(fetchJobsByEmail(email) as any);
   };
+
   return (
     <>
       <Card className={Styles.card}>
         <div className={Styles.cardHeader}>
-          <Avatar className={Styles.avatar} src={profilePhoto} />
+          <Avatar className={Styles.avatar} src={providerUserData?.profile} />
           <Typography gutterBottom variant="h5">
-            Simform Solutions
+            {providerUserData?.name}
           </Typography>
         </div>
         <CardContent>
@@ -48,7 +83,7 @@ const JobCard = ({ showDescription, applied, jobData }: JobCardProps) => {
             variant="contained"
             size="small"
             color="primary"
-            onClick={() => showDescription(true)}
+            onClick={descriptionHandler}
           >
             Read More
           </Button>
@@ -57,7 +92,7 @@ const JobCard = ({ showDescription, applied, jobData }: JobCardProps) => {
               <IconButton
                 color="primary"
                 className={Styles.close}
-                onClick={() => navigate("/edit-job")}
+                onClick={editJobHandler}
               >
                 <Edit />
               </IconButton>
