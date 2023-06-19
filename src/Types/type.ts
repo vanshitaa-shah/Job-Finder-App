@@ -60,20 +60,20 @@ export type EditValues = {
 
 export type EditJobType = {
   jobTitle: string;
-  jobType: "Intern" | "Fresher" | "Experienced";
+  jobType: "Intern" | "Fresher" | "Experienced" | "";
   jobDescription: string;
   requirements: string[];
-  salary: number;
+  salary: number | undefined;
 };
 
 export type LoginValues = { email: string; password: string };
 
 export type JobListingProps = {
   jobTitle: string;
-  jobType: "Intern" | "Fresher" | "Experienced";
+  jobType: "Intern" | "Fresher" | "Experienced" | "";
   jobDescription: string;
   requirements: string[];
-  salary: number;
+  salary: number | undefined;
 };
 
 export type LayoutProps = {
