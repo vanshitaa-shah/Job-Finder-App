@@ -8,15 +8,24 @@ import ContainerLayout from "../../Layouts/Container/ContainerLayout";
 import { RootState } from "../../store";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchJobs, fetchJobsByEmail } from "../../store/jobSlice";
+import { fetchUsers } from "../../store/userSlice";
+import { DescriptionType } from "../../Types/type";
 
 const AllJobs = () => {
   const role = useSelector((state: RootState) => state.auth.role);
-  const email = useSelector((state: RootState) => state.user.currentUser.email);
+  const email = useSelector(
+    (state: RootState) => state.user.currentUser?.email
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (role === "seeker") dispatch(fetchJobs() as any);
-    else dispatch(fetchJobsByEmail(email) as any);
+    if (email) {
+      if (role === "seeker") {
+        dispatch(fetchJobs() as any);
+      } else dispatch(fetchJobsByEmail(email) as any);
+
+      dispatch(fetchUsers() as any);
+    }
   }, []);
 
   return (
@@ -27,8 +36,13 @@ const AllJobs = () => {
 };
 
 const AllJobsComponent = () => {
+  const [description, setDescription] = useState<DescriptionType>(
+    {} as DescriptionType
+  );
   const [showDescription, setShowDescription] = useState(false);
   const jobs = useSelector((state: RootState) => state.job.jobs);
+  console.log(jobs);
+
   return (
     <>
       <ContainerLayout>
@@ -36,6 +50,7 @@ const AllJobsComponent = () => {
           {jobs.map((job) => (
             <JobCard
               key={job.id}
+              setDescription={setDescription}
               showDescription={setShowDescription}
               jobData={job}
             />
@@ -43,7 +58,10 @@ const AllJobsComponent = () => {
         </div>
         {showDescription && (
           <div className={Styles.descriptionContainer}>
-            <JobDescription showDescription={setShowDescription} />
+            <JobDescription
+              showDescription={setShowDescription}
+              descriptionData={description}
+            />
           </div>
         )}
       </ContainerLayout>

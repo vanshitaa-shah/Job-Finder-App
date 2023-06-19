@@ -9,6 +9,7 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
+import { CompleteProfileProps, EditValues } from "../Types/type";
 import { db } from "./firebase";
 
 const userCollectionRef = collection(db, "users");
@@ -18,7 +19,12 @@ class UserDataService {
     return addDoc(userCollectionRef, userData);
   };
 
-  updateUser = (id: string, updatedUser: any) => {
+  updateUser = (
+    id: string,
+    updatedUser:
+      | (CompleteProfileProps & { hasCompletedProfile?: boolean })
+      | EditValues
+  ) => {
     const userDoc = doc(db, "users", id);
     if (userDoc) return updateDoc(userDoc, updatedUser);
     else throw new Error("wrong");
@@ -27,6 +33,10 @@ class UserDataService {
   getUser = (id: string) => {
     const userDoc = doc(db, "users", id);
     return getDoc(userDoc);
+  };
+
+  getUsers = () => {
+    return getDocs(userCollectionRef);
   };
 }
 

@@ -5,14 +5,31 @@ export type NavigationProps = {
   component: JSX.Element;
 };
 
-export type JobDescriptionProps = {
-  showDescription: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
 export type JobCardProps = {
   showDescription: React.Dispatch<React.SetStateAction<boolean>>;
+  setDescription: React.Dispatch<React.SetStateAction<DescriptionType>>;
   jobData: Job;
   applied?: boolean;
+};
+
+export type DescriptionType = {
+  profile: string;
+  name: string;
+  email: string;
+  phone: string;
+  street: string;
+  state: string;
+  city: string;
+  jobTitle: string;
+  jobType: "Intern" | "Fresher" | "Experienced";
+  salary: number;
+  description: string;
+  requirements: string[];
+};
+
+export type JobDescriptionProps = {
+  descriptionData: DescriptionType;
+  showDescription: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export type InputFieldProps = {
@@ -32,23 +49,31 @@ export type SignupValues = {
 
 export type EditValues = {
   name?: string;
-  companyName?: string;
   email: string;
   profile: string;
   phone: string;
   street?: string;
   city?: string;
   state?: string;
+  resume?: string;
+};
+
+export type EditJobType = {
+  jobTitle: string;
+  jobType: "Intern" | "Fresher" | "Experienced";
+  jobDescription: string;
+  requirements: string[];
+  salary: number;
 };
 
 export type LoginValues = { email: string; password: string };
 
 export type JobListingProps = {
   jobTitle: string;
-  jobType: string;
+  jobType: "Intern" | "Fresher" | "Experienced";
   jobDescription: string;
   requirements: string[];
-  salary: string;
+  salary: number;
 };
 
 export type LayoutProps = {
@@ -97,8 +122,11 @@ export type Role = {
   role?: "provider" | "seeker";
 };
 
-export type User = {
-  currentUser: JobSeeker &
-    JobProvider &
-    Role & { hasCompletedProfile: boolean };
+export type User = JobSeeker &
+  JobProvider &
+  Role & { hasCompletedProfile: boolean };
+
+export type UserSliceType = {
+  users: User[];
+  currentUser: User | null;
 };

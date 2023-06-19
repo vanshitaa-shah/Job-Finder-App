@@ -30,7 +30,7 @@ const CompletePropfile = () => {
   const role = useSelector((state: RootState) => state.auth.role);
   const id = useSelector((state: RootState) => state.auth.id);
   const hasCompletedProfile = useSelector(
-    (state: RootState) => state.user.currentUser.hasCompletedProfile
+    (state: RootState) => state.user.currentUser?.hasCompletedProfile
   );
   const dispatch = useDispatch();
 

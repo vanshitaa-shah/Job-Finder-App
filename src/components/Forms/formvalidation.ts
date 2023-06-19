@@ -1,4 +1,5 @@
 import * as Yup from "yup";
+import { JobListingProps } from "../../Types/type";
 export const loginValues = {
   email: "",
   password: "",
@@ -70,12 +71,12 @@ export const signupValidateSchema = Yup.object({
 
 // Job Listing Form Validation
 
-export const jobListingValues = {
+export const jobListingValues: JobListingProps = {
   jobTitle: "",
-  jobType: "",
+  jobType: "Fresher",
   jobDescription: "",
   requirements: [""],
-  salary: "",
+  salary: 0,
 };
 
 export const jobListingValidateSchema = Yup.object({
@@ -87,7 +88,7 @@ export const jobListingValidateSchema = Yup.object({
   requirements: Yup.array().of(
     Yup.string().required("requirement must be added")
   ),
-  salary: Yup.string().required("salary Required!"),
+  salary: Yup.number().required("salary Required!"),
 });
 
 // Complete Profile values
@@ -127,7 +128,9 @@ export const editProfileValidateSchema = Yup.object({
   phone: Yup.string()
     .required("Phone Number Required!")
     .matches(/^(\+91|0)?[6789]\d{9}$/, "Invalid phone number!"),
-  street: Yup.string().required("Street required!"),
-  city: Yup.string().required("City required!"),
-  state: Yup.string().required("State required!"),
+  address: Yup.object().shape({
+    street: Yup.string().required("Street required!"),
+    city: Yup.string().required("City required!"),
+    state: Yup.string().required("State required!"),
+  }),
 });

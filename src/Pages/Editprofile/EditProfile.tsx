@@ -11,25 +11,18 @@ import { editProfileValidateSchema } from "../../components/Forms/formvalidation
 import { EditValues } from "../../Types/type";
 import { useNavigate } from "react-router";
 import userServices from "../../Firebase/user.services";
-import { authActions } from "../../store/authSlice";
 import { uploadPhoto } from "../../Firebase/firebase";
 import Navigation from "../../Layouts/Navigation/Navigation";
-import { fetchUser } from "../../store/userSlice";
+import { fetchUser, userActions } from "../../store/userSlice";
 import PreviewImg from "../../assets/preview.png";
 
 const EditProfile = () => {
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
   const id = useSelector((state: RootState) => state.auth.id);
   const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   if (id) {
-  //     dispatch(fetchUser(id) as any);
-  //   }
-  // }, [id]);
   return (
     <>
-      {currentUser.name !== "" && (
+      {currentUser && currentUser.name !== "" && (
         <Navigation component={<EditProfileComponent />} />
       )}
     </>
@@ -39,21 +32,35 @@ const EditProfileComponent = () => {
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
   const role = useSelector((state: RootState) => state.auth.role);
   const id = useSelector((state: RootState) => state.auth.id);
-  const [preview, setPreview] = useState(currentUser.profile || PreviewImg);
+  const [preview, setPreview] = useState(currentUser?.profile || PreviewImg);
   const [profileChange, setProfileChange] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const editValues = {
+  const editValues = currentUser && {
     name: currentUser.name,
     email: currentUser.email,
     phone: currentUser.phone,
     profile: currentUser.profile,
-    street: currentUser.address?.street,
-    city: currentUser.address?.city,
-    state: currentUser.address?.state,
-    resume: currentUser.resume,
+    address: {
+      street: currentUser.address?.street,
+      city: currentUser.address?.city,
+      state: currentUser.address?.state,
+    },
   };
+
+  if (role === "seeker") {
+    const firebaseUrl = currentUser?.resume!;
+    const startMarker = "%20"; // Start marker
+    const endMarker = "?"; // End marker
+
+    const startIndex = firebaseUrl.indexOf(startMarker) + startMarker.length;
+    const endIndex = firebaseUrl.indexOf(endMarker);
+
+    const fileName = firebaseUrl.substring(startIndex, endIndex);
+
+    console.log(fileName);
+  }
 
   const handleProfilePreview = (e: ChangeEvent<HTMLInputElement>): void => {
     const file: File | undefined = e.target.files?.[0];
@@ -75,7 +82,7 @@ const EditProfileComponent = () => {
 
     await userServices.updateUser(id, values);
     console.log("here");
-
+    dispatch(userActions.updateData(values));
     navigate("/all-jobs");
   };
 
@@ -83,7 +90,7 @@ const EditProfileComponent = () => {
     <>
       <FormLayout>
         <Formik
-          initialValues={editValues}
+          initialValues={editValues!}
           validationSchema={editProfileValidateSchema}
           onSubmit={onsubmit}
           enableReinitialize={true}
@@ -122,12 +129,30 @@ const EditProfileComponent = () => {
               <InputField lable="Phone" name="phone" type="text" />
               {role === "provider" && (
                 <>
-                  <InputField name="street" lable="Street" type="text" />
-                  <InputField name="city" lable="City" type="text" />
-                  <InputField name="state" lable="State" type="text" />
+                  <InputField
+                    name="address.street"
+                    lable="Street"
+                    type="text"
+                  />
+                  <InputField name="address.city" lable="City" type="text" />
+                  <InputField name="address.state" lable="State" type="text" />
                 </>
               )}
-              {role === "seeker" && <></>}
+              {role === "seeker" && (
+                <>
+                  <Field
+                    type="file"
+                    name="resume"
+                    id="resume"
+                    value={undefined}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                      setFieldValue("resume", e.currentTarget.files?.[0]);
+                    }}
+                    accept=".pdf"
+                    // hidden
+                  />
+                </>
+              )}
 
               <Button
                 variant="contained"
