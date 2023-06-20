@@ -11,15 +11,12 @@ import { fetchUser } from "../../store/userSlice";
 
 const Signup = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const id = useSelector((state: RootState) => state.auth.id);
   const role = useSelector((state: RootState) => state.auth.role)!;
   useEffect(() => {
     if (role === "") {
       error("Choose your role!");
       navigate("/");
     }
-    // dispatch(fetchUser(id) as any);
   }, []);
 
   return (

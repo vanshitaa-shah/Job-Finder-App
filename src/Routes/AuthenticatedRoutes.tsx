@@ -16,6 +16,10 @@ const AuthenticatedRoutes = () => {
   useEffect(() => {
     if (!isAuth) {
       navigate("/signup");
+    } else {
+      if (hasCompletedProfile !== undefined && !hasCompletedProfile) {
+        navigate("/complete-profile");
+      }
     }
   }, [isAuth]);
 

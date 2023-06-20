@@ -3,7 +3,6 @@
   min-height: calc(100vh - 60px);
   justify-content: center;
   align-items: center;
-  margin-top: 50px;
 }
 
 .container {
@@ -59,7 +58,10 @@
 }
 
 @media screen and (max-width: 425px) {
+  .mainContainer {
+    margin-top: 50px;
+  }
   .container {
-    width: 85%;
+    width: 100%;
   }
 }

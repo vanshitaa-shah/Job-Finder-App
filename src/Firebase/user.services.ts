@@ -19,12 +19,7 @@ class UserDataService {
     return addDoc(userCollectionRef, userData);
   };
 
-  updateUser = (
-    id: string,
-    updatedUser:
-      | (CompleteProfileProps & { hasCompletedProfile?: boolean })
-      | EditValues
-  ) => {
+  updateUser = (id: string, updatedUser: {}) => {
     const userDoc = doc(db, "users", id);
     if (userDoc) return updateDoc(userDoc, updatedUser);
     else throw new Error("wrong");

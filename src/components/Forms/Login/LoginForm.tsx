@@ -10,7 +10,6 @@ import { LoginValues } from "../../../Types/type";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { authActions } from "../../../store/authSlice";
-import { fetchUser } from "../../../store/userSlice";
 import userServices, { findUserByEmail } from "../../../Firebase/user.services";
 import { error, success } from "../../../utils/Toaster";
 
@@ -23,7 +22,9 @@ const LoginForm = () => {
     signInWithEmailAndPassword(auth, values.email, values.password)
       .then(async (res) => {
         const user = res.user;
+
         const id = await findUserByEmail(user.email!);
+
         const data = (await userServices.getUser(id!)).data();
         if (role && data?.role && data.role === role) {
           dispatch(authActions.authentication());
@@ -33,7 +34,10 @@ const LoginForm = () => {
           error("Invaild Access");
         }
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => {
+        if (err.code === "auth/user-not-found") error("User does not exist!");
+        else if (err.code === "auth/wrong-password") error("Invalid Password!");
+      });
   };
   return (
     <>
