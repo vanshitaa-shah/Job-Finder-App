@@ -13,7 +13,7 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Avatar, Button } from "@mui/material";
 import Styles from "./Navigation.module.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { NavigationProps, Role } from "../../Types/type";
 import { RootState } from "../../store";
 import { useDispatch, useSelector } from "react-redux";
@@ -80,6 +80,7 @@ const sidebarHandler = () => {
 };
 export default function Navigation({ component }: NavigationProps) {
   const theme = useTheme();
+  const location = useLocation();
   const [open, setOpen] = React.useState(sidebarHandler);
   const role = useSelector((state: RootState) => state.auth.role);
   const profile = useSelector(
@@ -106,6 +107,11 @@ export default function Navigation({ component }: NavigationProps) {
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+
+  const isActive = (path: string) => {
+    console.log("here");
+    return location.pathname === path ? `${Styles.active}` : "";
   };
 
   return (
@@ -156,18 +162,30 @@ export default function Navigation({ component }: NavigationProps) {
           <Avatar className={Styles.avatar} src={profile} />
           {role == "provider" && (
             <>
-              <Link to="/all-jobs">All Jobs</Link>
-              <Link to="/add-job">Add Job</Link>
-              <Link to="/applicants">Applicants</Link>
+              <Link to="/all-jobs" className={isActive("/all-jobs")}>
+                All Jobs
+              </Link>
+              <Link to="/add-job" className={isActive("/add-job")}>
+                Add Job
+              </Link>
+              {/* <Link to="/applicants" className={isActive("/applicants")}>
+                Applicants
+              </Link> */}
             </>
           )}
           {role === "seeker" && (
             <>
-              <Link to="/all-jobs">All Jobs</Link>
-              <Link to="/applications">Applications</Link>
+              <Link to="/all-jobs" className={isActive("/all-jobs")}>
+                All Jobs
+              </Link>
+              <Link to="/applications" className={isActive("/applications")}>
+                Applications
+              </Link>
             </>
           )}
-          <Link to="/edit-profile">Edit Profile</Link>
+          <Link to="/edit-profile" className={isActive("/edit-profile")}>
+            Edit Profile
+          </Link>
           <Link to="/" onClick={logout}>
             Logout
           </Link>
