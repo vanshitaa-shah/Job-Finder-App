@@ -4,6 +4,27 @@
   margin-bottom: 5rem !important;
   position: relative;
 }
+.fileControl {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+.fileControl input {
+  border: 1px solid #c6c5c5;
+  padding: 15px;
+  border-radius: 4px;
+}
+
+.fileControl label {
+  font-size: 0.84rem;
+  color: #646464;
+  margin-left: 10px;
+  padding: 0 3px;
+  position: absolute;
+  background: white;
+  top: -9px;
+}
 .formControl p {
   color: red;
   font-size: 0.9rem;
@@ -30,4 +51,14 @@
   border-radius: 50%;
   object-fit: contain;
   border: 1px solid rgb(203, 203, 255);
+}
+
+.fileName {
+  font-size: 0.85rem;
+  color: black;
+  background: white;
+  position: absolute;
+  padding: 10px;
+  top: 7px;
+  left: 100px;
 }

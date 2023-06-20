@@ -56,7 +56,7 @@ const JobCard = ({
   };
 
   const editJobHandler = () => {
-    navigate("/edit-job", { state: { jobData } });
+    navigate(`/edit-job/${jobData.id}`, { state: { jobData } });
   };
 
   const deleteJobHandler = async (id: string) => {

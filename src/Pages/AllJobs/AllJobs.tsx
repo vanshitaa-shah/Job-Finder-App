@@ -17,8 +17,9 @@ const AllJobs = () => {
     (state: RootState) => state.user.currentUser?.email
   );
   const dispatch = useDispatch();
-
   useEffect(() => {
+    console.log("here", email);
+
     if (email) {
       if (role === "seeker") {
         dispatch(fetchJobs() as any);
@@ -26,7 +27,7 @@ const AllJobs = () => {
 
       dispatch(fetchUsers() as any);
     }
-  }, []);
+  }, [email, role]);
 
   return (
     <>

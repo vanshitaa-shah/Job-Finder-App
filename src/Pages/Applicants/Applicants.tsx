@@ -10,12 +10,6 @@ import Styles from "./Applicants.module.css";
 const Applicants = () => {
   const id = useSelector((state: RootState) => state.auth.id);
   const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   if (id) {
-  //     dispatch(fetchUser(id) as any);
-  //   }
-  // });
   return (
     <>
       <Navigation component={<ApplicantsComponent />} />
