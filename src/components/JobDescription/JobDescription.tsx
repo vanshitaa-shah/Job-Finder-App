@@ -47,12 +47,11 @@ const JobDescription = ({
           </Typography>
 
           <Typography component="div"> Requirements :</Typography>
-          <Typography>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad, odio
-            similique. Necessitatibus tempora iusto cum, ducimus ipsam
-            perspiciatis. Quo iste doloremque sequi sapiente, ab itaque
-            exercitationem sunt quam deserunt error?
-          </Typography>
+          <ul className={Styles.requirements}>
+            {descriptionData.requirements.map((requirement, idx) => {
+              return <li key={idx}>{requirement}</li>;
+            })}
+          </ul>
           <hr />
           <Typography>
             <strong> Contact Info </strong>
