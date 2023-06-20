@@ -7,7 +7,7 @@ import Styles from "../../Layouts/Navigation/Navigation.module.css";
 import ContainerLayout from "../../Layouts/Container/ContainerLayout";
 import { RootState } from "../../store";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchJobs, fetchJobsByEmail } from "../../store/jobSlice";
+import { fetchJobs, fetchJobsByEmail, Job } from "../../store/jobSlice";
 import { fetchUsers } from "../../store/userSlice";
 import { DescriptionType } from "../../Types/type";
 
@@ -37,23 +37,34 @@ const AllJobs = () => {
 };
 
 const AllJobsComponent = () => {
+  const role = useSelector((state: RootState) => state.auth.role);
+  const jobs = useSelector((state: RootState) => state.job.jobs);
+  const [showDescription, setShowDescription] = useState(false);
+  const [applicableJobs, setApplicableJobs] = useState<Job[]>([] as Job[]);
   const [description, setDescription] = useState<DescriptionType>(
     {} as DescriptionType
   );
-  const [showDescription, setShowDescription] = useState(false);
-  const jobs = useSelector((state: RootState) => state.job.jobs);
-  console.log(jobs);
+  const applications = useSelector(
+    (state: RootState) => state.user.currentUser?.applications
+  );
+
+  useEffect(() => {
+    const filteredJobs = jobs.filter((job) => !applications?.includes(job.id!));
+    setApplicableJobs(filteredJobs);
+  }, [jobs]);
 
   return (
     <>
       <ContainerLayout>
         <div className={Styles.jobsContainer}>
-          {jobs.map((job) => (
+          {applicableJobs.map((job) => (
             <JobCard
               key={job.id}
               setDescription={setDescription}
               showDescription={setShowDescription}
               jobData={job}
+              applicableJobs={applicableJobs}
+              setApplicableJobs={setApplicableJobs!}
             />
           ))}
         </div>

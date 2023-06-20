@@ -7,15 +7,10 @@ import ContainerLayout from "../../Layouts/Container/ContainerLayout";
 import { fetchUser } from "../../store/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
+import { DescriptionType } from "../../Types/type";
+import { Job } from "../../store/jobSlice";
 
 const Applications = () => {
-  const id = useSelector((state: RootState) => state.auth.id);
-  const dispatch = useDispatch();
-  // useEffect(() => {
-  //   if (id) {
-  //     dispatch(fetchUser(id) as any);
-  //   }
-  // });
   return (
     <>
       <Navigation component={<ApplicationsComponent />} />
@@ -24,20 +19,41 @@ const Applications = () => {
 };
 
 const ApplicationsComponent = () => {
+  const [description, setDescription] = useState<DescriptionType>(
+    {} as DescriptionType
+  );
+  const applications = useSelector(
+    (state: RootState) => state.user.currentUser?.applications
+  );
   const [showDescription, setShowDescription] = useState(false);
+  const jobs = useSelector((state: RootState) => state.job.jobs);
+  const [appliedJobs, setAppliedJobs] = useState<Job[]>([] as Job[]);
+
+  useEffect(() => {
+    const filteredJobs = jobs.filter((job) => applications?.includes(job.id!));
+    setAppliedJobs(filteredJobs);
+  }, [jobs]);
+
   return (
     <>
       <ContainerLayout>
         <div className={Styles.jobsContainer}>
-          <JobCard showDescription={setShowDescription} applied={true} />
-          <JobCard showDescription={setShowDescription} applied={true} />
-          <JobCard showDescription={setShowDescription} applied={true} />
-          <JobCard showDescription={setShowDescription} applied={true} />
-          <JobCard showDescription={setShowDescription} applied={true} />
+          {appliedJobs.map((job) => (
+            <JobCard
+              key={job.id}
+              setDescription={setDescription}
+              showDescription={setShowDescription}
+              jobData={job}
+              applied={true}
+            />
+          ))}
         </div>
         {showDescription && (
           <div className={Styles.descriptionContainer}>
-            <JobDescription showDescription={setShowDescription} />
+            <JobDescription
+              showDescription={setShowDescription}
+              descriptionData={description}
+            />
           </div>
         )}
       </ContainerLayout>
