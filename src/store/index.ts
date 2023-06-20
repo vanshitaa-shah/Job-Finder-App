@@ -9,8 +9,9 @@ const store = configureStore({
     auth: authReducer,
     user: userReducer,
     job: jobReducer,
-    loading: loadingReducer
+    loading: loadingReducer,
   },
 });
 export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
 export default store;

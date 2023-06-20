@@ -19,9 +19,6 @@ import SeekerRoutes from "./SeekerRoutes";
 
 const AllRoutes = () => {
   const role = useSelector((state: RootState) => state.auth.role);
-  const hasCompletedProfile = useSelector(
-    (state: RootState) => state.user.currentUser?.hasCompletedProfile
-  );
   console.log(role);
 
   return (
@@ -34,17 +31,15 @@ const AllRoutes = () => {
         </Route>
         <Route path="" element={<AuthenticatedRoutes />}>
           <Route path="complete-profile" element={<Profile />} />
+          <Route path="all-jobs" element={<AllJobs />} />
+          <Route path="edit-profile" element={<EditProfile />} />
           <Route path="" element={<ProviderRoutes />}>
-            <Route path="all-jobs" element={<AllJobs />} />
             <Route path="add-job" element={<AddJob />} />
-            <Route path="edit-job" element={<AddJob type="edit" />} />
-            <Route path="applicants" element={<Applicants />} />
-            <Route path="edit-profile" element={<EditProfile />} />
+            <Route path="edit-job/:id" element={<AddJob type="edit" />} />
+            <Route path="applicants/:id" element={<Applicants />} />
           </Route>
           <Route path="" element={<SeekerRoutes />}>
-            <Route path="all-jobs" element={<AllJobs />} />
             <Route path="applications" element={<Applications />} />
-            <Route path="edit-profile" element={<EditProfile />} />
           </Route>
         </Route>
 

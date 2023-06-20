@@ -12,6 +12,10 @@
   margin-bottom: 10px;
 }
 
+.formContainer p {
+  bottom: -20px !important;
+}
+
 @media screen and (max-width: 1024px) {
   .container {
     width: 90%;

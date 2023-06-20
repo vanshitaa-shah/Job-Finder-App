@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import jobServices from "../Firebase/job.services";
+import { Applicant } from "../Types/type";
 import { setLoading } from "./loadingSlice";
 
 export interface Job {
@@ -10,7 +11,7 @@ export interface Job {
   jobDescription: string;
   requirements: string[];
   salary: number;
-  applicants: string[];
+  applicants: Applicant[];
 }
 
 const initialState: { jobs: Array<Job> } = { jobs: [] };
