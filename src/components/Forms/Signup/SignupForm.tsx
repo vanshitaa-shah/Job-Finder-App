@@ -53,7 +53,7 @@ const SignupForm = () => {
 
     try {
       await createUserWithEmailAndPassword(auth, values.email, values.password);
-      await userServices.addUser(userData);
+      await userServices.addUser({ ...userData, applications: [] as string[] });
       success("User Added Successfully");
       navigate("/complete-profile");
       dispatch(authActions.authentication());
