@@ -13,7 +13,7 @@
 .sliderBackground {
   display: none;
   width: 100vw;
-  height: 100vh;
+  height: 1000vh;
   position: absolute;
   top: 0;
   left: 0;
@@ -44,6 +44,11 @@
   margin: 10px;
 }
 
+.noData {
+  max-width: 600px;
+  object-fit: contain;
+}
+
 @media screen and (max-width: 1024px) {
   .jobsContainer {
     width: 100%;
@@ -62,5 +67,8 @@
 @media screen and (max-width: 768px) {
   .sliderBackground {
     display: block;
+  }
+  .noData {
+    max-width: 400px;
   }
 }
