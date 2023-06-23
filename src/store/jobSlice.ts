@@ -1,16 +1,17 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import jobServices from "../Firebase/job.services";
+import { Applicant } from "../Types/type";
 import { setLoading } from "./loadingSlice";
 
 export interface Job {
-  id: string;
+  id?: string;
   providerEmail: string;
   jobTitle: string;
-  jobType: "Intern" | "Fresher" | "Experienced";
+  jobType: "Intern" | "Fresher" | "Experienced" | "";
   jobDescription: string;
   requirements: string[];
   salary: number;
-  applicants?: string[];
+  applicants: Applicant[];
 }
 
 const initialState: { jobs: Array<Job> } = { jobs: [] };
@@ -46,6 +47,7 @@ export const fetchJobsByEmail = createAsyncThunk(
           jobDescription: job.data().jobDescription,
           requirements: job.data().requirements,
           salary: job.data().salary,
+          applicants: job.data().applicants || [],
         };
         userJobs.push(jobData);
       }
@@ -69,6 +71,7 @@ export const fetchJobs = createAsyncThunk(
         jobDescription: job.data().jobDescription,
         requirements: job.data().requirements,
         salary: job.data().salary,
+        applicants: job.data().applicants,
       };
       userJobs.push(jobData);
     });

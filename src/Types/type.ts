@@ -8,6 +8,8 @@ export type NavigationProps = {
 export type JobCardProps = {
   showDescription: React.Dispatch<React.SetStateAction<boolean>>;
   setDescription: React.Dispatch<React.SetStateAction<DescriptionType>>;
+  applicableJobs?: Job[];
+  setApplicableJobs?: React.Dispatch<React.SetStateAction<Job[]>>;
   jobData: Job;
   applied?: boolean;
 };
@@ -21,7 +23,7 @@ export type DescriptionType = {
   state: string;
   city: string;
   jobTitle: string;
-  jobType: "Intern" | "Fresher" | "Experienced";
+  jobType: "Intern" | "Fresher" | "Experienced" | "";
   salary: number;
   description: string;
   requirements: string[];
@@ -49,7 +51,6 @@ export type SignupValues = {
 
 export type EditValues = {
   name?: string;
-  email: string;
   profile: string;
   phone: string;
   street?: string;
@@ -124,9 +125,20 @@ export type Role = {
 
 export type User = JobSeeker &
   JobProvider &
-  Role & { hasCompletedProfile: boolean };
+  Role & { hasCompletedProfile: boolean } & { applications: String[] };
 
 export type UserSliceType = {
   users: User[];
   currentUser: User | null;
+};
+
+export type Applicant = {
+  applicantEmail: string;
+  status: "pending" | "approved" | "rejected";
+};
+
+export type ApplicantCardProps = {
+  applicant: Applicant;
+  allApplicants: Applicant[];
+  setApplicants: React.Dispatch<React.SetStateAction<Applicant[]>>;
 };
