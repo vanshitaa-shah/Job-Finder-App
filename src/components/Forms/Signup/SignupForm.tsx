@@ -53,12 +53,15 @@ const SignupForm = () => {
 
     try {
       await createUserWithEmailAndPassword(auth, values.email, values.password);
-      await userServices.addUser(userData);
+      await userServices.addUser({
+        ...userData,
+        applications: [] as String[],
+      });
       success("User Added Successfully");
       navigate("/complete-profile");
       dispatch(authActions.authentication());
     } catch {
-      error("something went wrong!");
+      error("User Already exist!");
     }
   };
 

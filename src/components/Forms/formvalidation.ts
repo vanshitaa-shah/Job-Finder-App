@@ -59,7 +59,9 @@ export const signupValidateSchema = Yup.object({
     .required("Phone Number Required!")
     .matches(/^(\+91|0)?[6789]\d{9}$/, "Invalid phone number!"),
 
-  password: Yup.string().required("Password Required!"),
+  password: Yup.string()
+    .min(6, "Weak Password!")
+    .required("Password Required!"),
 
   confirmPassword: Yup.string()
     .required("Required!")
@@ -116,13 +118,6 @@ export const resumeValidateSchema = Yup.object({
 export const editProfileProviderValidateSchema = Yup.object({
   name: Yup.string().max(20, "Name too long!").required("Name Required!"),
 
-  email: Yup.string()
-    .required("Email Required!")
-    .matches(
-      /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/,
-      "Invaild Email Format!"
-    ),
-
   profile: Yup.mixed().required("Profile photo Required!"),
 
   phone: Yup.string()
@@ -136,13 +131,6 @@ export const editProfileProviderValidateSchema = Yup.object({
 });
 export const editProfileSeekerValidateSchema = Yup.object({
   name: Yup.string().max(20, "Name too long!").required("Name Required!"),
-
-  email: Yup.string()
-    .required("Email Required!")
-    .matches(
-      /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/,
-      "Invaild Email Format!"
-    ),
 
   profile: Yup.mixed().required("Profile photo Required!"),
 

@@ -3,7 +3,7 @@ import { Form, Formik } from "formik";
 import { jobListingValidateSchema, jobListingValues } from "../formvalidation";
 import InputField from "../InputField/InputField";
 import Styles from "./AddJobComponent.module.css";
-import { EditJobType, JobListingProps } from "../../../Types/type";
+import { Applicant, EditJobType, JobListingProps } from "../../../Types/type";
 import { useLocation, useNavigate } from "react-router";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
@@ -33,12 +33,15 @@ const AddJobComponent = ({ type }: { type?: string }) => {
       const jobData: Job = location.state.jobData;
       const id = jobData.id;
       if (editValues) {
-        await jobServices.updateJob(id, values);
+        if (id) await jobServices.updateJob(id, values);
       }
       navigate("/all-jobs");
     } else {
-      const jobData = { ...values, providerEmail: email };
-      await jobServices.addjob(jobData);
+      if (email) {
+        const jobData = { ...values, providerEmail: email };
+        const applicants = [] as Applicant[];
+        await jobServices.addjob({ ...jobData, applicants: applicants });
+      }
 
       navigate("/all-jobs");
     }
