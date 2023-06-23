@@ -51,7 +51,6 @@ export type SignupValues = {
 
 export type EditValues = {
   name?: string;
-  email: string;
   profile: string;
   phone: string;
   street?: string;
@@ -126,9 +125,20 @@ export type Role = {
 
 export type User = JobSeeker &
   JobProvider &
-  Role & { hasCompletedProfile: boolean } & { applications: string[] };
+  Role & { hasCompletedProfile: boolean } & { applications: String[] };
 
 export type UserSliceType = {
   users: User[];
   currentUser: User | null;
+};
+
+export type Applicant = {
+  applicantEmail: string;
+  status: "pending" | "approved" | "rejected";
+};
+
+export type ApplicantCardProps = {
+  applicant: Applicant;
+  allApplicants: Applicant[];
+  setApplicants: React.Dispatch<React.SetStateAction<Applicant[]>>;
 };
