@@ -11,7 +11,7 @@ import {
 import Styles from "./JobCard.module.css";
 import { DescriptionType, JobCardProps } from "../../../Types/type";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../store";
+import { AppDispatch, RootState } from "../../../store";
 import { useNavigate } from "react-router";
 import jobServices from "../../../Firebase/job.services";
 import { fetchJobs, fetchJobsByEmail } from "../../../store/jobSlice";
@@ -29,7 +29,7 @@ const JobCard = ({
   jobData,
 }: JobCardProps) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const role = useSelector((state: RootState) => state.auth.role);
   const id = useSelector((state: RootState) => state.auth.id);
   const email = useSelector(
@@ -73,7 +73,7 @@ const JobCard = ({
 
   const deleteJobHandler = async (id: string) => {
     await jobServices.deleteJob(id);
-    if (email) dispatch(fetchJobsByEmail(email) as any);
+    if (email) dispatch(fetchJobsByEmail(email));
   };
 
   const jobApplyHandler = async () => {
@@ -81,7 +81,7 @@ const JobCard = ({
     if (email) {
       const allApplicants = [...jobData.applicants];
       const allApplicantions = [...applications];
-      allApplicants.push(email);
+      allApplicants.push({ applicantEmail: email, status: "pending" });
       await jobServices.updateJob(jobData.id!, { applicants: allApplicants });
       allApplicantions.push(jobData.id!);
       await userServices.updateUser(id, { applications: allApplicantions });
@@ -90,7 +90,7 @@ const JobCard = ({
       );
       if (setApplicableJobs && filteredJobs) setApplicableJobs(filteredJobs);
       success(`Applied for ${jobData.jobTitle} in ${providerUserData?.name}!`);
-      dispatch(fetchUser(id) as any);
+      dispatch(fetchUser(id));
     }
   };
 
@@ -108,39 +108,31 @@ const JobCard = ({
           <Typography>Job Type : {jobData.jobType}</Typography>
           <Typography>Salary : {jobData.salary}</Typography>
         </CardContent>
-        <CardActions>
-          <Button
-            variant="contained"
-            size="small"
-            color="primary"
-            onClick={descriptionHandler}
-          >
+        <CardActions className={Styles.actionBtns}>
+          <Button size="small" color="primary" onClick={descriptionHandler}>
             Read More
           </Button>
           {role === "provider" && (
             <>
-              <IconButton
-                color="primary"
-                className={Styles.close}
-                onClick={editJobHandler}
+              <Button
+                size="small"
+                onClick={() => navigate(`/applicants/${jobData.id}`)}
               >
+                View Applicants
+              </Button>
+              <IconButton color="primary" onClick={editJobHandler}>
                 <Edit />
               </IconButton>
               <IconButton
                 color="primary"
-                className={Styles.close}
                 onClick={() => deleteJobHandler(jobData.id!)}
               >
                 <Delete />
               </IconButton>
-              <Button onClick={() => navigate(`/applicants/${jobData.id}`)}>
-                View Applicants
-              </Button>
             </>
           )}
           {role === "seeker" && !applied && (
             <Button
-              variant="outlined"
               size="small"
               color="primary"
               onClick={jobApplyHandler}

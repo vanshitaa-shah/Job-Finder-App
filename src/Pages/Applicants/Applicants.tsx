@@ -1,17 +1,18 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router";
+import { useParams } from "react-router";
 import ApplicantCard from "../../components/Card/ApplicantCard/ApplicantCard";
 import jobServices from "../../Firebase/job.services";
 import ContainerLayout from "../../Layouts/Container/ContainerLayout";
 import Navigation from "../../Layouts/Navigation/Navigation";
-import { RootState } from "../../store";
-import { fetchUser } from "../../store/userSlice";
 import Styles from "./Applicants.module.css";
+import MainStyles from "../../Layouts/Navigation/Navigation.module.css";
+import Img from "../../assets/no-data.jpg";
+import { Applicant } from "../../Types/type";
+import { AppDispatch, RootState } from "../../store";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchJobsByEmail } from "../../store/jobSlice";
 
 const Applicants = () => {
-  const id = useSelector((state: RootState) => state.auth.id);
-  const dispatch = useDispatch();
   return (
     <>
       <Navigation component={<ApplicantsComponent />} />
@@ -20,12 +21,17 @@ const Applicants = () => {
 };
 
 const ApplicantsComponent = () => {
+  const email = useSelector(
+    (state: RootState) => state.user.currentUser?.email
+  )!;
   const jobId = useParams().id!;
-  const [applicants, setApplicants] = useState<string[]>([] as string[]);
+  const [applicants, setApplicants] = useState<Applicant[]>([] as Applicant[]);
   const getJobData = async () => {
     const jobData = (await jobServices.getJob(jobId)).data();
+    console.log("Applicants data ", jobData?.applicants);
     setApplicants(jobData?.applicants);
   };
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     getJobData();
@@ -35,9 +41,20 @@ const ApplicantsComponent = () => {
     <>
       <ContainerLayout>
         <div className={Styles.applicantsContainer}>
-          {applicants.map((applicant, idx) => {
-            return <ApplicantCard key={idx} applicantEmail={applicant} />;
-          })}
+          {!applicants[0] ? (
+            <img src={Img} className={MainStyles.noData} />
+          ) : (
+            applicants.map((applicant, idx) => {
+              return (
+                <ApplicantCard
+                  key={idx}
+                  applicant={applicant}
+                  allApplicants={applicants}
+                  setApplicants={setApplicants}
+                />
+              );
+            })
+          )}
         </div>
       </ContainerLayout>
     </>
