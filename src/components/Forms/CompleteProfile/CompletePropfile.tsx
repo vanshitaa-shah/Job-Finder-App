@@ -17,7 +17,7 @@ import {
   CompleteProfileProps,
   seekerCompleteProfileProps,
 } from "../../../Types/type";
-import { RootState } from "../../../store";
+import { AppDispatch, RootState } from "../../../store";
 import userServices, { findUserByEmail } from "../../../Firebase/user.services";
 import { auth, uploadResume } from "../../../Firebase/firebase";
 import { authActions } from "../../../store/authSlice";
@@ -32,7 +32,7 @@ const CompletePropfile = () => {
   const hasCompletedProfile = useSelector(
     (state: RootState) => state.user.currentUser?.hasCompletedProfile
   );
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleResume = (e: ChangeEvent<HTMLInputElement>): void => {
     const file: File | undefined = e.target.files?.[0];
@@ -57,7 +57,7 @@ const CompletePropfile = () => {
       }
       values = { ...values, hasCompletedProfile: true };
       await userServices.updateUser(id, values);
-      dispatch(fetchUser(id) as any);
+      dispatch(fetchUser(id));
       navigate("/all-jobs");
       success("Profile Completion successful!");
     } catch {

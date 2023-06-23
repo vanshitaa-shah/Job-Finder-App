@@ -48,7 +48,6 @@ const EditProfileComponent = () => {
     (role === "provider"
       ? {
           name: currentUser.name,
-          email: currentUser.email,
           phone: currentUser.phone,
           profile: currentUser.profile,
           address: {
@@ -59,7 +58,6 @@ const EditProfileComponent = () => {
         }
       : {
           name: currentUser.name,
-          email: currentUser.email,
           phone: currentUser.phone,
           profile: currentUser.profile,
           resume: currentUser.resume,
@@ -149,7 +147,6 @@ const EditProfileComponent = () => {
               </div>
 
               <InputField lable="Name" name="name" type="text" />
-              <InputField lable="Email" name="email" type="email" />
               <InputField lable="Phone" name="phone" type="text" />
               {role === "provider" && (
                 <>
