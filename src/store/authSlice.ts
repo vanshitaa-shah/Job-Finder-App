@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchUser } from "./userSlice";
+import { AuthSliceType } from "../Types/types";
 
-const initialState = {
+// Storing data of this slice in Local Storage
+const initialState: AuthSliceType = {
   id: "",
   role: localStorage.getItem("role") || "",
   isAuthenticated: Boolean(localStorage.getItem("isAuthenticated")) || false,
@@ -16,8 +17,6 @@ const authSlice = createSlice({
     },
 
     addRole: (state, action) => {
-      console.log("here");
-
       state.role = action.payload;
       localStorage.setItem("role", action.payload);
     },

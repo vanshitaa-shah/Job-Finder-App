@@ -8,14 +8,15 @@ import { RootState } from "../../store";
 
 const Profile = () => {
   const navigate = useNavigate();
-  const currentUser = useSelector((state: RootState) => state.user.currentUser);
   const hasCompletedProfile = useSelector(
     (state: RootState) => state.user.currentUser?.hasCompletedProfile
   );
 
   useEffect(() => {
+    // If profile already completed
     if (hasCompletedProfile) navigate("/all-jobs");
   }, [hasCompletedProfile]);
+
   return (
     <>
       {hasCompletedProfile !== undefined && !hasCompletedProfile && (

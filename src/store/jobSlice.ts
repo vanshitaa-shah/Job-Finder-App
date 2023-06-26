@@ -1,18 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import jobServices from "../Firebase/job.services";
-import { Applicant } from "../Types/type";
+import { Job } from "../Types/types";
 import { setLoading } from "./loadingSlice";
-
-export interface Job {
-  id?: string;
-  providerEmail: string;
-  jobTitle: string;
-  jobType: "Intern" | "Fresher" | "Experienced" | "";
-  jobDescription: string;
-  requirements: string[];
-  salary: number;
-  applicants: Applicant[];
-}
 
 const initialState: { jobs: Array<Job> } = { jobs: [] };
 const jobSlice = createSlice({
@@ -23,14 +12,15 @@ const jobSlice = createSlice({
       state.jobs = action.payload;
     },
   },
+
   extraReducers: (builder) => {
     builder.addCase(fetchJobs.fulfilled, (state, action) => {
       state.jobs = action.payload;
-      console.log(state.jobs);
     });
   },
 });
 
+// Thunk for fetching Jobs of specific provider
 export const fetchJobsByEmail = createAsyncThunk(
   "job/fetchJobs",
   async (email: string | null, { dispatch }) => {
@@ -56,6 +46,8 @@ export const fetchJobsByEmail = createAsyncThunk(
     return userJobs;
   }
 );
+
+// Thunk for fetching All the Jobs
 export const fetchJobs = createAsyncThunk(
   "job/fetchJobs",
   async (_, { dispatch }) => {

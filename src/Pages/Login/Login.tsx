@@ -11,12 +11,15 @@ import { RootState } from "../../store";
 const Login = () => {
   const navigate = useNavigate();
   const role = useSelector((state: RootState) => state.auth.role)!;
+
   useEffect(() => {
+    // If rile not chosen
     if (role === "") {
       error("Choose your role!");
       navigate("/");
     }
   }, []);
+
   return (
     <>
       <Navbar />

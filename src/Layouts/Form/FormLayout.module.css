@@ -7,7 +7,7 @@
 
 .container {
   padding: 20px;
-  border: 1px solid #fff4ff;
+  border: 1px solid var(--primary-light-color);
   position: relative;
   box-shadow: 0px 1px 6px 0 rgb(0 0 0 / 30%);
   width: 500px;
@@ -16,7 +16,7 @@
 .container h5 {
   text-align: center;
   font-weight: bold;
-  color: #1976d2;
+  color: var(--primary-color);
   margin-bottom: 15px;
 }
 .container p {
@@ -29,32 +29,6 @@
 
 .container a:hover {
   text-decoration: underline;
-}
-
-.uploadForm {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 20px;
-}
-
-.fileInput {
-  padding: 10px;
-  margin-bottom: 10px;
-}
-
-.uploadButton {
-  padding: 10px 20px;
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.uploadButton:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
 }
 
 @media screen and (max-width: 425px) {

@@ -1,4 +1,4 @@
-import { Download, Delete } from "@mui/icons-material";
+import { Visibility } from "@mui/icons-material";
 import {
   Avatar,
   Button,
@@ -7,14 +7,15 @@ import {
   CardContent,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router";
 import jobServices from "../../../Firebase/job.services";
 import { RootState } from "../../../store";
-import { Applicant, ApplicantCardProps } from "../../../Types/type";
+import { Applicant } from "../../../Types/types";
+import { ApplicantCardProps } from "../../../Types/props";
 import Styles from "./ApplicantCard.module.css";
 import emailjs from "@emailjs/browser";
+import { error, success } from "../../../utils/Toaster";
 
 const ApplicantCard = ({
   applicant,
@@ -29,15 +30,9 @@ const ApplicantCard = ({
     (user) => user.email === applicant.applicantEmail
   )[0];
 
-  const [isActionDone, setIsActionDone] = useState(
-    () => applicant.status !== "pending"
-  );
-
-  console.log(applicant.status);
-
+  // Logic for Job application Approval, mail will be sent via emailJS
   const jobApprovalHandler = async () => {
-    setIsActionDone(true);
-    const updatedArray: Applicant[] = allApplicants.map((data) => {
+    const updatedArray: Applicant[] = allApplicants.map((data: Applicant) => {
       if (data.applicantEmail === applicant.applicantEmail)
         return { ...data, status: "approved" };
       return data;
@@ -45,6 +40,8 @@ const ApplicantCard = ({
     setApplicants(updatedArray);
     await jobServices.updateJob(jobId!, { applicants: updatedArray });
     const jobData = (await jobServices.getJob(jobId!)).data()!;
+
+    // details used while sending mail
     const obj = {
       company_name: `${currentUser?.name}`,
       applicant_email: `${applicant.applicantEmail}`,
@@ -54,21 +51,24 @@ const ApplicantCard = ({
     };
     emailjs
       .send("service_yf4xgzi", "template_5jxg2gq", obj, "eQ6CurafOsxHONXPd")
-      .then((res) => console.log(res.status))
-      .catch((err) => console.log(err, err.message));
+      .then(() => success("Mail sent to the applicant successfully!"))
+      .catch(() => error("Error in sending Mail!"));
     setApplicants(updatedArray);
   };
 
+  // Logic for Job application rejection, mail will be sent via emailJS
   const jobRejectionHandler = async () => {
-    setIsActionDone(true);
-    const updatedArray: Applicant[] = allApplicants.map((data) => {
+    const updatedArray: Applicant[] = allApplicants.map((data: Applicant) => {
       if (data.applicantEmail === applicant.applicantEmail)
         return { ...data, status: "rejected" };
       return data;
     });
+
     setApplicants(updatedArray);
     await jobServices.updateJob(jobId!, { applicants: updatedArray });
     const jobData = (await jobServices.getJob(jobId!)).data()!;
+
+    // details used while sending mail
     const obj = {
       company_name: `${currentUser?.name}`,
       applicant_email: `${applicant.applicantEmail}`,
@@ -78,40 +78,59 @@ const ApplicantCard = ({
     };
     emailjs
       .send("service_yf4xgzi", "template_5jxg2gq", obj, "eQ6CurafOsxHONXPd")
-      .then((res) => console.log(res.status))
-      .catch((err) => console.log(err, err.message));
+      .then(() => success("Mail sent to the applicant successfully!"))
+      .catch(() => error("Error in sending Mail!"));
   };
 
   return (
     <>
       <Card className={Styles.card}>
-        <div className={Styles.cardHeader}>
+        {/* card header */}
+        <div
+          className={`${Styles.cardHeader} ${
+            applicant.status !== "pending" &&
+            (applicant.status === "approved"
+              ? Styles.cardHeaderApproved
+              : Styles.cardHeaderRejected)
+          }`}
+        >
           <Avatar className={Styles.avatar} src={applicantData.profile} />
         </div>
+
+        {/* card content */}
         <CardContent>
           <Typography>Name : {applicantData.name}</Typography>
           <Typography>Email : {applicantData.email}</Typography>
           <Typography>Phone : {applicantData.phone}</Typography>
         </CardContent>
+
+        {/* card Actions:view resume functionality */}
         <CardActions>
           <a href={applicantData.resume} target="_blank">
-            <Button startIcon={<Download />}>Resume</Button>
+            <Button startIcon={<Visibility />}>Resume</Button>
           </a>
         </CardActions>
+
+        {/* card Actions:Related to job application's status */}
         <CardActions>
           <Button
             variant="outlined"
             color="success"
             onClick={jobApprovalHandler}
-            disabled={isActionDone}
+            disabled={
+              applicant.status === "approved" || applicant.status != "pending"
+            }
           >
             {applicant.status === "approved" ? "approved" : "approve"}
           </Button>
+
           <Button
             variant="outlined"
             color="error"
             onClick={jobRejectionHandler}
-            disabled={isActionDone}
+            disabled={
+              applicant.status === "rejected" || applicant.status != "pending"
+            }
           >
             {applicant.status === "rejected" ? "rejected" : "reject"}
           </Button>

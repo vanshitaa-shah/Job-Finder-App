@@ -3,7 +3,7 @@
   border-radius: 10px !important;
   width: 80% !important;
   height: fit-content;
-  word-break: break-all;
+  word-wrap: break-word;
   position: relative;
 }
 .actionBtns {
@@ -16,8 +16,8 @@
 .cardHeader {
   display: flex;
   align-items: center;
-  background-color: rgb(230 239 255);
-  border-left: 5px solid #1976d2;
+  background-color: var(--primary-light-color);
+  border-left: 5px solid var(--primary-color);
   flex-wrap: wrap;
 }
 .cardHeader .avatar {
@@ -26,7 +26,7 @@
   margin: 10px 30px !important;
 }
 .cardHeader h5 {
-  color: #1976d2;
+  color: var(--primary-color);
   font-size: 1.3rem !important;
   font-weight: bold !important;
 }

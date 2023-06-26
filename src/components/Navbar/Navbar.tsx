@@ -14,12 +14,14 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const logout = () => {
+    // Firebase method for user logout
     signOut(auth).then(() => {
       dispatch(authActions.resetAuthInfo());
       dispatch(userActions.resetData());
       navigate("/");
     });
   };
+
   return (
     <div className={Styles.navbar}>
       <Link to="/">

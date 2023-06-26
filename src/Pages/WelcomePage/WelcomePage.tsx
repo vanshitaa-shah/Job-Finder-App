@@ -7,16 +7,18 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { useNavigate } from "react-router";
 
-
 const WelcomePage = () => {
-  const isAuthenticated=useSelector((state:RootState)=>state.auth.isAuthenticated);
-  const navigate=useNavigate();
+  const isAuthenticated = useSelector(
+    (state: RootState) => state.auth.isAuthenticated
+  );
+  const navigate = useNavigate();
 
-  useEffect(()=>{
-    if(isAuthenticated){
-      navigate("/")
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/");
     }
-  })
+  });
+
   return (
     <>
       <Navbar />
@@ -25,15 +27,15 @@ const WelcomePage = () => {
           <Typography variant="h5">Choose Your Role</Typography>
           <div className={Styles.container}>
             <div className={Styles.leftCard}>
-              <CardComponent  role="provider"/>
+              <CardComponent role="provider" />
             </div>
+
             <div className={Styles.rightCard}>
-            <CardComponent role="seeker"/>
+              <CardComponent role="seeker" />
             </div>
           </div>
         </div>
       </div>
-        
     </>
   );
 };

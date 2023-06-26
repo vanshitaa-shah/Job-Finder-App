@@ -1,25 +1,20 @@
 import Styles from "./Filter.module.css";
-import Img from "../../assets/favicon.ico";
-import { ForwardedRef, forwardRef, useState } from "react";
+import Img from "../../assets/logo.png";
+import { useState } from "react";
+import { FilterProps } from "../../Types/props";
 
 const Filter = ({
   placeholder,
   options,
   onSearch,
   onOptionChange,
-}: {
-  placeholder: string;
-  options: [string, string, string];
-  onSearch: (searchValue: string) => void;
-  onOptionChange: (selectedOption: string) => void;
-}) => {
+}: FilterProps) => {
   const [searchValue, setSearchValue] = useState("");
   const [selectedOption, setSelectedOption] = useState("");
+
   const searchHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchValue(value);
-
-    // Call the debounced search function passed as a prop
     onSearch(value);
   };
 
@@ -28,9 +23,11 @@ const Filter = ({
     setSelectedOption(value);
     onOptionChange(value);
   };
+
   return (
     <>
       <div className={Styles.filterSection}>
+        {/* SearchBar */}
         <div className={Styles.leftSection}>
           <input
             type="text"
@@ -40,6 +37,8 @@ const Filter = ({
           />
           <img src={Img} className={Styles.searchIcon} width={30} height={30} />
         </div>
+
+        {/* Criteria selection */}
         <select
           name="criteria"
           className={Styles.criteria}
@@ -55,4 +54,4 @@ const Filter = ({
   );
 };
 
-export default forwardRef(Filter);
+export default Filter;

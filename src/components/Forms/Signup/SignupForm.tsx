@@ -1,46 +1,34 @@
-import { Button, Typography } from "@mui/material";
+import { Button } from "@mui/material";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import previewImg from "../../../assets/preview.png";
 import { useNavigate } from "react-router";
-import Navbar from "../../Navbar/Navbar";
 import { signupValidateSchema, signupValues } from "../formvalidation";
 import InputField from "../InputField/InputField";
 import Styles from "./Signup.module.css";
 import FormStyles from "../InputField/InputField.module.css";
-import { ChangeEvent, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import FormLayout from "../../../Layouts/Form/FormLayout";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { auth, uploadPhoto } from "../../../Firebase/firebase";
-import { SignupValues } from "../../../Types/type";
+import { ChangeEvent, useState } from "react";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../../Firebase/firebase";
+import { SignupValues } from "../../../Types/types";
 import { useDispatch, useSelector } from "react-redux";
-import { userActions } from "../../../store/userSlice";
 import { RootState } from "../../../store";
 import { error, success } from "../../../utils/Toaster";
-import userServices, { findUserByEmail } from "../../../Firebase/user.services";
+import userServices from "../../../Firebase/user.services";
 import { authActions } from "../../../store/authSlice";
+import { uploadPhoto } from "../../../utils/functions/firebaseUtility";
+import { handleProfilePreview } from "../../../utils/functions/profilePreview";
 
 const SignupForm = () => {
-  const [preview, setPreview] = useState(previewImg);
   const navigate = useNavigate();
-  const role = useSelector((state: RootState) => state.auth.role);
   const dispatch = useDispatch();
+  const [preview, setPreview] = useState(previewImg);
+  const role = useSelector((state: RootState) => state.auth.role);
 
-  const handleProfilePreview = (e: ChangeEvent<HTMLInputElement>): void => {
-    const file: File | undefined = e.target.files?.[0];
-    const reader: FileReader = new FileReader();
-
-    if (file) {
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        setPreview(reader.result as string);
-      };
-    }
-  };
+  /* -------------------------- Submit method ------------------------------ */
 
   const onSubmit = async (values: SignupValues) => {
+    // Uploading Profile photo into firebase storage
     const imgUrl = await uploadPhoto(values.profile);
-    console.log(imgUrl);
 
     const userData = {
       name: values.name,
@@ -52,11 +40,15 @@ const SignupForm = () => {
     };
 
     try {
+      // Firebase method of Authentication
       await createUserWithEmailAndPassword(auth, values.email, values.password);
+
+      // Adding User into Users collection
       await userServices.addUser({
         ...userData,
         applications: [] as String[],
       });
+
       success("User Added Successfully");
       navigate("/complete-profile");
       dispatch(authActions.authentication());
@@ -74,8 +66,10 @@ const SignupForm = () => {
       >
         {({ values, setFieldValue, isSubmitting }) => (
           <Form>
+            {/* Field for Uploading Profile photo */}
             <div className={`${Styles.profile} ${FormStyles.formControl}`}>
               <label htmlFor="profile">Photo +</label>
+
               <Field
                 type="file"
                 name="profile"
@@ -83,11 +77,13 @@ const SignupForm = () => {
                 value={undefined}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => {
                   setFieldValue("profile", e.currentTarget.files?.[0]);
-                  handleProfilePreview(e);
+                  handleProfilePreview(e, setPreview);
                 }}
                 accept="Image/jpg,Image/png"
                 hidden
               />
+
+              {/* Preview */}
               <img
                 id={Styles.preview}
                 src={preview}
@@ -95,8 +91,10 @@ const SignupForm = () => {
                 height="50"
                 alt=""
               />
+              {/* Error message */}
               <ErrorMessage name="profile" component="p" />
             </div>
+
             <InputField lable="Name" name="name" type="name" />
             <InputField lable="Email" name="email" type="email" />
             <InputField lable="Phone" name="phone" type="phone" />
@@ -108,6 +106,7 @@ const SignupForm = () => {
               type="password"
             />
 
+            {/* Signup Button */}
             <Button
               variant="contained"
               type="submit"
@@ -118,6 +117,7 @@ const SignupForm = () => {
               {isSubmitting ? "Wait..." : "Signup"}
             </Button>
 
+            {/* Reset Button */}
             <Button
               variant="contained"
               color="error"

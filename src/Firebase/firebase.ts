@@ -1,9 +1,8 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 
+// Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyA0h0I2ydD0zmPStCjZWdlwmtJzXgnc1Zo",
   authDomain: "job-finder-c6cc1.firebaseapp.com",
@@ -17,17 +16,3 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth();
 export const db = getFirestore(app);
-
-const storage = getStorage();
-export const uploadPhoto = async (uploadImg: any) => {
-  const imageRef = ref(storage, `profilePhotos/ ${uploadImg.name}`);
-  await uploadBytes(imageRef, uploadImg);
-  const downloadURL = await getDownloadURL(imageRef);
-  return downloadURL;
-};
-export const uploadResume = async (uploadResume: any) => {
-  const resumeRef = ref(storage, `resumes/ ${uploadResume.name}`);
-  await uploadBytes(resumeRef, uploadResume);
-  const downloadURL = await getDownloadURL(resumeRef);
-  return downloadURL;
-};

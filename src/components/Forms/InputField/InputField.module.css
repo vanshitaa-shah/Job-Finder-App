@@ -10,7 +10,7 @@ button {
 }
 
 .formControl p {
-  color: red;
+  color: var(--error-dark-color);
   font-size: 0.9rem;
   position: absolute;
   bottom: -40px;
@@ -22,7 +22,7 @@ button {
   margin-bottom: 10px;
 }
 .requirement span {
-  color: red;
+  color: var(--error-dark-color);
   font-size: 0.9rem;
 }
 

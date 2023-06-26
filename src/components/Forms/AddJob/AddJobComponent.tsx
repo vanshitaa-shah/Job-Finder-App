@@ -3,12 +3,15 @@ import { Form, Formik } from "formik";
 import { jobListingValidateSchema, jobListingValues } from "../formvalidation";
 import InputField from "../InputField/InputField";
 import Styles from "./AddJobComponent.module.css";
-import { Applicant, EditJobType, JobListingProps } from "../../../Types/type";
+import { JobListingProps } from "../../../Types/props";
+import { Applicant, EditJobType } from "../../../Types/types";
 import { useLocation, useNavigate } from "react-router";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import jobServices from "../../../Firebase/job.services";
-import { Job } from "../../../store/jobSlice";
+import { Job } from "../../../Types/types";
+import isEqual from "react-fast-compare";
+import { error } from "../../../utils/Toaster";
 
 const AddJobComponent = ({ type }: { type?: string }) => {
   const navigate = useNavigate();
@@ -17,6 +20,8 @@ const AddJobComponent = ({ type }: { type?: string }) => {
   const email = useSelector(
     (state: RootState) => state.user.currentUser?.email
   );
+
+  // For edit Job, defining editValues from location's state data
   if (type) {
     const jobData: Job = location.state.jobData;
     editValues = {
@@ -28,21 +33,40 @@ const AddJobComponent = ({ type }: { type?: string }) => {
     };
   }
 
+  /* -------------------------- Submit method ------------------------------ */
+
   const onsubmit = async (values: JobListingProps) => {
     if (type === "edit") {
+      // Getting JobID from location's state data
       const jobData: Job = location.state.jobData;
       const id = jobData.id;
-      if (editValues) {
-        if (id) await jobServices.updateJob(id, values);
+
+      // Getting JobDoc by ID from jobs collection
+      const jobDoc = (await jobServices.getJob(id!)).data();
+
+      if (
+        jobDoc?.jobTitle === values.jobTitle &&
+        jobDoc?.jobType === values.jobType &&
+        jobDoc?.jobDescription === values.jobDescription &&
+        jobDoc?.salary == values.salary &&
+        isEqual(jobDoc?.requirements, values.requirements)
+      ) {
+        // If nothing changed in updation
+        error("Nothing To Update!");
+      } else {
+        // For EditJob,Updating existing JobDoc
+        if (editValues) {
+          if (id) await jobServices.updateJob(id, values);
+        }
+        navigate("/all-jobs");
       }
-      navigate("/all-jobs");
     } else {
+      // For JobListing,adding new JobDoc
       if (email) {
         const jobData = { ...values, providerEmail: email };
         const applicants = [] as Applicant[];
         await jobServices.addjob({ ...jobData, applicants: applicants });
       }
-
       navigate("/all-jobs");
     }
   };

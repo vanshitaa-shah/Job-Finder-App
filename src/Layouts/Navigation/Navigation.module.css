@@ -72,3 +72,15 @@
     max-width: 400px;
   }
 }
+
+@media screen and (max-width: 475px) {
+  .noData {
+    position: absolute;
+    max-width: 350px;
+  }
+}
+@media screen and (max-width: 1024px) {
+  .noData {
+    max-width: 400px;
+  }
+}

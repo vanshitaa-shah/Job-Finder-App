@@ -5,14 +5,15 @@ import { Typography } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { error } from "../../utils/Toaster";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { fetchUser } from "../../store/userSlice";
 
 const Signup = () => {
   const navigate = useNavigate();
   const role = useSelector((state: RootState) => state.auth.role)!;
+
   useEffect(() => {
+    // If Role not chosen
     if (role === "") {
       error("Choose your role!");
       navigate("/");
