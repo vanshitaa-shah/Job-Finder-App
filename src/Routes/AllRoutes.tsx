@@ -19,7 +19,6 @@ import SeekerRoutes from "./SeekerRoutes";
 
 const AllRoutes = () => {
   const role = useSelector((state: RootState) => state.auth.role);
-  console.log(role);
 
   return (
     <>

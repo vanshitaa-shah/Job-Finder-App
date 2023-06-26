@@ -1,4 +1,4 @@
-import { Button, TextField, Typography } from "@mui/material";
+import { Button } from "@mui/material";
 import { Form, Formik } from "formik";
 import { loginValidateSchema, loginValues } from "../formvalidation";
 import InputField from "../InputField/InputField";
@@ -45,31 +45,35 @@ const LoginForm = () => {
         initialValues={loginValues}
         validationSchema={loginValidateSchema}
         onSubmit={onSubmit}
+        enableReinitialize
       >
-        <Form>
-          <InputField lable="Email" name="email" type="email" />
+        {({ values, setFieldValue, isSubmitting }) => (
+          <Form>
+            <InputField lable="Email" name="email" type="email" />
 
-          <InputField lable="Password" name="password" type="password" />
+            <InputField lable="Password" name="password" type="password" />
 
-          <Button
-            variant="contained"
-            type="submit"
-            className={Styles.btn}
-            id={Styles.submitBtn}
-          >
-            Login
-          </Button>
+            <Button
+              variant="contained"
+              type="submit"
+              className={Styles.btn}
+              id={Styles.submitBtn}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Wait..." : "Login"}
+            </Button>
 
-          <Button
-            variant="contained"
-            color="error"
-            type="reset"
-            className={Styles.btn}
-            id={Styles.resetBtn}
-          >
-            Reset
-          </Button>
-        </Form>
+            <Button
+              variant="contained"
+              color="error"
+              type="reset"
+              className={Styles.btn}
+              id={Styles.resetBtn}
+            >
+              Reset
+            </Button>
+          </Form>
+        )}
       </Formik>
     </>
   );

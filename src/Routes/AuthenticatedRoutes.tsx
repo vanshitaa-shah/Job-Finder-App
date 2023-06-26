@@ -9,7 +9,6 @@ const AuthenticatedRoutes = () => {
   const hasCompletedProfile = useSelector(
     (state: RootState) => state.user.currentUser?.hasCompletedProfile
   );
-  console.log(hasCompletedProfile);
 
   const navigate = useNavigate();
 

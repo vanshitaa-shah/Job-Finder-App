@@ -72,8 +72,6 @@ const EditProfileComponent = () => {
     const endIndex = firebaseUrl.indexOf(endMarker);
 
     fileName = firebaseUrl.substring(startIndex, endIndex);
-
-    console.log(fileName);
   }
 
   const handleProfilePreview = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -83,13 +81,11 @@ const EditProfileComponent = () => {
     if (file) {
       reader.readAsDataURL(file);
       reader.onload = () => {
-        console.log("a");
         setPreview(reader.result as string);
       };
     }
   };
   const onsubmit = async (values: EditValues) => {
-    console.log(values);
     if (profileChange) {
       const imgUrl = await uploadPhoto(values.profile);
       values = { ...values, profile: imgUrl };
@@ -99,7 +95,6 @@ const EditProfileComponent = () => {
       values = { ...values, resume: resumeUrl };
     }
     await userServices.updateUser(id, values);
-    console.log("here");
     dispatch(userActions.updateData(values));
     navigate("/all-jobs");
   };

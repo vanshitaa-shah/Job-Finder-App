@@ -19,8 +19,6 @@ const App = () => {
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
-      console.log(user);
-
       if (user) {
         findUserByEmail(user.email!)
           .then((id) => {

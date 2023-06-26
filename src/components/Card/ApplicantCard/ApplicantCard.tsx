@@ -1,4 +1,4 @@
-import { Download, Delete } from "@mui/icons-material";
+import { Visibility } from "@mui/icons-material";
 import {
   Avatar,
   Button,
@@ -7,7 +7,6 @@ import {
   CardContent,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router";
 import jobServices from "../../../Firebase/job.services";
@@ -15,6 +14,7 @@ import { RootState } from "../../../store";
 import { Applicant, ApplicantCardProps } from "../../../Types/type";
 import Styles from "./ApplicantCard.module.css";
 import emailjs from "@emailjs/browser";
+import { error, success } from "../../../utils/Toaster";
 
 const ApplicantCard = ({
   applicant,
@@ -29,14 +29,7 @@ const ApplicantCard = ({
     (user) => user.email === applicant.applicantEmail
   )[0];
 
-  const [isActionDone, setIsActionDone] = useState(
-    () => applicant.status !== "pending"
-  );
-
-  console.log(applicant.status);
-
   const jobApprovalHandler = async () => {
-    setIsActionDone(true);
     const updatedArray: Applicant[] = allApplicants.map((data) => {
       if (data.applicantEmail === applicant.applicantEmail)
         return { ...data, status: "approved" };
@@ -54,13 +47,12 @@ const ApplicantCard = ({
     };
     emailjs
       .send("service_yf4xgzi", "template_5jxg2gq", obj, "eQ6CurafOsxHONXPd")
-      .then((res) => console.log(res.status))
-      .catch((err) => console.log(err, err.message));
+      .then(() => success("Mail sent to the applicant successfully!"))
+      .catch(() => error("Error in sending Mail!"));
     setApplicants(updatedArray);
   };
 
   const jobRejectionHandler = async () => {
-    setIsActionDone(true);
     const updatedArray: Applicant[] = allApplicants.map((data) => {
       if (data.applicantEmail === applicant.applicantEmail)
         return { ...data, status: "rejected" };
@@ -78,14 +70,21 @@ const ApplicantCard = ({
     };
     emailjs
       .send("service_yf4xgzi", "template_5jxg2gq", obj, "eQ6CurafOsxHONXPd")
-      .then((res) => console.log(res.status))
-      .catch((err) => console.log(err, err.message));
+      .then(() => success("Mail sent to the applicant successfully!"))
+      .catch(() => error("Error in sending Mail!"));
   };
 
   return (
     <>
       <Card className={Styles.card}>
-        <div className={Styles.cardHeader}>
+        <div
+          className={`${Styles.cardHeader} ${
+            applicant.status !== "pending" &&
+            (applicant.status === "approved"
+              ? Styles.cardHeaderApproved
+              : Styles.cardHeaderRejected)
+          }`}
+        >
           <Avatar className={Styles.avatar} src={applicantData.profile} />
         </div>
         <CardContent>
@@ -95,7 +94,7 @@ const ApplicantCard = ({
         </CardContent>
         <CardActions>
           <a href={applicantData.resume} target="_blank">
-            <Button startIcon={<Download />}>Resume</Button>
+            <Button startIcon={<Visibility />}>Resume</Button>
           </a>
         </CardActions>
         <CardActions>
@@ -103,7 +102,9 @@ const ApplicantCard = ({
             variant="outlined"
             color="success"
             onClick={jobApprovalHandler}
-            disabled={isActionDone}
+            disabled={
+              applicant.status === "approved" || applicant.status != "pending"
+            }
           >
             {applicant.status === "approved" ? "approved" : "approve"}
           </Button>
@@ -111,7 +112,9 @@ const ApplicantCard = ({
             variant="outlined"
             color="error"
             onClick={jobRejectionHandler}
-            disabled={isActionDone}
+            disabled={
+              applicant.status === "rejected" || applicant.status != "pending"
+            }
           >
             {applicant.status === "rejected" ? "rejected" : "reject"}
           </Button>

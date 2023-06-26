@@ -11,7 +11,6 @@ const SeekerRoutes = () => {
   const hasCompletedProfile = useSelector(
     (state: RootState) => state.user.currentUser?.hasCompletedProfile
   );
-  console.log(hasCompletedProfile, currentUser, role);
 
   const navigate = useNavigate();
 

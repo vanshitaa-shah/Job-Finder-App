@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
@@ -11,10 +11,10 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { Avatar, Button } from "@mui/material";
+import { Avatar } from "@mui/material";
 import Styles from "./Navigation.module.css";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { NavigationProps, Role } from "../../Types/type";
+import { NavigationProps } from "../../Types/type";
 import { RootState } from "../../store";
 import { useDispatch, useSelector } from "react-redux";
 import { auth } from "../../Firebase/firebase";
@@ -110,7 +110,6 @@ export default function Navigation({ component }: NavigationProps) {
   };
 
   const isActive = (path: string) => {
-    console.log("here");
     return location.pathname === path ? `${Styles.active}` : "";
   };
 

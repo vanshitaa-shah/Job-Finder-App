@@ -1,6 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchUser } from "./userSlice";
-
 const initialState = {
   id: "",
   role: localStorage.getItem("role") || "",
@@ -16,8 +14,6 @@ const authSlice = createSlice({
     },
 
     addRole: (state, action) => {
-      console.log("here");
-
       state.role = action.payload;
       localStorage.setItem("role", action.payload);
     },

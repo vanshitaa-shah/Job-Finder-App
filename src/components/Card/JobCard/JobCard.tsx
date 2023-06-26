@@ -18,7 +18,7 @@ import { fetchJobs, fetchJobsByEmail } from "../../../store/jobSlice";
 import userServices from "../../../Firebase/user.services";
 import { fetchUser } from "../../../store/userSlice";
 import { success } from "../../../utils/Toaster";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const JobCard = ({
   setDescription,

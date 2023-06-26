@@ -26,7 +26,6 @@ const jobSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchJobs.fulfilled, (state, action) => {
       state.jobs = action.payload;
-      console.log(state.jobs);
     });
   },
 });

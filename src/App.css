@@ -3,7 +3,14 @@
   padding: 0;
   box-sizing: border-box;
 }
-
+:root {
+  --primary-color: #1976d2;
+  --primary-light-color: rgb(230 239 255);
+  --success-dark-color: #4caf50;
+  --success-light-color: rgb(233 255 224);
+  --error-dark-color: #f23f3f;
+  --error-light-color: rgb(255 224 224);
+}
 #root {
   overflow-x: hidden;
 }
@@ -15,6 +22,6 @@
   background-color: #f2f2f2;
 }
 ::-webkit-scrollbar-thumb {
-  background-color: rgb(199, 226, 255);
+  background-color: var(--primary-light-color);
   border-radius: 5px;
 }

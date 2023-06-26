@@ -11,7 +11,6 @@ const ProviderRoutes = () => {
   const hasCompletedProfile = useSelector(
     (state: RootState) => state.user.currentUser?.hasCompletedProfile!
   );
-  console.log(role);
 
   const navigate = useNavigate();
 

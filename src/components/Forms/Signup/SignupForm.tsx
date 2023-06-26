@@ -40,7 +40,6 @@ const SignupForm = () => {
 
   const onSubmit = async (values: SignupValues) => {
     const imgUrl = await uploadPhoto(values.profile);
-    console.log(imgUrl);
 
     const userData = {
       name: values.name,

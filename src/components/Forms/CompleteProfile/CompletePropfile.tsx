@@ -9,7 +9,7 @@ import {
   completeProfileValues,
   resumeValidateSchema,
 } from "../formvalidation";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
 import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,20 +18,17 @@ import {
   seekerCompleteProfileProps,
 } from "../../../Types/type";
 import { AppDispatch, RootState } from "../../../store";
-import userServices, { findUserByEmail } from "../../../Firebase/user.services";
-import { auth, uploadResume } from "../../../Firebase/firebase";
-import { authActions } from "../../../store/authSlice";
+import userServices from "../../../Firebase/user.services";
+import { uploadResume } from "../../../Firebase/firebase";
 import { fetchUser } from "../../../store/userSlice";
 import { error, success } from "../../../utils/Toaster";
 
 const CompletePropfile = () => {
   const [file, setFile] = useState<File | string>();
+  const [fileName, setFileName] = useState<string>();
   const navigate = useNavigate();
   const role = useSelector((state: RootState) => state.auth.role);
   const id = useSelector((state: RootState) => state.auth.id);
-  const hasCompletedProfile = useSelector(
-    (state: RootState) => state.user.currentUser?.hasCompletedProfile
-  );
   const dispatch = useDispatch<AppDispatch>();
 
   const handleResume = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -105,7 +102,12 @@ const CompletePropfile = () => {
                     <label htmlFor="resume">
                       <span className={ProfileStyles.fileUpload}>
                         <DriveFolderUploadIcon />
-                        <Typography variant="h6">Add File</Typography>
+                        <Typography variant="h6">
+                          {fileName ? "Change File" : "Add File"}
+                        </Typography>
+                        {fileName !== undefined && (
+                          <Typography>{fileName}</Typography>
+                        )}
                       </span>
                     </label>
 
@@ -117,11 +119,16 @@ const CompletePropfile = () => {
                       onChange={(e: ChangeEvent<HTMLInputElement>) => {
                         setFieldValue("resume", e.currentTarget.files?.[0]);
                         handleResume(e);
+                        {
+                          e.currentTarget.files?.[0] !== undefined &&
+                            setFileName(e.currentTarget.files?.[0].name!);
+                        }
                         setFile(e.currentTarget.files?.[0]);
                       }}
                       accept=".pdf"
                       hidden
                     />
+
                     <ErrorMessage name="resume" component="p" />
                   </div>
                   <Button
