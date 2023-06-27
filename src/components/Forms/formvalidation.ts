@@ -7,12 +7,13 @@ export const loginValues = {
 
 export const loginValidateSchema = Yup.object({
   email: Yup.string()
+    .trim()
     .required("Email Required!")
     .matches(
       /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/,
       "Invaild Email Format!"
     ),
-  password: Yup.string().required("Password Required!"),
+  password: Yup.string().trim().required("Password Required!"),
 });
 
 export const signupValues = {
@@ -28,6 +29,7 @@ export const signupValidateSchema = Yup.object({
   name: Yup.string().max(20, "Name too long!").required("Name Required!"),
 
   email: Yup.string()
+    .trim()
     .required("Email Required!")
     .matches(
       /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/,
@@ -56,14 +58,17 @@ export const signupValidateSchema = Yup.object({
     .required("Profile photo Required!"),
 
   phone: Yup.string()
+    .trim()
     .required("Phone Number Required!")
     .matches(/^(\+91|0)?[6789]\d{9}$/, "Invalid phone number!"),
 
   password: Yup.string()
+    .trim()
     .min(6, "Weak Password!")
     .required("Password Required!"),
 
   confirmPassword: Yup.string()
+    .trim()
     .required("Required!")
     .oneOf(
       [Yup.ref("password")],
@@ -83,12 +88,13 @@ export const jobListingValues: JobListingProps = {
 
 export const jobListingValidateSchema = Yup.object({
   jobTitle: Yup.string()
+    .trim()
     .max(20, "jobTitle too long!")
     .required("jobTitle Required!"),
   jobType: Yup.string().required("jobType Required!"),
-  jobDescription: Yup.string().required("jobDescription Required!"),
+  jobDescription: Yup.string().trim().required("jobDescription Required!"),
   requirements: Yup.array().of(
-    Yup.string().required("requirement must be added")
+    Yup.string().trim().required("requirement must be added")
   ),
   salary: Yup.number().required("salary Required!"),
 });
@@ -105,9 +111,9 @@ export const completeProfileValues = {
 
 export const completeProfileValidateSchema = Yup.object({
   address: Yup.object().shape({
-    street: Yup.string().required("Street required!"),
-    city: Yup.string().required("City required!"),
-    state: Yup.string().required("State required!"),
+    street: Yup.string().trim().required("Street required!"),
+    city: Yup.string().trim().required("City required!"),
+    state: Yup.string().trim().required("State required!"),
   }),
 });
 
@@ -116,25 +122,33 @@ export const resumeValidateSchema = Yup.object({
 });
 
 export const editProfileProviderValidateSchema = Yup.object({
-  name: Yup.string().max(20, "Name too long!").required("Name Required!"),
+  name: Yup.string()
+    .trim()
+    .max(25, "Name too long!")
+    .required("Name Required!"),
 
   profile: Yup.mixed().required("Profile photo Required!"),
 
   phone: Yup.string()
+    .trim()
     .required("Phone Number Required!")
     .matches(/^(\+91|0)?[6789]\d{9}$/, "Invalid phone number!"),
   address: Yup.object().shape({
-    street: Yup.string().required("Street required!"),
-    city: Yup.string().required("City required!"),
-    state: Yup.string().required("State required!"),
+    street: Yup.string().trim().required("Street required!"),
+    city: Yup.string().trim().required("City required!"),
+    state: Yup.string().trim().required("State required!"),
   }),
 });
 export const editProfileSeekerValidateSchema = Yup.object({
-  name: Yup.string().max(20, "Name too long!").required("Name Required!"),
+  name: Yup.string()
+    .trim()
+    .max(20, "Name too long!")
+    .required("Name Required!"),
 
   profile: Yup.mixed().required("Profile photo Required!"),
 
   phone: Yup.string()
+    .trim()
     .required("Phone Number Required!")
     .matches(/^(\+91|0)?[6789]\d{9}$/, "Invalid phone number!"),
   resume: Yup.string().required("Resume required!"),
