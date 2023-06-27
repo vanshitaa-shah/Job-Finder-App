@@ -23,20 +23,27 @@ const AllRoutes = () => {
   return (
     <>
       <Routes>
+        {/* UnAuthenticated Routes */}
         <Route path="" element={<UnAuthenticatedRoutes />}>
           <Route path="/" element={<WelcomePage />} />
           <Route path="signup" element={<Signup />} />
           <Route path="login" element={<Login />} />
         </Route>
+
+        {/* Authenticated Routes */}
         <Route path="" element={<AuthenticatedRoutes />}>
           <Route path="complete-profile" element={<Profile />} />
           <Route path="all-jobs" element={<AllJobs />} />
           <Route path="edit-profile" element={<EditProfile />} />
+
+          {/* Provider Users's routes */}
           <Route path="" element={<ProviderRoutes />}>
             <Route path="add-job" element={<AddJob />} />
             <Route path="edit-job/:id" element={<AddJob type="edit" />} />
             <Route path="applicants/:id" element={<Applicants />} />
           </Route>
+
+          {/* Seeker Users's routes */}
           <Route path="" element={<SeekerRoutes />}>
             <Route path="applications" element={<Applications />} />
           </Route>

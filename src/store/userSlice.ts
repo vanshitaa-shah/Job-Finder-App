@@ -15,6 +15,7 @@ const userSlice = createSlice({
     resetData: (state) => {
       if (state.currentUser) state.currentUser.hasCompletedProfile = false;
     },
+
     updateData: (state, action) => {
       state.currentUser = { ...state.currentUser, ...action.payload };
     },
@@ -23,12 +24,14 @@ const userSlice = createSlice({
     builder.addCase(fetchUser.fulfilled, (state, action) => {
       state.currentUser = action.payload as any;
     });
+
     builder.addCase(fetchUsers.fulfilled, (state, action) => {
       state.users = action.payload;
     });
   },
 });
 
+// Thunk for fetching user by unique ID
 export const fetchUser = createAsyncThunk(
   "user/fetchUser",
   async (userId: string | null, { dispatch }) => {
@@ -40,6 +43,8 @@ export const fetchUser = createAsyncThunk(
     }
   }
 );
+
+// Thunk for fetching All Users
 export const fetchUsers = createAsyncThunk(
   "user/fetchUsers",
   async (_, { dispatch }) => {

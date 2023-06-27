@@ -17,10 +17,14 @@ const JobDescription = ({
         >
           <Close />
         </IconButton>
+
+        {/* Description Header */}
         <div className={Styles.descriptionHeading}>
           <Avatar className={Styles.avatar} src={descriptionData.profile} />
           <Typography variant="h5">{descriptionData.name}</Typography>
         </div>
+
+        {/* Description Content */}
         <div className={Styles.content}>
           <Typography>
             <strong> Job Title : </strong>
@@ -46,20 +50,25 @@ const JobDescription = ({
             {descriptionData.state}{" "}
           </Typography>
 
+          {/* Requirements array into unordered List */}
           <Typography component="div"> Requirements :</Typography>
           <ul className={Styles.requirements}>
             {descriptionData.requirements.map((requirement, idx) => {
               return <li key={idx}>{requirement}</li>;
             })}
           </ul>
+
           <hr />
+
           <Typography>
             <strong> Contact Info </strong>
           </Typography>
+
           <Typography>
             <strong> Email : </strong>
             {descriptionData.email}
           </Typography>
+
           <Typography>
             <strong> Phone : </strong>
             {descriptionData.phone}

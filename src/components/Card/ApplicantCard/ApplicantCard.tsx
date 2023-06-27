@@ -29,6 +29,7 @@ const ApplicantCard = ({
     (user) => user.email === applicant.applicantEmail
   )[0];
 
+  // Logic for Job application Approval, mail will be sent via emailJS
   const jobApprovalHandler = async () => {
     const updatedArray: Applicant[] = allApplicants.map((data) => {
       if (data.applicantEmail === applicant.applicantEmail)
@@ -38,6 +39,8 @@ const ApplicantCard = ({
     setApplicants(updatedArray);
     await jobServices.updateJob(jobId!, { applicants: updatedArray });
     const jobData = (await jobServices.getJob(jobId!)).data()!;
+
+    // details used while sending mail
     const obj = {
       company_name: `${currentUser?.name}`,
       applicant_email: `${applicant.applicantEmail}`,
@@ -52,15 +55,19 @@ const ApplicantCard = ({
     setApplicants(updatedArray);
   };
 
+  // Logic for Job application rejection, mail will be sent via emailJS
   const jobRejectionHandler = async () => {
     const updatedArray: Applicant[] = allApplicants.map((data) => {
       if (data.applicantEmail === applicant.applicantEmail)
         return { ...data, status: "rejected" };
       return data;
     });
+
     setApplicants(updatedArray);
     await jobServices.updateJob(jobId!, { applicants: updatedArray });
     const jobData = (await jobServices.getJob(jobId!)).data()!;
+
+    // details used while sending mail
     const obj = {
       company_name: `${currentUser?.name}`,
       applicant_email: `${applicant.applicantEmail}`,
@@ -77,6 +84,7 @@ const ApplicantCard = ({
   return (
     <>
       <Card className={Styles.card}>
+        {/* card header */}
         <div
           className={`${Styles.cardHeader} ${
             applicant.status !== "pending" &&
@@ -87,16 +95,22 @@ const ApplicantCard = ({
         >
           <Avatar className={Styles.avatar} src={applicantData.profile} />
         </div>
+
+        {/* card content */}
         <CardContent>
           <Typography>Name : {applicantData.name}</Typography>
           <Typography>Email : {applicantData.email}</Typography>
           <Typography>Phone : {applicantData.phone}</Typography>
         </CardContent>
+
+        {/* card Actions:view resume functionality */}
         <CardActions>
           <a href={applicantData.resume} target="_blank">
             <Button startIcon={<Visibility />}>Resume</Button>
           </a>
         </CardActions>
+
+        {/* card Actions:Related to job application's status */}
         <CardActions>
           <Button
             variant="outlined"
@@ -108,6 +122,7 @@ const ApplicantCard = ({
           >
             {applicant.status === "approved" ? "approved" : "approve"}
           </Button>
+
           <Button
             variant="outlined"
             color="error"

@@ -2,7 +2,7 @@ import "./App.css";
 import { useEffect } from "react";
 import { auth } from "./Firebase/firebase";
 import { ToastContainer } from "react-toastify";
-import { findUserByEmail } from "./Firebase/user.services";
+import { findUserByEmail } from "./utils/functions/firebaseUtility";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "./store/authSlice";
 import { AppDispatch, RootState } from "./store";
@@ -18,6 +18,7 @@ const App = () => {
   const isLoading = useSelector((state: RootState) => state.loading.isLoading);
 
   useEffect(() => {
+    //callback that gets called whenever the page's authentication state changes
     auth.onAuthStateChanged((user) => {
       if (user) {
         findUserByEmail(user.email!)
@@ -38,8 +39,11 @@ const App = () => {
   return (
     <>
       {isLoading && !currentUser && <Loader />}
+
+      {/* Routes */}
       <AllRoutes />
 
+      {/*container for Toast messages */}
       <ToastContainer
         position="bottom-center"
         autoClose={1000}

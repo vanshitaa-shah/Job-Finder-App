@@ -7,12 +7,11 @@ import { RootState } from "../store";
 const ProviderRoutes = () => {
   const isAuth = useSelector((state: RootState) => state.auth.isAuthenticated);
   const role = useSelector((state: RootState) => state.auth.role);
-  const currentUser = useSelector((state: RootState) => state.user.currentUser);
+  const navigate = useNavigate();
+
   const hasCompletedProfile = useSelector(
     (state: RootState) => state.user.currentUser?.hasCompletedProfile!
   );
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (!isAuth) {

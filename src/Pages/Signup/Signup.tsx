@@ -11,7 +11,9 @@ import { RootState } from "../../store";
 const Signup = () => {
   const navigate = useNavigate();
   const role = useSelector((state: RootState) => state.auth.role)!;
+
   useEffect(() => {
+    // If Role not chosen
     if (role === "") {
       error("Choose your role!");
       navigate("/");

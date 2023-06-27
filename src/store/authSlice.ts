@@ -1,4 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
+
+// Storing data of this slice in Local Storage
 const initialState = {
   id: "",
   role: localStorage.getItem("role") || "",

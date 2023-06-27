@@ -1,5 +1,7 @@
 import * as Yup from "yup";
 import { JobListingProps } from "../../Types/type";
+
+// Login For initial values and validation Schema
 export const loginValues = {
   email: "",
   password: "",
@@ -16,6 +18,7 @@ export const loginValidateSchema = Yup.object({
   password: Yup.string().trim().required("Password Required!"),
 });
 
+// Signup Form Initial values and Validation Schema
 export const signupValues = {
   name: "",
   email: "",
@@ -76,8 +79,7 @@ export const signupValidateSchema = Yup.object({
     ),
 });
 
-// Job Listing Form Validation
-
+// Job Listing Form initial values and Validation schema
 export const jobListingValues: JobListingProps = {
   jobTitle: "",
   jobType: "",
@@ -99,8 +101,7 @@ export const jobListingValidateSchema = Yup.object({
   salary: Yup.number().required("salary Required!"),
 });
 
-// Complete Profile values
-
+// Complete Profile Form initialvalues and validation Schema
 export const completeProfileValues = {
   address: {
     street: "",
@@ -117,10 +118,12 @@ export const completeProfileValidateSchema = Yup.object({
   }),
 });
 
+// Resume upload validation Schema
 export const resumeValidateSchema = Yup.object({
   resume: Yup.mixed().required("Resume Required!"),
 });
 
+// Edit Profile Validation schema for Provider Users
 export const editProfileProviderValidateSchema = Yup.object({
   name: Yup.string()
     .trim()
@@ -139,6 +142,8 @@ export const editProfileProviderValidateSchema = Yup.object({
     state: Yup.string().trim().required("State required!"),
   }),
 });
+
+// Edit Profile Validation schema for Seeker Users
 export const editProfileSeekerValidateSchema = Yup.object({
   name: Yup.string()
     .trim()

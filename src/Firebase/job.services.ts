@@ -11,6 +11,7 @@ import { db } from "./firebase";
 
 const jobCollectionRef = collection(db, "jobs");
 
+// All the firebase services for jobs collection
 class JobDataService {
   addjob = (jobData: {}) => {
     return addDoc(jobCollectionRef, jobData);

@@ -3,6 +3,7 @@
   padding: 0;
   box-sizing: border-box;
 }
+/* Theme variables */
 :root {
   --primary-color: #1976d2;
   --primary-light-color: rgb(230 239 255);
@@ -11,10 +12,12 @@
   --error-dark-color: #f23f3f;
   --error-light-color: rgb(255 224 224);
 }
+
 #root {
   overflow-x: hidden;
 }
 
+/* customised scrollbar */
 ::-webkit-scrollbar {
   width: 5px;
 }

@@ -13,6 +13,8 @@ import { authActions } from "../../../store/authSlice";
 
 const CardComponent = ({ role }: { role: string }) => {
   const dispatch = useDispatch();
+
+  // Role selection
   const roleHandler = async (e: MouseEvent<HTMLButtonElement>) => {
     const userRole = (e.target as HTMLDivElement).innerText;
     if (userRole === "JOB PROVIDER") {
@@ -26,6 +28,7 @@ const CardComponent = ({ role }: { role: string }) => {
     <>
       <Card className={Styles.card}>
         <Avatar className={Styles.avatar} src={Img} />
+
         <CardContent>
           <Typography variant="body2" color="text.secondary">
             {role === "provider"
@@ -33,6 +36,7 @@ const CardComponent = ({ role }: { role: string }) => {
               : "As a job seeker, you'll have access to a wide range of opportunities find the perfect job that aligns with your skills"}
           </Typography>
         </CardContent>
+
         <CardActions>
           <Link to="/signup">
             <Button

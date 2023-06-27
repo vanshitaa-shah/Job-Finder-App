@@ -1,5 +1,4 @@
 import { ReactNode } from "react";
-import { Job } from "../store/jobSlice";
 
 export type NavigationProps = {
   component: JSX.Element;
@@ -53,9 +52,11 @@ export type EditValues = {
   name?: string;
   profile: string;
   phone: string;
-  street?: string;
-  city?: string;
-  state?: string;
+  address?: {
+    street?: string;
+    city?: string;
+    state?: string;
+  };
   resume?: string;
 };
 
@@ -141,4 +142,22 @@ export type ApplicantCardProps = {
   applicant: Applicant;
   allApplicants: Applicant[];
   setApplicants: React.Dispatch<React.SetStateAction<Applicant[]>>;
+};
+
+export interface Job {
+  id?: string;
+  providerEmail: string;
+  jobTitle: string;
+  jobType: "Intern" | "Fresher" | "Experienced" | "";
+  jobDescription: string;
+  requirements: string[];
+  salary: number;
+  applicants: Applicant[];
+}
+
+export type FilterProps = {
+  placeholder: string;
+  options: [string, string, string];
+  onSearch: (searchValue: string) => void;
+  onOptionChange: (selectedOption: string) => void;
 };
