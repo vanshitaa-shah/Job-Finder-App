@@ -8,12 +8,10 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import { CompleteProfileProps, EditValues } from "../Types/type";
 import { db } from "./firebase";
 
 const userCollectionRef = collection(db, "users");
 class UserDataService {
-  // addUser
   addUser = (userData: {}) => {
     return addDoc(userCollectionRef, userData);
   };

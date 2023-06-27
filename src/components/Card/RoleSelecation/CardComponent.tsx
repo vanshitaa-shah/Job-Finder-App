@@ -6,8 +6,8 @@ import Typography from "@mui/material/Typography";
 import { Avatar } from "@mui/material";
 import Styles from "./CardComponent.module.css";
 import { Link } from "react-router-dom";
-import { MouseEvent, useState } from "react";
-import Img from "../../../assets/favicon.ico";
+import { MouseEvent } from "react";
+import Img from "../../../assets/logo.png";
 import { useDispatch } from "react-redux";
 import { authActions } from "../../../store/authSlice";
 

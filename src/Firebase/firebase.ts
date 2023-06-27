@@ -19,12 +19,14 @@ export const auth = getAuth();
 export const db = getFirestore(app);
 
 const storage = getStorage();
+
 export const uploadPhoto = async (uploadImg: any) => {
   const imageRef = ref(storage, `profilePhotos/ ${uploadImg.name}`);
   await uploadBytes(imageRef, uploadImg);
   const downloadURL = await getDownloadURL(imageRef);
   return downloadURL;
 };
+
 export const uploadResume = async (uploadResume: any) => {
   const resumeRef = ref(storage, `resumes/ ${uploadResume.name}`);
   await uploadBytes(resumeRef, uploadResume);
