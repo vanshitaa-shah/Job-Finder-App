@@ -93,10 +93,12 @@ const ApplicationsComponent = () => {
   }, [searchValue, debouncedSearch]);
 
   const handleSearch = (value: string) => {
+    setShowDescription(false);
     setSearchValue(value);
   };
 
   const criteriaHandler = (value: string) => {
+    setShowDescription(false);
     setSelectedCriteria(value);
   };
 

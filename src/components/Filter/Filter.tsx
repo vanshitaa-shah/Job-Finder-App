@@ -1,6 +1,6 @@
 import Styles from "./Filter.module.css";
-import Img from "../../assets/favicon.ico";
-import { ForwardedRef, forwardRef, useState } from "react";
+import Img from "../../assets/logo.png";
+import { useState } from "react";
 
 const Filter = ({
   placeholder,
@@ -55,4 +55,4 @@ const Filter = ({
   );
 };
 
-export default forwardRef(Filter);
+export default Filter;
