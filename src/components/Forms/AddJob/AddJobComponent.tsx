@@ -9,6 +9,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import jobServices from "../../../Firebase/job.services";
 import { Job } from "../../../store/jobSlice";
+import isEqual from "react-fast-compare";
+import { error } from "../../../utils/Toaster";
 
 const AddJobComponent = ({ type }: { type?: string }) => {
   const navigate = useNavigate();
@@ -32,17 +34,27 @@ const AddJobComponent = ({ type }: { type?: string }) => {
     if (type === "edit") {
       const jobData: Job = location.state.jobData;
       const id = jobData.id;
-      if (editValues) {
-        if (id) await jobServices.updateJob(id, values);
+      const jobDoc = (await jobServices.getJob(id!)).data();
+      if (
+        jobDoc?.jobTitle === values.jobTitle &&
+        jobDoc?.jobType === values.jobType &&
+        jobDoc?.jobDescription === values.jobDescription &&
+        jobDoc?.salary == values.salary &&
+        isEqual(jobDoc?.requirements, values.requirements)
+      ) {
+        error("Nothing To Update!");
+      } else {
+        if (editValues) {
+          if (id) await jobServices.updateJob(id, values);
+        }
+        navigate("/all-jobs");
       }
-      navigate("/all-jobs");
     } else {
       if (email) {
         const jobData = { ...values, providerEmail: email };
         const applicants = [] as Applicant[];
         await jobServices.addjob({ ...jobData, applicants: applicants });
       }
-
       navigate("/all-jobs");
     }
   };

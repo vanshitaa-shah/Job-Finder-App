@@ -12,12 +12,14 @@ import {
   editProfileSeekerValidateSchema,
 } from "../../components/Forms/formvalidation";
 import { EditValues } from "../../Types/type";
-import { useNavigate } from "react-router";
+import { json, useNavigate } from "react-router";
 import userServices from "../../Firebase/user.services";
 import { uploadPhoto, uploadResume } from "../../Firebase/firebase";
 import Navigation from "../../Layouts/Navigation/Navigation";
 import { fetchUser, userActions } from "../../store/userSlice";
 import PreviewImg from "../../assets/preview.png";
+import { error } from "../../utils/Toaster";
+import isEqual from "react-fast-compare";
 
 const EditProfile = () => {
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
@@ -86,17 +88,28 @@ const EditProfileComponent = () => {
     }
   };
   const onsubmit = async (values: EditValues) => {
-    if (profileChange) {
-      const imgUrl = await uploadPhoto(values.profile);
-      values = { ...values, profile: imgUrl };
+    const userDoc = (await userServices.getUser(id)).data();
+    if (
+      userDoc?.name == values.name &&
+      userDoc?.phone == values.phone &&
+      userDoc?.profile == values.profile &&
+      isEqual(userDoc?.address, values.address) &&
+      userDoc?.resume == values.resume
+    ) {
+      error("Nothing to update!");
+    } else {
+      if (profileChange) {
+        const imgUrl = await uploadPhoto(values.profile);
+        values = { ...values, profile: imgUrl };
+      }
+      if (resumeChange) {
+        const resumeUrl = await uploadResume(values.resume);
+        values = { ...values, resume: resumeUrl };
+      }
+      await userServices.updateUser(id, values);
+      dispatch(userActions.updateData(values));
+      navigate("/all-jobs");
     }
-    if (resumeChange) {
-      const resumeUrl = await uploadResume(values.resume);
-      values = { ...values, resume: resumeUrl };
-    }
-    await userServices.updateUser(id, values);
-    dispatch(userActions.updateData(values));
-    navigate("/all-jobs");
   };
 
   return (
