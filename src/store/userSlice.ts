@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import userServices from "../Firebase/user.services";
-import { User, UserSliceType } from "../Types/type";
+import { User, UserSliceType } from "../Types/types";
 import { setLoading } from "./loadingSlice";
 
 const initialState: UserSliceType = {

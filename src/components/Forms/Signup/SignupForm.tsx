@@ -9,7 +9,7 @@ import FormStyles from "../InputField/InputField.module.css";
 import { ChangeEvent, useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../../Firebase/firebase";
-import { SignupValues } from "../../../Types/type";
+import { SignupValues } from "../../../Types/types";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { error, success } from "../../../utils/Toaster";

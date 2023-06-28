@@ -1,7 +1,7 @@
 import Styles from "./Filter.module.css";
 import Img from "../../assets/logo.png";
 import { useState } from "react";
-import { FilterProps } from "../../Types/type";
+import { FilterProps } from "../../Types/props";
 
 const Filter = ({
   placeholder,

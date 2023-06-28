@@ -1,7 +1,7 @@
 import { Avatar, IconButton, Typography } from "@mui/material";
 import { Close } from "@mui/icons-material";
 import Styles from "./JobDescription.module.css";
-import { JobDescriptionProps } from "../../Types/type";
+import { JobDescriptionProps } from "../../Types/props";
 
 const JobDescription = ({
   descriptionData,

@@ -6,7 +6,7 @@ import Styles from "../../../Layouts/Form/FormLayout.module.css";
 import { useNavigate } from "react-router";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../../Firebase/firebase";
-import { LoginValues } from "../../../Types/type";
+import { LoginValues } from "../../../Types/types";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { authActions } from "../../../store/authSlice";

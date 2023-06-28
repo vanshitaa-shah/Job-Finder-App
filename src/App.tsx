@@ -39,7 +39,6 @@ const App = () => {
   return (
     <>
       {isLoading && !currentUser && <Loader />}
-
       {/* Routes */}
       <AllRoutes />
 

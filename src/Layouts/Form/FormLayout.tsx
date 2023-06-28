@@ -1,14 +1,13 @@
-import Styles from "./FormLayout.module.css"
-import { LayoutProps } from "../../Types/type";
+import Styles from "./FormLayout.module.css";
+import { LayoutProps } from "../../Types/props";
 
-const FormLayout = ({children}:LayoutProps) => {
+// FormLayout used in all forms
+const FormLayout = ({ children }: LayoutProps) => {
   return (
     <div className={Styles.mainContainer}>
-    <div className={Styles.container}>
-        {children}
+      <div className={Styles.container}>{children}</div>
     </div>
-      </div>
-  )
-}
+  );
+};
 
-export default FormLayout
+export default FormLayout;

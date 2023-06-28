@@ -9,13 +9,10 @@ const AuthenticatedRoutes = () => {
   const hasCompletedProfile = useSelector(
     (state: RootState) => state.user.currentUser?.hasCompletedProfile
   );
-  const currentUser = useSelector((state: RootState) => state.user.currentUser);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(currentUser, hasCompletedProfile);
-
     if (!isAuth) {
       navigate("/signup");
     } else {

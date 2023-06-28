@@ -5,8 +5,8 @@ import Styles from "../../Layouts/Navigation/Navigation.module.css";
 import ContainerLayout from "../../Layouts/Container/ContainerLayout";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { DescriptionType } from "../../Types/type";
-import { Job } from "../../Types/type";
+import { DescriptionType } from "../../Types/types";
+import { Job } from "../../Types/types";
 import Img from "../../assets/no-data.jpg";
 import Filter from "../Filter/Filter";
 
@@ -17,46 +17,24 @@ const ApplicationsComponent = () => {
   const applications = useSelector(
     (state: RootState) => state.user.currentUser?.applications
   );
+  const [filteredApplications, setFilteredApplications] = useState<
+    Job[] | null
+  >(null);
 
   const [showDescription, setShowDescription] = useState(false);
   const jobs = useSelector((state: RootState) => state.job.jobs);
   const [appliedJobs, setAppliedJobs] = useState<Job[]>([] as Job[]);
   const users = useSelector((state: RootState) => state.user.users);
-  const email = useSelector(
-    (state: RootState) => state.user.currentUser?.email
-  );
-  const [filteredApplications, setFilteredApplications] = useState<
-    Job[] | null
-  >(null);
   const [searchValue, setSearchValue] = useState("");
   const [selectedCriteria, setSelectedCriteria] = useState("");
 
-  const approvedApplications = appliedJobs.filter((job) => {
-    const arr = job.applicants.filter(
-      (applicant) =>
-        applicant.applicantEmail === email && applicant.status === "approved"
-    );
-    if (arr[0]) {
-      return job;
-    }
-  });
-
-  const rejectedApplications = appliedJobs.filter((job) => {
-    const arr = job.applicants.filter(
-      (applicant) =>
-        applicant.applicantEmail === email && applicant.status === "rejected"
-    );
-    if (arr[0]) {
-      return job;
-    }
-  });
-  console.log(rejectedApplications);
-
+  // Filtering jobs,which user has applied into.
   useEffect(() => {
     const filteredJobs = jobs.filter((job) => applications?.includes(job.id!));
     setAppliedJobs(filteredJobs);
   }, [jobs]);
 
+  // Debounced search based on company name or job title and criteria
   const debouncedSearch = useCallback(
     (searchTerm: string) => {
       const filteredJobs = appliedJobs.filter((job) => {
@@ -67,6 +45,7 @@ const ApplicationsComponent = () => {
         const company = providerUserData?.name.toLowerCase()!;
         const lowerCasedSearchTerm = searchTerm.toLowerCase();
 
+        // Converted everything into lowercase
         const matchesSearchTerm =
           jobTitle.includes(lowerCasedSearchTerm) ||
           company.includes(lowerCasedSearchTerm);
@@ -83,6 +62,7 @@ const ApplicationsComponent = () => {
     [appliedJobs, users, selectedCriteria]
   );
 
+  // calling debounced function and clearing previous one when search value changes
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       debouncedSearch(searchValue);
@@ -103,6 +83,7 @@ const ApplicationsComponent = () => {
     setSelectedCriteria(value);
   };
 
+  // setting the applied jobs based on criteria
   useEffect(() => {
     const filteredJobs = jobs.filter((job) => {
       const matchesCriteria = selectedCriteria
@@ -141,6 +122,8 @@ const ApplicationsComponent = () => {
               ))
             )}
           </div>
+
+          {/* Job Description */}
           {showDescription && (
             <div className={Styles.descriptionContainer}>
               <JobDescription

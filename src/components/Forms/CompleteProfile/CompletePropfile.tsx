@@ -16,7 +16,7 @@ import { error, success } from "../../../utils/Toaster";
 import {
   CompleteProfileProps,
   seekerCompleteProfileProps,
-} from "../../../Types/type";
+} from "../../../Types/props";
 import {
   completeProfileValidateSchema,
   completeProfileValues,

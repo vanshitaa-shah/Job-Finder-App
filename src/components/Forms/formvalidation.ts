@@ -1,5 +1,5 @@
 import * as Yup from "yup";
-import { JobListingProps } from "../../Types/type";
+import { JobListingProps } from "../../Types/props";
 
 // Login For initial values and validation Schema
 export const loginValues = {
@@ -85,7 +85,7 @@ export const jobListingValues: JobListingProps = {
   jobType: "",
   jobDescription: "",
   requirements: [""],
-  salary: undefined,
+  salary: "",
 };
 
 export const jobListingValidateSchema = Yup.object({

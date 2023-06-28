@@ -3,12 +3,13 @@ import { Form, Formik } from "formik";
 import { jobListingValidateSchema, jobListingValues } from "../formvalidation";
 import InputField from "../InputField/InputField";
 import Styles from "./AddJobComponent.module.css";
-import { Applicant, EditJobType, JobListingProps } from "../../../Types/type";
+import { JobListingProps } from "../../../Types/props";
+import { Applicant, EditJobType } from "../../../Types/types";
 import { useLocation, useNavigate } from "react-router";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import jobServices from "../../../Firebase/job.services";
-import { Job } from "../../../Types/type";
+import { Job } from "../../../Types/types";
 import isEqual from "react-fast-compare";
 import { error } from "../../../utils/Toaster";
 

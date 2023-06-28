@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import jobServices from "../Firebase/job.services";
-import { Job } from "../Types/type";
+import { Job } from "../Types/types";
 import { setLoading } from "./loadingSlice";
 
 const initialState: { jobs: Array<Job> } = { jobs: [] };

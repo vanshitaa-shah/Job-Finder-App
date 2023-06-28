@@ -1,10 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-interface LoadingState {
-  isLoading: boolean;
-}
-
-const initialState: LoadingState = {
+const initialState = {
   isLoading: false,
 };
 

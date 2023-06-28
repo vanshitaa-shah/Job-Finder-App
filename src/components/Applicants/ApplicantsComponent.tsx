@@ -6,10 +6,11 @@ import ContainerLayout from "../../Layouts/Container/ContainerLayout";
 import Styles from "../../Pages/Applicants/Applicants.module.css";
 import MainStyles from "../../Layouts/Navigation/Navigation.module.css";
 import Img from "../../assets/no-data.jpg";
-import { Applicant } from "../../Types/type";
+import { Applicant } from "../../Types/types";
 import { setLoading } from "../../store/loadingSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Filter from "../../components/Filter/Filter";
+
 const ApplicantsComponent = () => {
   const dispatch = useDispatch();
   const jobId = useParams().id!;
@@ -19,6 +20,8 @@ const ApplicantsComponent = () => {
   >(null);
   const [searchValue, setSearchValue] = useState("");
   const [selectedCriteria, setSelectedCriteria] = useState("");
+
+  // getting specific job in which the applicants belongs
   const getJobData = async () => {
     dispatch(setLoading(true));
     const jobData = (await jobServices.getJob(jobId)).data();
@@ -30,6 +33,7 @@ const ApplicantsComponent = () => {
     getJobData();
   }, [jobId]);
 
+  // Debounced search based on applicant's email and criteria
   const debouncedSearch = (searchTerm: string) => {
     if (applicants[0]) {
       const filteredApplicants = applicants.filter((applicant) => {
@@ -49,6 +53,7 @@ const ApplicantsComponent = () => {
     }
   };
 
+  // calling debounced function and clearing previous one when search value changes
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       debouncedSearch(searchValue);
@@ -67,6 +72,7 @@ const ApplicantsComponent = () => {
     setSelectedCriteria(value);
   };
 
+  // Filtering applicants based on criteria
   useEffect(() => {
     const filteredApplicantsArray = applicants.filter((applicant) => {
       const matchesCriteria = selectedCriteria

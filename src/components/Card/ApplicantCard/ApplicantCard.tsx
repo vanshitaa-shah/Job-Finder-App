@@ -11,7 +11,8 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router";
 import jobServices from "../../../Firebase/job.services";
 import { RootState } from "../../../store";
-import { Applicant, ApplicantCardProps } from "../../../Types/type";
+import { Applicant } from "../../../Types/types";
+import { ApplicantCardProps } from "../../../Types/props";
 import Styles from "./ApplicantCard.module.css";
 import emailjs from "@emailjs/browser";
 import { error, success } from "../../../utils/Toaster";
@@ -31,7 +32,7 @@ const ApplicantCard = ({
 
   // Logic for Job application Approval, mail will be sent via emailJS
   const jobApprovalHandler = async () => {
-    const updatedArray: Applicant[] = allApplicants.map((data) => {
+    const updatedArray: Applicant[] = allApplicants.map((data: Applicant) => {
       if (data.applicantEmail === applicant.applicantEmail)
         return { ...data, status: "approved" };
       return data;
@@ -57,7 +58,7 @@ const ApplicantCard = ({
 
   // Logic for Job application rejection, mail will be sent via emailJS
   const jobRejectionHandler = async () => {
-    const updatedArray: Applicant[] = allApplicants.map((data) => {
+    const updatedArray: Applicant[] = allApplicants.map((data: Applicant) => {
       if (data.applicantEmail === applicant.applicantEmail)
         return { ...data, status: "rejected" };
       return data;

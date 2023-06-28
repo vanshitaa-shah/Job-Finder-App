@@ -1,18 +1,15 @@
 import { useCallback, useEffect, useState } from "react";
 import JobCard from "../../components/Card/JobCard/JobCard";
 import JobDescription from "../../components/JobDescription/JobDescription";
-import Navigation from "../../Layouts/Navigation/Navigation";
 import Styles from "../../Layouts/Navigation/Navigation.module.css";
 import ContainerLayout from "../../Layouts/Container/ContainerLayout";
-import { AppDispatch, RootState } from "../../store";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchJobs, fetchJobsByEmail } from "../../store/jobSlice";
-import { Job } from "../../Types/type";
-import { DescriptionType } from "../../Types/type";
+import { RootState } from "../../store";
+import { useSelector } from "react-redux";
+import { Job } from "../../Types/types";
+import { DescriptionType } from "../../Types/types";
 import Img from "../../assets/no-data.jpg";
-import Loader from "../../components/Loader/Loader";
-import { fetchUsers } from "../../store/userSlice";
 import Filter from "../../components/Filter/Filter";
+
 const AllJobsComponent = () => {
   const jobs = useSelector((state: RootState) => state.job.jobs);
   const users = useSelector((state: RootState) => state.user.users);
@@ -28,6 +25,7 @@ const AllJobsComponent = () => {
     (state: RootState) => state.user.currentUser?.applications
   );
 
+  // Debounced search based on company name or job title and criteria
   const debouncedSearch = useCallback(
     (searchTerm: string) => {
       const filteredJobs = applicableJobs.filter((job) => {
@@ -54,6 +52,7 @@ const AllJobsComponent = () => {
     [applicableJobs, users, selectedCriteria]
   );
 
+  // calling debounced function and clearing previous one when search value changes
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       debouncedSearch(searchValue);
@@ -74,6 +73,7 @@ const AllJobsComponent = () => {
     setSelectedCriteria(value);
   };
 
+  // Filtering jobs based on criteria
   useEffect(() => {
     const filteredJobs = jobs.filter((job) => {
       const matchesCriteria = selectedCriteria
@@ -113,6 +113,8 @@ const AllJobsComponent = () => {
               ))
             )}
           </div>
+
+          {/* Description */}
           {showDescription && (
             <div className={Styles.descriptionContainer}>
               <JobDescription

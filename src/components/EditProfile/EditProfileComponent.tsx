@@ -7,7 +7,7 @@ import EditStyles from "../../Pages/Editprofile/EditProfile.module.css";
 import FormLayout from "../../Layouts/Form/FormLayout";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { EditValues } from "../../Types/type";
+import { EditValues } from "../../Types/types";
 import { useNavigate } from "react-router";
 import userServices from "../../Firebase/user.services";
 import { userActions } from "../../store/userSlice";

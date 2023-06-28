@@ -9,7 +9,8 @@ import {
   Typography,
 } from "@mui/material";
 import Styles from "./JobCard.module.css";
-import { DescriptionType, JobCardProps } from "../../../Types/type";
+import { DescriptionType } from "../../../Types/types";
+import { JobCardProps } from "../../../Types/props";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../store";
 import { useNavigate } from "react-router";
