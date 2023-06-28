@@ -1,30 +1,17 @@
-import React from "react";
-import { styled, useTheme } from "@mui/material/styles";
+import React, { ReactNode, useCallback } from "react";
+import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import Drawer from "@mui/material/Drawer";
 import CssBaseline from "@mui/material/CssBaseline";
-import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { Avatar } from "@mui/material";
 import Styles from "./Navigation.module.css";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { NavigationProps } from "../../Types/type";
-import { RootState } from "../../store";
-import { useDispatch, useSelector } from "react-redux";
-import { auth } from "../../Firebase/firebase";
-import { signOut } from "firebase/auth";
-import { authActions } from "../../store/authSlice";
-import { userActions } from "../../store/userSlice";
+import DrawerComponent from "./DrawerComponent";
+import RenderComponent from "./RenderComponent";
+import AppBarComponent from "./AppBarComponent";
 
 const drawerWidth = 240;
 
-const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
+export const Main = styled("main", {
+  shouldForwardProp: (prop) => prop !== "open",
+})<{
   open?: boolean;
 }>(({ theme, open }) => ({
   flexGrow: 1,
@@ -43,34 +30,7 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
   }),
 }));
 
-interface AppBarProps extends MuiAppBarProps {
-  open?: boolean;
-}
-
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== "open",
-})<AppBarProps>(({ theme, open }) => ({
-  transition: theme.transitions.create(["margin", "width"], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: `${drawerWidth}px`,
-    transition: theme.transitions.create(["margin", "width"], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
-}));
-
-const DrawerHeader = styled("div")(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  padding: theme.spacing(0, 1),
-  ...theme.mixins.toolbar,
-  justifyContent: "flex-end",
-}));
+// sidebar will be defaultly closed if width< 768px and else opened
 const sidebarHandler = () => {
   if (window.innerWidth > 768) {
     return true;
@@ -78,123 +38,29 @@ const sidebarHandler = () => {
     return false;
   }
 };
-export default function Navigation({ component }: NavigationProps) {
-  const theme = useTheme();
-  const location = useLocation();
+
+export default function Navigation({ component }: { component: ReactNode }) {
   const [open, setOpen] = React.useState(sidebarHandler);
-  const role = useSelector((state: RootState) => state.auth.role);
-  const profile = useSelector(
-    (state: RootState) => state.user.currentUser?.profile
-  );
 
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const logout = () => {
-    signOut(auth)
-      .then(() => {
-        dispatch(authActions.resetAuthInfo());
-        dispatch(userActions.resetData());
-        navigate("/");
-      })
-      .catch((error) => {
-        // An error happened.
-      });
-  };
-  const handleDrawerOpen = () => {
+  // To open Sidebar
+  const handleDrawerOpen = useCallback(() => {
     setOpen(true);
-  };
+  }, []);
 
-  const handleDrawerClose = () => {
+  // To close Sidebar
+  const handleDrawerClose = useCallback(() => {
     setOpen(false);
-  };
-
-  const isActive = (path: string) => {
-    return location.pathname === path ? `${Styles.active}` : "";
-  };
+  }, []);
 
   return (
     <>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
-        <AppBar position="fixed" open={open} className={Styles.appBar}>
-          <Toolbar>
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              onClick={handleDrawerOpen}
-              edge="start"
-              className={Styles.toggleButton}
-              sx={{ mr: 2, ...(open && { display: "none" }) }}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" noWrap>
-              Job Finder
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        <Drawer
-          sx={{
-            width: drawerWidth,
-            flexShrink: 0,
-            "& .MuiDrawer-paper": {
-              width: drawerWidth,
-              boxSizing: "border-box",
-            },
-          }}
-          className={Styles.slider}
-          variant="persistent"
-          anchor="left"
-          open={open}
-        >
-          <DrawerHeader>
-            <IconButton onClick={handleDrawerClose}>
-              {theme.direction === "ltr" ? (
-                <ChevronLeftIcon />
-              ) : (
-                <ChevronRightIcon />
-              )}
-            </IconButton>
-          </DrawerHeader>
-          <Divider />
-          <Avatar className={Styles.avatar} src={profile} />
-          {role == "provider" && (
-            <>
-              <Link to="/all-jobs" className={isActive("/all-jobs")}>
-                All Jobs
-              </Link>
-              <Link to="/add-job" className={isActive("/add-job")}>
-                Add Job
-              </Link>
-              {/* <Link to="/applicants" className={isActive("/applicants")}>
-                Applicants
-              </Link> */}
-            </>
-          )}
-          {role === "seeker" && (
-            <>
-              <Link to="/all-jobs" className={isActive("/all-jobs")}>
-                All Jobs
-              </Link>
-              <Link to="/applications" className={isActive("/applications")}>
-                Applications
-              </Link>
-            </>
-          )}
-          <Link to="/edit-profile" className={isActive("/edit-profile")}>
-            Edit Profile
-          </Link>
-          <Link to="/" onClick={logout}>
-            Logout
-          </Link>
-        </Drawer>
-        <Main open={open}>
-          <DrawerHeader />
-          {component}
-        </Main>
+        <AppBarComponent open={open} handleDrawerOpen={handleDrawerOpen} />
+        <DrawerComponent open={open} handleDrawerClose={handleDrawerClose} />
+        <RenderComponent open={open} component={component} />
       </Box>
-      {open && <div className={Styles.sliderBackground}> a</div>}
+      {open && <div className={Styles.sliderBackground}></div>}
     </>
   );
 }
