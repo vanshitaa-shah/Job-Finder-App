@@ -1,0 +1,25 @@
+.container {
+  width: 70%;
+  height: 200px;
+  border: 1px dashed var(--primary-color);
+  border-radius: 8px;
+  background-color: var(--primary-light-color);
+  margin: 0 auto;
+}
+
+.fileUpload {
+  color: var(--primary-color);
+  display: flex;
+  height: 200px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.fileUpload p {
+  position: static !important;
+}
+
+.fileUpload svg {
+  font-size: 3rem !important;
+  cursor: pointer;
+}

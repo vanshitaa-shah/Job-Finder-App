@@ -1,0 +1,41 @@
+.mainContainer {
+  display: flex;
+  min-height: calc(100vh - 60px);
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  padding: 20px;
+  border: 1px solid var(--primary-light-color);
+  position: relative;
+  box-shadow: 0px 1px 6px 0 rgb(0 0 0 / 30%);
+  width: 500px;
+}
+
+.container h5 {
+  text-align: center;
+  font-weight: bold;
+  color: var(--primary-color);
+  margin-bottom: 15px;
+}
+.container p {
+  padding: 20px 5px;
+}
+
+.container a {
+  text-decoration: none;
+}
+
+.container a:hover {
+  text-decoration: underline;
+}
+
+@media screen and (max-width: 425px) {
+  .mainContainer {
+    margin-top: 50px;
+  }
+  .container {
+    width: 100%;
+  }
+}

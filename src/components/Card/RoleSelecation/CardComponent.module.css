@@ -1,0 +1,29 @@
+.card {
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  text-align: center !important;
+  width: 300px;
+}
+.avatar {
+  margin: 0 auto;
+  height: 100px !important;
+  width: 100px !important;
+}
+.card a {
+  text-decoration: none;
+  width: 100%;
+}
+.card button {
+  margin: 0 auto !important;
+}
+
+@media screen and (max-width: 768px) {
+  .card {
+    width: 190px;
+  }
+}
+@media screen and (max-width: 425px) {
+  .card {
+    width: 250px;
+  }
+}

@@ -1,0 +1,23 @@
+.errorPage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: rgb(255, 255, 255);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  justify-content: center;
+  text-align: center;
+  background-color: var(--primary-light-color);
+  padding: 100px 50px;
+  border-radius: 15px;
+}
+
+.errorPage a {
+  text-decoration: none;
+}

@@ -1,0 +1,11 @@
+.applicantsContainer {
+  width: 100%;
+  overflow: auto;
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10% !important;
+  margin-right: 10px;
+  word-wrap: break-word;
+}
