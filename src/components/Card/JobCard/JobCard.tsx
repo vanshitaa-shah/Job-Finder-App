@@ -20,6 +20,7 @@ import userServices from "../../../Firebase/user.services";
 import { fetchUser } from "../../../store/userSlice";
 import { success } from "../../../utils/Toaster";
 import { useState } from "react";
+import Swal from "sweetalert2";
 
 const JobCard = ({
   setDescription,
@@ -74,9 +75,22 @@ const JobCard = ({
   };
 
   //Logic for Job deletion
-  const deleteJobHandler = async (id: string) => {
-    await jobServices.deleteJob(id);
-    if (email) dispatch(fetchJobsByEmail(email));
+  const deleteJobHandler = (id: string) => {
+    Swal.fire({
+      title: "Are you sure you want to delete?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await jobServices.deleteJob(id);
+        success("Job Deleted Successfully!");
+        if (email) dispatch(fetchJobsByEmail(email));
+      }
+    });
   };
 
   // Logic for job Apply,for seeker users
