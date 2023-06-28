@@ -20,30 +20,29 @@ const LoginForm = () => {
   const role = useSelector((state: RootState) => state.auth.role);
 
   /* -------------------------- Submit method ------------------------------ */
-  const onSubmit = (values: LoginValues) => {
-    signInWithEmailAndPassword(auth, values.email, values.password)
-      .then(async (res) => {
-        const user = res.user;
+  const onSubmit = async (values: LoginValues) => {
+    try {
+      const user = (
+        await signInWithEmailAndPassword(auth, values.email, values.password)
+      ).user;
 
-        // Getting userID from email and getting user's data from users collection
-        const id = await findUserByEmail(user.email!);
-        const data = (await userServices.getUser(id!)).data();
+      // Getting userID from email and getting user's data from users collection
+      const id = await findUserByEmail(user.email!);
+      const data = (await userServices.getUser(id!)).data();
 
-        if (role && data?.role && data.role === role) {
-          dispatch(authActions.authentication());
-          success("User loggedIn successfully!");
-          navigate("/all-jobs");
-        } else {
-          // Provider can't be authenticated as seeker and vice versa
-          error("Invaild Access");
-        }
-      })
-
-      .catch((err) => {
-        // Errors given by Firebase Authentication
-        if (err.code === "auth/user-not-found") error("User does not exist!");
-        else if (err.code === "auth/wrong-password") error("Invalid Password!");
-      });
+      if (role && data?.role && data.role === role) {
+        dispatch(authActions.authentication());
+        success("User loggedIn successfully!");
+        navigate("/all-jobs");
+      } else {
+        // Provider can't be authenticated as seeker and vice versa
+        error("Invaild Access");
+      }
+    } catch (err: any) {
+      // Errors given by Firebase Authentication
+      if (err.code === "auth/user-not-found") error("User does not exist!");
+      else if (err.code === "auth/wrong-password") error("Invalid Password!");
+    }
   };
 
   return (
