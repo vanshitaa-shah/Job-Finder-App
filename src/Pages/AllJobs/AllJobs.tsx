@@ -4,6 +4,7 @@ import { AppDispatch, RootState } from "../../store";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchJobs, fetchJobsByEmail } from "../../store/jobSlice";
 import { fetchUsers } from "../../store/userSlice";
+import Loader from "../../components/Loader/Loader";
 // import AllJobsComponent from "../../components/AllJobs/AllJobsComponent";
 const AllJobsComponent = React.lazy(
   () => import("../../components/AllJobs/AllJobsComponent")
@@ -32,7 +33,7 @@ const AllJobs = () => {
 
   return (
     <>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loader/>}>
         <Navigation component={<AllJobsComponent />} />
       </Suspense>
     </>

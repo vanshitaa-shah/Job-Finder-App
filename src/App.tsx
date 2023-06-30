@@ -13,7 +13,6 @@ import { fetchJobs, fetchJobsByEmail } from "./store/jobSlice";
 
 const App = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const currentUser = useSelector((state: RootState) => state.user.currentUser);
   const role = useSelector((state: RootState) => state.auth.role);
   const isLoading = useSelector((state: RootState) => state.loading.isLoading);
 
@@ -23,9 +22,11 @@ const App = () => {
       if (user) {
         findUserByEmail(user.email!)
           .then((id) => {
-            dispatch(authActions.setId(id));
-            dispatch(fetchUser(id));
-            dispatch(fetchUsers());
+            if(id){
+              dispatch(authActions.setId(id));
+              dispatch(fetchUser(id));
+              dispatch(fetchUsers());
+            }
             if (role === "seeker") dispatch(fetchJobs());
             else dispatch(fetchJobsByEmail(user.email));
           })
@@ -38,7 +39,7 @@ const App = () => {
 
   return (
     <>
-      {isLoading && !currentUser && <Loader />}
+      {isLoading  && <Loader />}
       {/* Routes */}
       <AllRoutes />
 
