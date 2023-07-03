@@ -1,6 +1,6 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import userServices from "../Firebase/user.services";
-import { User, UserSliceType } from "../Types/types";
+import { EditValues, User, UserSliceType } from "../Types/types";
 import { setLoading } from "./loadingSlice";
 
 const initialState: UserSliceType = {
@@ -15,16 +15,15 @@ const userSlice = createSlice({
     resetData: (state) => {
       if (state.currentUser) state.currentUser.hasCompletedProfile = false;
     },
-
-    updateData: (state, action) => {
-      state.currentUser = { ...state.currentUser, ...action.payload };
+    updateData: (state, action: PayloadAction<EditValues>) => {
+      const updatedData = { ...state.currentUser, ...action.payload };
+      state.currentUser = updatedData as User;
     },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchUser.fulfilled, (state, action) => {
-      state.currentUser = action.payload as any;
+      state.currentUser = action.payload as User;
     });
-
     builder.addCase(fetchUsers.fulfilled, (state, action) => {
       state.users = action.payload;
     });
@@ -39,7 +38,7 @@ export const fetchUser = createAsyncThunk(
       dispatch(setLoading(true));
       const userData = await userServices.getUser(userId);
       dispatch(setLoading(false));
-      return userData.data();
+      return userData.data() as User;
     }
   }
 );

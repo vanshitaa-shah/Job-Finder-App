@@ -11,7 +11,7 @@ import { RootState } from "../../../store";
 import jobServices from "../../../Firebase/job.services";
 import { Job } from "../../../Types/types";
 import isEqual from "react-fast-compare";
-import { error } from "../../../utils/Toaster";
+import { error, success } from "../../../utils/Toaster";
 
 const AddJobComponent = ({ type }: { type?: string }) => {
   const navigate = useNavigate();
@@ -56,7 +56,10 @@ const AddJobComponent = ({ type }: { type?: string }) => {
       } else {
         // For EditJob,Updating existing JobDoc
         if (editValues) {
-          if (id) await jobServices.updateJob(id, values);
+          if (id) {
+            await jobServices.updateJob(id, values);
+            success("Job Updated Successfully!");
+          }
         }
         navigate("/all-jobs");
       }

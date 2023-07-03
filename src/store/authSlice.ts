@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { AuthSliceType } from "../Types/types";
 
 // Storing data of this slice in Local Storage
@@ -12,11 +12,11 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setId: (state, action) => {
+    setId: (state, action: PayloadAction<string>) => {
       state.id = action.payload;
     },
 
-    addRole: (state, action) => {
+    addRole: (state, action: PayloadAction<string>) => {
       state.role = action.payload;
       localStorage.setItem("role", action.payload);
     },

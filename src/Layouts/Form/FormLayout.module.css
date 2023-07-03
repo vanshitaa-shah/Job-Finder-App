@@ -11,6 +11,7 @@
   position: relative;
   box-shadow: 0px 1px 6px 0 rgb(0 0 0 / 30%);
   width: 500px;
+  margin: 70px auto;
 }
 
 .container h5 {
@@ -39,3 +40,8 @@
     width: 100%;
   }
 }
+/* @media screen and (max-width: 768px) {
+  .container {
+    width: 400px;
+  }
+} */

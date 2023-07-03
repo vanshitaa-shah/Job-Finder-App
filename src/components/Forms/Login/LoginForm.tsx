@@ -13,6 +13,7 @@ import { authActions } from "../../../store/authSlice";
 import userServices from "../../../Firebase/user.services";
 import { error, success } from "../../../utils/Toaster";
 import { findUserByEmail } from "../../../utils/functions/firebaseUtility";
+import { FirebaseError } from "firebase/app";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -36,12 +37,14 @@ const LoginForm = () => {
         navigate("/all-jobs");
       } else {
         // Provider can't be authenticated as seeker and vice versa
-        error("Invaild Access");
+        error("Invaild Access,Check Your Role!");
       }
-    } catch (err: any) {
-      // Errors given by Firebase Authentication
-      if (err.code === "auth/user-not-found") error("User does not exist!");
-      else if (err.code === "auth/wrong-password") error("Invalid Password!");
+    } catch (err) {
+      if (err instanceof FirebaseError)
+        if (err.code === "auth/user-not-found")
+          // Errors given by Firebase Authentication
+          error("User does not exist!");
+        else if (err.code === "auth/wrong-password") error("Invalid Password!");
     }
   };
 

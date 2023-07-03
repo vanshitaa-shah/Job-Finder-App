@@ -12,7 +12,7 @@ import { useNavigate } from "react-router";
 import userServices from "../../Firebase/user.services";
 import { userActions } from "../../store/userSlice";
 import PreviewImg from "../../assets/preview.png";
-import { error } from "../../utils/Toaster";
+import { error, success } from "../../utils/Toaster";
 import isEqual from "react-fast-compare";
 import {
   editProfileProviderValidateSchema,
@@ -99,6 +99,7 @@ const EditProfileComponent = () => {
 
       await userServices.updateUser(id, values);
       dispatch(userActions.updateData(values));
+      success("Profile Updated Successfully!");
       navigate("/all-jobs");
     }
   };
