@@ -65,6 +65,15 @@ export type User = JobSeeker &
   JobProvider &
   Role & { hasCompletedProfile: boolean } & { applications: String[] };
 
+// EmailJS object type
+export type emailJSObj = {
+  company_name: string;
+  applicant_email: string;
+  applicant_name: string;
+  job_title: string;
+  status: string;
+};
+
 /*------------------------------ Types Used in Redux slices state -------------------------------*/
 
 export type AuthSliceType = {
