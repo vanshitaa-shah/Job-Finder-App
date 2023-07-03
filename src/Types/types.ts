@@ -73,10 +73,10 @@ export type AuthSliceType = {
   isAuthenticated: boolean;
 };
 // UserSlice State Type
-export type UserSliceType = {
+export interface UserSliceType {
   users: User[];
   currentUser: User | null;
-};
+}
 
 /*------------------------------------ Types Used in Forms -------------------------------------*/
 export type LoginValues = { email: string; password: string };
@@ -91,7 +91,8 @@ export type SignupValues = {
 };
 
 export type EditValues = {
-  name?: string;
+  name: string;
+  email?: string;
   profile: string;
   phone: string;
   address?: {

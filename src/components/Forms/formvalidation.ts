@@ -67,7 +67,7 @@ export const signupValidateSchema = Yup.object({
 
   password: Yup.string()
     .trim()
-    .min(6, "Weak Password!")
+    .min(6, "Password length should be more than 6!")
     .required("Password Required!"),
 
   confirmPassword: Yup.string()
