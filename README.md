@@ -1,4 +1,5 @@
 # Job-Finder-App
+
 # Introduction
 
 The Job Finder application is a platform designed to connect job seekers with job providers. Built using React, Redux, Firebase, and TypeScript, this application simplifies the job search process for users by offering a range of features and functionalities.​
@@ -33,11 +34,43 @@ cd job-finder-app
 npm install
 ```
 
-4. Run the project
+4. Update env variables:
+
+```
+<!-- create .env file and add details given in "Environment variables configuration" section below -->
+```
+
+5. Run the project
 
 ```
 npm run dev
 ```
+
+## Environment variables configuration :
+
+### Firebase env vairables
+
+    VITE_APP_FIREBASE_API_KEY=
+
+    VITE_APP_FIREBASE_AUTH_DOMAIN=
+
+    VITE_APP_FIREBASE_PROJECT_ID=
+
+    VITE_APP_FIREBASE_STORAGE_BUCKET=
+
+    VITE_APP_FIREBASE_MESSAGING_SENDER_ID=
+
+    VITE_APP_FIREBASE_APP_ID=
+
+    VITE_APP_FIREBASE_MEASUREMENT_ID=
+
+### EMAILJS env variables
+
+    VITE_APP_EMAILJS_PUBLIC_KEY =
+
+    VITE_APP_EMAILJS_TEMPLATE_ID=
+
+    VITE_APP_EMAILJS_SERVICE_ID=
 
 ## Technology Overview :​
 
