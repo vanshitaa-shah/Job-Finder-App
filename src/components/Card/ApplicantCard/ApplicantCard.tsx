@@ -11,11 +11,16 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router";
 import jobServices from "../../../Firebase/job.services";
 import { RootState } from "../../../store";
-import { Applicant } from "../../../Types/types";
+import { Applicant, emailJSObj } from "../../../Types/types";
 import { ApplicantCardProps } from "../../../Types/props";
 import Styles from "./ApplicantCard.module.css";
 import emailjs from "@emailjs/browser";
 import { error, success } from "../../../utils/Toaster";
+
+// EmailJS env variables
+const serviceId: string = import.meta.env.VITE_APP_EMAILJS_SERVICE_ID;
+const templateId: string = import.meta.env.VITE_APP_EMAILJS_TEMPLATE_ID;
+const publicKey: string = import.meta.env.VITE_APP_EMAILJS_PUBLIC_KEY;
 
 const ApplicantCard = ({
   applicant,
@@ -30,6 +35,13 @@ const ApplicantCard = ({
     (user) => user.email === applicant.applicantEmail
   )[0];
 
+  const sendEmail = (obj: emailJSObj) => {
+    emailjs
+      .send(serviceId, templateId, obj, publicKey)
+      .then(() => success("Mail sent to the applicant successfully!"))
+      .catch(() => error("Error in sending Mail!"));
+  };
+
   // Logic for Job application Approval, mail will be sent via emailJS
   const jobApprovalHandler = async () => {
     const updatedArray: Applicant[] = allApplicants.map((data: Applicant) => {
@@ -42,17 +54,14 @@ const ApplicantCard = ({
     const jobData = (await jobServices.getJob(jobId!)).data()!;
 
     // details used while sending mail
-    const obj = {
+    const obj: emailJSObj = {
       company_name: `${currentUser?.name}`,
       applicant_email: `${applicant.applicantEmail}`,
       applicant_name: `${applicantData.name}`,
       job_title: `${jobData.jobTitle}`,
       status: "Approved",
     };
-    emailjs
-      .send("service_yf4xgzi", "template_5jxg2gq", obj, "eQ6CurafOsxHONXPd")
-      .then(() => success("Mail sent to the applicant successfully!"))
-      .catch(() => error("Error in sending Mail!"));
+    sendEmail(obj);
     setApplicants(updatedArray);
   };
 
@@ -69,17 +78,14 @@ const ApplicantCard = ({
     const jobData = (await jobServices.getJob(jobId!)).data()!;
 
     // details used while sending mail
-    const obj = {
+    const obj: emailJSObj = {
       company_name: `${currentUser?.name}`,
       applicant_email: `${applicant.applicantEmail}`,
       applicant_name: `${applicantData.name}`,
       job_title: `${jobData.jobTitle}`,
       status: "Rejected",
     };
-    emailjs
-      .send("service_yf4xgzi", "template_5jxg2gq", obj, "eQ6CurafOsxHONXPd")
-      .then(() => success("Mail sent to the applicant successfully!"))
-      .catch(() => error("Error in sending Mail!"));
+    sendEmail(obj);
   };
 
   return (
